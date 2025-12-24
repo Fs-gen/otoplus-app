@@ -1,0 +1,55 @@
+{
+  "dataHistoryTransaksi": [
+    {
+      "title": "Upgrade ke Agen Plus",
+      "date": "25 Maret 2023",
+      "price": "500.000",
+      "status": "Sukses"
+    },
+    {
+      "title": "Withdraw",
+      "date": "25 Maret 2023",
+      "price": "850.000",
+      "status": "Pending"
+    }
+  ],
+  "dataHistoryReward": [
+    {
+      "title": "Fee Edukasi",
+      "date": "25 Maret 2023",
+      "price": "100.000"
+    },
+    {
+      "title": "Fee Core Team Unit (JKT)",
+      "date": "25 Maret 2023",
+      "price": "750.000"
+    }
+  ],
+  "dataNews": [
+    {
+      "title": "Executive Class Training",
+      "desc": "consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, lorem ipsum a mattis tellus",
+      "image": "https://placehold.co/600x400.png",
+      "date": "10 Desember 2025"
+    },
+    {
+      "title": "Executive Class Training",
+      "desc": "consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, lorem ipsum a mattis tellus",
+      "image": "https://placehold.co/600x400.png",
+      "date": "10 Desember 2025"
+    },
+
+    {
+      "title": "Executive Class Training",
+      "desc": "consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, lorem ipsum a mattis tellus",
+      "image": "https://placehold.co/600x400.png",
+      "date": "10 Desember 2025"
+    },
+    {
+      "title": "Executive Class Training",
+      "desc": "consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, lorem ipsum a mattis tellus",
+      "image": "https://placehold.co/600x400.png",
+      "date": "10 Desember 2025"
+    }
+  ]
+}

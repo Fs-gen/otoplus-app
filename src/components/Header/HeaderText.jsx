@@ -1,0 +1,9 @@
+const HeaderText = ({ text }) => {
+    return (
+        <div className="section-box shadow-lg shadow-slate-100">
+            <h1 className="text-sm font-medium">{text}</h1>
+        </div>
+    )
+}
+
+export default HeaderText

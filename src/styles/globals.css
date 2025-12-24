@@ -1,0 +1,30 @@
+@import 'tailwindcss';
+@import 'tailwind-scrollbar-hide/v4';
+
+@theme {
+  --color-blue-light: #0198cd;
+  --color-blue-semi: #00529c;
+  --color-blue-dark: #132248;
+  --color-red-semi: #e63801;
+  --color-yellow-semi: #f2a213;
+  --color-green-semi: #00c165;
+  --color-gray-light: #cacaca;
+  --color-gray-semi: #98a2bb;
+  --color-gray-dark: #565353;
+  --color-text-gray: #727272;
+  --shadow-box-primary: 0 0 10px 10px rgb(0, 0,  0, 0.025);
+  /* Heading 14 */
+  --text-heading-14: var(--text-sm);
+  --text-heading-14--line-height: var(--text-sm--line-height);
+  --text-heading-14--font-weight: 600;
+}
+
+.section-box {
+  padding: 25px 20px;
+  width: 100%;
+}
+
+html {
+  max-width: 500px;
+  margin: 0 auto;
+}
