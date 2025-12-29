@@ -1,14 +1,30 @@
 import Link from "next/link";
-import Header from "./Header";
+import HeaderUser from "../../components/Card/CardUser";
+import DataUser from "@/pages/api/dummy.json";
 
-const ButtonIcon = ({ href, text }) => {
+// Image
+import AltArrowRight from "@/assets/images/icons/arrow/alt-arrow-right.svg";
+import UserID from "@/assets/images/icons/people/user-id.svg";
+import Referral from "@/assets/images/icons/people/referral.svg";
+import Call from "@/assets/images/icons/system/call.svg";
+import Password from "@/assets/images/icons/system/password.svg";
+import LogOut from "@/assets/images/icons/system/logout.svg";
+import Image from "next/image";
+
+const ButtonIcon = ({ href, icon, logout, text }) => {
   return (
     <Link href={href} className="flex justify-between items-center">
       <div className="flex items-center gap-1">
-        <h1>p</h1>
-        <p className="font-semibold text-xs">{text}</p>
+        <Image src={icon} width={25} height={25} alt="" />
+        <p className={`font-semibold text-xs ${logout ? "text-red-semi" : ""}`}>
+          {text}
+        </p>
       </div>
-      <span></span>
+      {logout ? (
+        <span></span>
+      ) : (
+        <Image src={AltArrowRight} width={24} height={24} alt="" />
+      )}
     </Link>
   );
 };
@@ -19,21 +35,33 @@ const Profile = () => {
   return (
     <section>
       <div className="section-box">
-        <Header />
+        <HeaderUser props={DataUser.user} />
         <div className={BoxItem}>
           <h1 className={TitleBox}>Pengaturan Akun</h1>
-          <ButtonIcon text="Profil Saya" href={"/"} />
-          <ButtonIcon text="Referral Saya" href={"/"} />
+          <ButtonIcon
+            text="Profil Saya"
+            href={"/Profile/profil-saya"}
+            icon={UserID}
+          />
+          <ButtonIcon
+            text="Referral Saya"
+            href={"/Profile/referral"}
+            icon={Referral}
+          />
         </div>
         <div className={BoxItem}>
           <h1 className={TitleBox}>Keamanan & Akun</h1>
-          <ButtonIcon href={"/"} text="Ganti Password" />
+          <ButtonIcon
+            href={"/Profile/ganti-password"}
+            text="Ganti Password"
+            icon={Password}
+          />
         </div>
         <div className={BoxItem}>
           <h1 className={TitleBox}>Bantuan</h1>
-          <ButtonIcon href={"/"} text="Kontak Kami" />
-          <ButtonIcon href={"/"} text="Tentang Kami" />
-          <ButtonIcon href={"/"} text="Keluar" />
+          <ButtonIcon href={"/"} text="Kontak Kami" icon={Call} />
+          <ButtonIcon href={"/"} text="Tentang Kami" icon={Referral} />
+          <ButtonIcon href={"/"} text="Keluar" icon={LogOut} logout />
         </div>
       </div>
     </section>

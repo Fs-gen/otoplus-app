@@ -1,0 +1,1 @@
+export const AuthStyleBox = "min-h-screen flex flex-col justify-between";

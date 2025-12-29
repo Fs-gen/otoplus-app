@@ -1,18 +1,90 @@
-import HeaderBack from "@/components/Header/HeaderBack";
+import axios from "axios";
 import Logo from "@/assets/images/icons/logo.png";
 import Image from "next/image";
-import Form from "@/components/Form";
+import FormLine from "@/components/Form/FormLine";
 import Link from "next/link";
-import Button from "@/components/Button";
 import LinkText from "@/components/LinkText";
+import { ButtonForm } from "@/components/Button";
+import { useState } from "react";
+import { AuthStyleBox } from "@/styles/style";
+import { useRouter } from "next/navigation";
+import NotificationBar from "@/components/NotificationBar";
+
+//  Image
+import Eye from "@/assets/images/icons/system/eye-fill.svg";
+import EyeOff from "@/assets/images/icons/system/eye-off-fill.svg";
 
 const Login = () => {
+  const [no_tlp, setNotlp] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showNotif, setShowNotif] = useState(false);
+  const [notification, setNotification] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  const router = useRouter();
+
+  console.log(no_tlp)
+
+  let data = JSON.stringify({
+    no_tlp,
+    password,
+  });
+
+  let config = {
+    method: "post",
+    maxBodyLength: Infinity,
+    url: "https://api.otoplusid.com/auth/login",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+
+  const onLogin = async (e) => {
+    e.preventDefault();
+
+    await axios
+      .request(config)
+      .then((response) => {
+        if (response.data.status_code == "00") {
+          setShowNotif(true);
+          setNotification("Proses Login Telah Berhasil");
+          setSuccess(true);
+          setTimeout(() => {
+            router.push("/Home");
+          }, 2000);
+        } else {
+          setShowNotif(true);
+          setNotification("Oops, sepertinya data dimasukkan salah");
+          setTimeout(() => {
+            setShowNotif(false);
+          }, 2000);
+          console.log(JSON.stringify(response.data));
+        }
+      })
+      .catch(() => {
+        setShowNotif(true);
+        setNotification("Oops, sepertinya jaringan anda bermasalah");
+        setTimeout(() => {
+          setShowNotif(false);
+        }, 2000);
+      });
+  };
+
   return (
-    <section>
-      <div className="min-h-screen flex flex-col justify-between">
-        <HeaderBack text="Login" />
+    <section className="relative">
+      <NotificationBar
+        text={notification}
+        showNotif={showNotif}
+        success={success}
+      />
+      <div className={AuthStyleBox}>
+        <span></span>
         <div className="section-box">
           <Image
+            fetchPriority="high"
+            loading="lazy"
             src={Logo}
             width={100}
             height={100}
@@ -23,16 +95,47 @@ const Login = () => {
             Masuk ke Otoplus App
           </h1>
           <form action="submit" className="flex flex-col gap-4 mt-7.5 mb-8">
-            <Form placeholder="Email / No Handphone" />
-            <Form placeholder="Password" />
-            <Link href={"/"} className="text-xs font-semibold text-blue-dark">
+            <FormLine
+              placeholder="No Whatsapp"
+              type="number"
+              value={no_tlp}
+              change={(e) => setNotlp(e.target.value)}
+            />
+            <div className="flex items-center">
+              <div className="flex-1">
+                <FormLine
+                  placeholder="Password"
+                  type={!showPassword ? "password" : "text"}
+                  value={password}
+                  change={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              <button
+                className="w-max px-2"
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <Image src={EyeOff} width={25} height={25} alt="show" />
+                ) : (
+                  <Image src={Eye} width={25} height={25} alt="show" />
+                )}
+              </button>
+            </div>
+            <Link
+              href={"/Auth/Forgot"}
+              className="text-xs font-semibold text-blue-dark"
+            >
               Lupa kata sandi?
             </Link>
-            <Button text="Masuk" type="submit" />
-            <Link href={'/Home'} className="text-center">Home</Link>
+            <ButtonForm text="Login" click={onLogin} />
           </form>
         </div>
-        <LinkText href={'/Auth/Register'} text="Belum Punya Akun?" linkText="Daftar" />
+        <LinkText
+          href={"/Auth/Register"}
+          text="Belum Punya Akun?"
+          linkText="Daftar"
+        />
       </div>
     </section>
   );

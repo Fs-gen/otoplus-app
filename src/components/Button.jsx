@@ -1,5 +1,20 @@
-const Button = ({ type, text }) => {
-  return <button type={type} className="bg-blue-dark rounded-[10px] text-xs font-medium py-3 px-20 mx-auto text-white">{text}</button>;
+import Link from "next/link";
+
+const buttonStyle =
+  "bg-blue-dark rounded-[10px] text-xs font-medium py-3 px-20 mx-auto text-white";
+
+export const ButtonForm = ({ click,type, text }) => {
+  return (
+    <button type={type} className={buttonStyle} onClick={click}>
+      {text}
+    </button>
+  );
 };
 
-export default Button
+export const ButtonLink = ({ href, text }) => {
+  return (
+    <Link href={href} className={buttonStyle}>
+      {text}
+    </Link>
+  );
+};

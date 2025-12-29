@@ -1,12 +1,11 @@
-import Button from "@/components/Button";
-import Form from "@/components/Form";
+import { ButtonForm } from "@/components/Button";
+import FormLine from "@/components/Form/FormLine";
 import HeaderBack from "@/components/Header/HeaderBack";
 import Link from "next/link";
 
 const Withdraw = () => {
   return (
     <section>
-      <Link href={"/"}>Home</Link>
       <HeaderBack text="Withdraw" />
       <div className="section-box">
         <div className="flex items-center gap-2 mt-6.5 mb-7.5">
@@ -18,16 +17,16 @@ const Withdraw = () => {
         </div>
         <form action="" method="post" className="flex flex-col gap-3.75">
           <div>
-            <Form title="Jumlah Withdraw" small />
+            <FormLine title="Jumlah Withdraw" small />
             <p className="text-[10px] text-text-gray mt-1">
               Minimal Withdraw Rp. 50.000
             </p>
           </div>
-          <Form title="Nama Bank" small />
-          <Form title="No. Rekening" small />
-          <Form title="Nama Pemilik Rekening" small />
+          <FormLine title="Nama Bank" small />
+          <FormLine title="No. Rekening" small />
+          <FormLine title="Nama Pemilik Rekening" small />
           <div className="mt-5 mx-auto">
-            <Button type="submit" text="Withdraw" />
+            <ButtonForm text="Withdraw" />
           </div>
         </form>
       </div>

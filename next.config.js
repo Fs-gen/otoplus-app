@@ -1,10 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   images: {
     remotePatterns: [
       {
         hostname: "placehold.co",
+      },
+      {
+        hostname: "encrypted-tbn0.gstatic.com",
       },
     ],
   },
