@@ -15,7 +15,7 @@ const Header = ({ props }) => {
         </Link>
         <div>
           <h2 className="text-sm text-gray-semi">Selamat Datang</h2>
-          {props.nama == null ? (
+          {props && props.nama == null ? (
             <Skeleton count={1} width={100} height={15} />
           ) : (
             <h1 className="text-sm text-gray-dark font-bold">{props?.nama}</h1>
