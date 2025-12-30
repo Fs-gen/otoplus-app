@@ -1,6 +1,5 @@
 import Link from "next/link";
 import HeaderUser from "../../components/Card/CardUser";
-import DataUser from "@/pages/api/dummy.json";
 import Cookies from "js-cookie";
 
 // Image
@@ -13,7 +12,7 @@ import LogOut from "@/assets/images/icons/system/logout.svg";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-const ButtonIcon = ({ href, click, icon, logout, text }) => {
+const ButtonIcon = ({ href, icon, logout, text }) => {
   return (
     <Link href={href} className="flex justify-between items-center">
       <div className="flex items-center gap-1">
@@ -38,14 +37,15 @@ const Profile = () => {
 
   const onLogOut = (e) => {
     e.preventDefault();
-
+    Cookies.remove("token")
     router.replace("/Auth/Login")
   };
 
   return (
     <section>
       <div className="section-box">
-        <HeaderUser props={DataUser.user} />
+
+        <HeaderUser />
         <div className={BoxItem}>
           <h1 className={TitleBox}>Pengaturan Akun</h1>
           <ButtonIcon

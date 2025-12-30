@@ -123,14 +123,12 @@ const ProfilSaya = () => {
             type="text"
           />
           <FormLine
-            type="text"
             title="Provinsi"
             small
             value={provinsi}
             change={(e) => setProvinsi(e.target.value)}
           />
           <FormLine
-            type="text"
             title="Kabupaten / Kota"
             small
             value={kota}
