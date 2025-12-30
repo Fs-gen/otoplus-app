@@ -2,13 +2,17 @@ import { ReceiptText } from "lucide-react";
 import { HandCoins } from "lucide-react";
 import { CircleUserRound } from "lucide-react";
 import { House } from "lucide-react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const Navbar = () => {
+  const [color, setColor] = useState(true);
   const router = usePathname();
 
-  const BoxStyle = "flex items-center transition-all text-xs gap-2 duration-700";
+  const BoxNav = "flex flex-col justify-center items-center relative";
+  const BoxBG = "-z-10 py-8 px-10 transition-all duration-1000 rounded-xl";
+  const title = "transition-all duration-1000 text-white`";
 
   if (
     router === "/Home" ||
@@ -17,44 +21,90 @@ const Navbar = () => {
     router === "/Profile"
   ) {
     return (
-      <div className="flex justify-between items-center fixed left-0 right-0 bg-white bottom-0 p-4 shadow-box-primary rounded-t-xl">
+      <div className="grid grid-cols-4 fixed left-0 right-0 bg-white bottom-0 py-4 px-12 shadow-box-primary h-max">
         <Link
           href={"/Home"}
-          className={`${
-            router === "/Home" ? "text-blue-semi" : "text-[#BBBBBB]"
-          } ${BoxStyle}`}
+          className={`${BoxNav} ${
+            router === "/Home" ? "text-white" : "text-black"
+          }`}
         >
+          <div
+            className={`absolute ${
+              router === "/Home" ? "bg-blue-semi" : "bg-white"
+            } ${BoxBG}`}
+          ></div>
           <House />
-          Beranda
+          <h1
+            className={`${
+              router === "/Home" ? "h-1/2 opacity-100" : "h-0 opacity-0"
+            } ${title}`}
+          >
+            Beranda
+          </h1>
         </Link>
         <Link
           href={"/History/transaksi"}
-          className={`${
-            router === "/History/transaksi"
-              ? "text-blue-semi"
-              : "text-[#BBBBBB]"
-          } ${BoxStyle} ${router === "/History/transaksi" ? "bg-red-200" : "bg-white"}`}
+          className={`${BoxNav} ${
+            router === "/History/transaksi" ? "text-white" : "text-black"
+          }`}
         >
+          <div
+            className={`absolute ${
+              router === "/History/transaksi" ? "bg-blue-semi" : "bg-white"
+            } ${BoxBG}`}
+          ></div>
           <ReceiptText />
-          <h1 className={`${ router === "/History/transaksi" ? "flex" : "transform" }`}>Transaksi</h1>
+          <h1
+            className={`${
+              router === "/History/transaksi"
+                ? "h-1/2 opacity-100"
+                : "h-0 opacity-0"
+            } ${title}`}
+          >
+            Beranda
+          </h1>
         </Link>
         <Link
           href={"/History/reward"}
-          className={`${
-            router === "/History/reward" ? "text-blue-semi" : "text-[#BBBBBB]"
-          } ${BoxStyle}`}
+          className={`${BoxNav} ${
+            router === "/History/reward" ? "text-white" : "text-black"
+          }`}
         >
+          <div
+            className={`absolute ${
+              router === "/History/reward" ? "bg-blue-semi" : "bg-white"
+            } ${BoxBG}`}
+          ></div>
           <HandCoins />
-          Reward
+          <h1
+            className={`${
+              router === "/History/reward"
+                ? "h-1/2 opacity-100"
+                : "h-0 opacity-0"
+            } ${title}`}
+          >
+            Beranda
+          </h1>
         </Link>
         <Link
           href={"/Profile"}
-          className={`${
-            router === "/Profile" ? "text-blue-semi" : "text-[#BBBBBB]"
-          } ${BoxStyle}`}
+          className={`${BoxNav} ${
+            router === "/Profile" ? "text-white" : "text-black"
+          }`}
         >
+          <div
+            className={`absolute ${
+              router === "/Profile" ? "bg-blue-semi" : "bg-white"
+            } ${BoxBG}`}
+          ></div>
           <CircleUserRound />
-          Profile
+          <h1
+            className={`${
+              router === "/Profile" ? "h-1/2 opacity-100" : "h-0 opacity-0"
+            } ${title}`}
+          >
+            Profile
+          </h1>
         </Link>
       </div>
     );

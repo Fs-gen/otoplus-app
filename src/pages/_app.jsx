@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import 'react-loading-skeleton/dist/skeleton.css'
 import font from "@/styles/fonts.module.css";
 import Navbar from "@/components/Navbar";
 

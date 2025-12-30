@@ -9,10 +9,12 @@ import { useState } from "react";
 import { AuthStyleBox } from "@/styles/style";
 import { useRouter } from "next/navigation";
 import NotificationBar from "@/components/NotificationBar";
+import Cookies from "js-cookie";
 
 //  Image
 import Eye from "@/assets/images/icons/system/eye-fill.svg";
 import EyeOff from "@/assets/images/icons/system/eye-off-fill.svg";
+import { mainURL } from "../api/api";
 
 const Login = () => {
   const [no_tlp, setNotlp] = useState("");
@@ -24,8 +26,6 @@ const Login = () => {
 
   const router = useRouter();
 
-  console.log(no_tlp)
-
   let data = JSON.stringify({
     no_tlp,
     password,
@@ -34,7 +34,7 @@ const Login = () => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: "https://api.otoplusid.com/auth/login",
+    url: mainURL("auth/login"),
     headers: {
       "Content-Type": "application/json",
     },
@@ -51,9 +51,12 @@ const Login = () => {
           setShowNotif(true);
           setNotification("Proses Login Telah Berhasil");
           setSuccess(true);
+          console.log(response.data.data.token);
+          Cookies.set("token", response.data.data.token);
           setTimeout(() => {
             router.push("/Home");
           }, 2000);
+          console.log(JSON.stringify(response.data.data.data_user));
         } else {
           setShowNotif(true);
           setNotification("Oops, sepertinya data dimasukkan salah");
