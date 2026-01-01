@@ -36,6 +36,7 @@ const DetailProduk = () => {
           height={25}
           alt="Back"
           className="z-10"
+          priority
         />
       </button>
       <div className="flex flex-col justify-between min-h-screen">
@@ -67,9 +68,11 @@ const DetailProduk = () => {
                         <Image
                           src={item}
                           width={500}
-                          height={360}
+                          height={500}
                           alt=""
                           key={index}
+                          quality={100}
+                          priority
                         />
                       );
                     })}
