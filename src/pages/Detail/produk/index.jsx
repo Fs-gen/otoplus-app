@@ -40,7 +40,7 @@ const DetailProduk = () => {
         />
       </button>
       <div className="flex flex-col justify-between min-h-screen">
-        { produk && produk.length == 0 ? (
+        {produk && produk.length == 0 ? (
           <div>
             <Skeleton
               count={1}
@@ -62,21 +62,20 @@ const DetailProduk = () => {
               const desc = item?.deskripsi;
               return (
                 <div key={index}>
-                  <div className="relative">
-                    {foto.map((item, index) => {
-                      return (
-                        <Image
-                          src={item}
-                          width={500}
-                          height={500}
-                          alt=""
-                          key={index}
-                          quality={100}
-                          priority
-                        />
-                      );
-                    })}
-                  </div>
+                  {foto.map((item, index) => {
+                    console.log(item);
+                    return (
+                      <Image
+                        src={item}
+                        width={500}
+                        height={500}
+                        alt=""
+                        key={index}
+                        quality={100}
+                        priority
+                      />
+                    );
+                  })}
                   <div className="section-box">
                     <h1 className="font-semibold">{item?.nama}</h1>
                     <h1 className="text-xl mt-10 mb-7.5">
