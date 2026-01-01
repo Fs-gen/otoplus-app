@@ -6,13 +6,11 @@ import { AuthStyleBox } from "@/styles/style";
 import Image from "next/image";
 import { useState } from "react";
 import Cookies from "js-cookie";
-
-//  Image
-import Eye from "@/assets/images/icons/system/eye-fill.svg";
-import EyeOff from "@/assets/images/icons/system/eye-off-fill.svg";
 import axios from "axios";
 import NotificationBar from "@/components/NotificationBar";
 import { useRouter } from "next/navigation";
+import { Eye } from "lucide-react";
+import { EyeOff } from "lucide-react";
 
 const Register = () => {
   const [area, setArea] = useState("");
@@ -118,9 +116,9 @@ const Register = () => {
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? (
-                <Image src={EyeOff} width={25} height={25} alt="show" />
+                <Eye size={25} />
               ) : (
-                <Image src={Eye} width={25} height={25} alt="show" />
+                <EyeOff size={25} />
               )}
             </button>
           </div>

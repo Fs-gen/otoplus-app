@@ -2,7 +2,7 @@ import { ButtonForm } from "@/components/Button";
 import FormLine from "@/components/Form/FormLine";
 import HeaderBack from "@/components/Header/HeaderBack";
 import { useEffect, useState } from "react";
-import { getUser, mainURL } from "@/pages/api/api";
+import { getUserProfile, mainURL } from "@/pages/api/api";
 import axios from "axios";
 import Cookies from "js-cookie";
 import NotificationBar from "@/components/NotificationBar";
@@ -21,7 +21,7 @@ const ProfilSaya = () => {
   const [success, setSuccess] = useState(false);
 
   const fetchData = async () => {
-    const res = await getUser();
+    const res = await getUserProfile();
     setUser(res);
     setNama(res?.nama);
     setNoTlp(res?.no_tlp);

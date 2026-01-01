@@ -4,6 +4,7 @@ const { default: Link } = require("next/link");
 // Image
 import Avatar from "@/assets/images/icons/logo.png";
 import NotificationBadge from "@/assets/images/icons/system/notification-badge.svg";
+import { highlightSkeleton } from "@/styles/style";
 import Skeleton from "react-loading-skeleton";
 
 const Header = ({ props }) => {
@@ -16,7 +17,12 @@ const Header = ({ props }) => {
         <div>
           <h2 className="text-sm text-gray-semi">Selamat Datang</h2>
           {props && props.nama == null ? (
-            <Skeleton count={1} width={100} height={15} />
+            <Skeleton
+              count={1}
+              width={100}
+              height={15}
+              highlightColor={highlightSkeleton}
+            />
           ) : (
             <h1 className="text-sm text-gray-dark font-bold">{props?.nama}</h1>
           )}

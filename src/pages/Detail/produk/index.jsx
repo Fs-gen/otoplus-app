@@ -2,42 +2,91 @@ import { ButtonLink } from "@/components/Button";
 import ArrowBack from "@/assets/images/icons/arrow/arrow-line-left-white.svg";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import dataProduk from "@/pages/api/dummy.json";
+import { useEffect, useState } from "react";
+import { getProduk } from "@/pages/api/api";
+import Skeleton from "react-loading-skeleton";
+import { highlightSkeleton } from "@/styles/style";
 
 const DetailProduk = () => {
+  const [produk, setProduk] = useState([]);
+  const [foto, setFoto] = useState([]);
   const router = useRouter();
-  const datas = dataProduk.produk;
+
+  const fetchData = async () => {
+    const res = await getProduk();
+    setProduk(res);
+    res.map((item) => {
+      setFoto(item.foto);
+    });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
-    <section>
+    <section className="relative">
+      <button
+        onClick={() => router.back()}
+        className="absolute m-5 p-1.25 bg-gray-dark rounded-full z-10"
+      >
+        <Image
+          src={ArrowBack}
+          width={25}
+          height={25}
+          alt="Back"
+          className="z-10"
+        />
+      </button>
       <div className="flex flex-col justify-between min-h-screen">
-        <div>
-          <div className="relative">
-            <button
-              onClick={() => router.back()}
-              className="absolute m-5 p-1.25 bg-gray-dark rounded-full"
-            >
-              <Image src={ArrowBack} width={25} height={25} alt="Back" />
-            </button>
-            <div className="h-90 bg-gray-light"></div>
+        { produk && produk.length == 0 ? (
+          <div>
+            <Skeleton
+              count={1}
+              height={360}
+              width={500}
+              highlightColor={highlightSkeleton}
+            />
+            <div className="section-box">
+              <Skeleton
+                count={10}
+                height={15}
+                highlightColor={highlightSkeleton}
+              />
+            </div>
           </div>
-          <div className="section-box">
-            <h2 className="font-semibold">Upgrade ke Agen Plus</h2>
-            <h1 className="text-xl">Rp 500.000</h1>
-            <p className="mt-7.5 font-medium text-xs">Deskripsi</p>
-            <p className="text-xs my-3.75 font-light">Dapatkan Fasilitas:</p>
-            <ul className="list-disc text-xs font-light">
-              {datas.map((item, index) => {
-                return item.facility.map((text) => {
-                  return (
-                    <li className="ml-7" key={index}>
-                      {text}
-                    </li>
-                  );
-                });
-              })}
-            </ul>
+        ) : (
+          <div>
+            {produk.map((item, index) => {
+              const desc = item?.deskripsi;
+              return (
+                <div key={index}>
+                  <div className="relative">
+                    {foto.map((item, index) => {
+                      return (
+                        <Image
+                          src={item}
+                          width={500}
+                          height={360}
+                          alt=""
+                          key={index}
+                        />
+                      );
+                    })}
+                  </div>
+                  <div className="section-box">
+                    <h1 className="font-semibold">{item?.nama}</h1>
+                    <h1 className="text-xl mt-10 mb-7.5">
+                      Rp. {new Intl.NumberFormat("de-DE").format(item?.harga)}
+                    </h1>
+                    <h2 className="text-sm font-medium mb-3.75">Deskripsi</h2>
+                    <div dangerouslySetInnerHTML={{ __html: desc }}></div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        </div>
+        )}
         <div className="section-box text-center">
           <ButtonLink href={`/Detail/order/order-bank`} text="Pesan Sekarang" />
         </div>

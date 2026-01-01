@@ -7,7 +7,7 @@ const nextConfig = {
         hostname: "placehold.co",
       },
       {
-        hostname: "encrypted-tbn0.gstatic.com",
+        hostname: "min.otoplusid.com",
       },
     ],
   },

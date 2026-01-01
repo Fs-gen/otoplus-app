@@ -10,11 +10,9 @@ import { AuthStyleBox } from "@/styles/style";
 import { useRouter } from "next/navigation";
 import NotificationBar from "@/components/NotificationBar";
 import Cookies from "js-cookie";
-
-//  Image
-import Eye from "@/assets/images/icons/system/eye-fill.svg";
-import EyeOff from "@/assets/images/icons/system/eye-off-fill.svg";
 import { mainURL } from "../api/api";
+import { Eye } from "lucide-react";
+import { EyeOff } from "lucide-react";
 
 const Login = () => {
   const [no_tlp, setNotlp] = useState("");
@@ -48,22 +46,33 @@ const Login = () => {
       .request(config)
       .then((response) => {
         if (response.data.status_code == "00") {
-          setShowNotif(true);
-          setNotification("Proses Login Telah Berhasil");
-          setSuccess(true);
-          console.log(response.data.data.token);
-          Cookies.set("token", response.data.data.token);
-          setTimeout(() => {
-            router.push("/Home");
-          }, 2000);
-          console.log(JSON.stringify(response.data.data.data_user));
+          const dataUser = response.data.data.data_user;
+          if (dataUser.status != "active") {
+            setShowNotif(true);
+            setNotification(
+              "Silahkan Aktivasi Akun, Mengalihkan ke Verifikasi OTP"
+            );
+            setSuccess(true);
+            Cookies.set("no_tlp", dataUser.no_tlp);
+            setTimeout(() => {
+              router.push("/Auth/otp/otp-register");
+            }, 2000);
+          } else {
+            setShowNotif(true);
+            setNotification("Proses Login Telah Berhasil");
+            setSuccess(true);
+            Cookies.set("token", response.data.data.token);
+            setTimeout(() => {
+              router.push("/Home");
+            }, 2000);
+            console.log(response.data.data.data_user);
+          }
         } else {
           setShowNotif(true);
           setNotification("Oops, sepertinya data dimasukkan salah");
           setTimeout(() => {
             setShowNotif(false);
           }, 2000);
-          console.log(JSON.stringify(response.data));
         }
       })
       .catch(() => {
@@ -76,7 +85,7 @@ const Login = () => {
   };
 
   return (
-    <section className="relative">
+    <section>
       <NotificationBar
         text={notification}
         showNotif={showNotif}
@@ -118,11 +127,7 @@ const Login = () => {
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? (
-                  <Image src={EyeOff} width={25} height={25} alt="show" />
-                ) : (
-                  <Image src={Eye} width={25} height={25} alt="show" />
-                )}
+                {showPassword ? <Eye size={25} /> : <EyeOff size={25} />}
               </button>
             </div>
             <Link
