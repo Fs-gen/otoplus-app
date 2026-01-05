@@ -23,8 +23,10 @@ const ProfilSaya = () => {
   const [alamat, setAlamat] = useState("");
   const [provinsi, setProvinsi] = useState([]);
   const [selProvinsi, setSelProvinsi] = useState(0);
+  const [namaProvinsi, setNamaProvinsi] = useState("");
   const [kota, setKota] = useState([]);
   const [selKota, setSelKota] = useState(0);
+  const [namaKota, setNamaKota] = useState("");
 
   // Condition
   const [showNotif, setShowNotif] = useState(false);
@@ -46,6 +48,8 @@ const ProfilSaya = () => {
 
   const fetchProvinsi = async () => {
     const res = await getProvinsi();
+    console.log('provinsi', res);
+    
     setProvinsi(res);
   };
 
@@ -71,6 +75,18 @@ const ProfilSaya = () => {
       });
   };
 
+  const fetchNamaProvinsi = async (id) => {
+    if (!id || !provinsi.length) return;
+    const prov = provinsi.find(item => item.id_provinsi == id);
+    if (prov) setNamaProvinsi(prov.provinsi);
+  };
+
+  const fetchNamaKota = async (id) => {
+    if (!id || !kota.length) return;
+    const kotaData = kota.find(item => item.id_kabupaten == id);
+    if (kotaData) setNamaKota(kotaData.kabupaten);
+  };
+
   const fetchData = async () => {
     const res = await getUserProfile();
     setUser(res);
@@ -78,8 +94,13 @@ const ProfilSaya = () => {
     setNoTlp(res?.no_tlp);
     setEmail(res?.email);
     setAlamat(res?.alamat);
-    setProvinsi(res?.provinsi);
-    setKota(res?.kota);
+    setSelProvinsi(res?.provinsi);
+    setSelKota(res?.kota);
+    
+    // Load kota jika provinsi sudah ada
+    if (res?.provinsi) {
+      await fetchKota(res.provinsi);
+    }
   };
 
   const onUpdate = async (e) => {
@@ -138,6 +159,18 @@ const ProfilSaya = () => {
     fetchProvinsi();
   }, []);
 
+  useEffect(() => {
+    if (provinsi.length > 0 && user.provinsi) {
+      fetchNamaProvinsi(user.provinsi);
+    }
+  }, [provinsi, user.provinsi]);
+
+  useEffect(() => {
+    if (kota.length > 0 && user.kota) {
+      fetchNamaKota(user.kota);
+    }
+  }, [kota, user.kota]);
+
   return (
     <section>
       <HeaderBack text="Profil Saya" click={checker} />
@@ -172,11 +205,16 @@ const ProfilSaya = () => {
           <FormOption
             title="Provinsi"
             change={(e) => {
-              fetchKota(e.target.value);
-              setSelProvinsi(e.target.value);
+              console.log(e);
+              const selectedId = e.target.value;
+              const selectedNama = e.target.selectedOptions[0].text;
+              fetchKota(selectedId);
+              setSelProvinsi(selectedId);
+              setNamaProvinsi(selectedNama);
+              setNamaKota(""); // Reset kota saat provinsi berubah
             }}
             defaultValue={user.provinsi}
-            selected={user.provinsi ?? "Plih Wilayah"}
+            selected={namaProvinsi || "Pilih Wilayah"}
             components={
               provinsi &&
               provinsi?.map((item, index) => {
@@ -191,12 +229,13 @@ const ProfilSaya = () => {
           <FormOption
             title="Kabupaten / Kota"
             change={(e) => {
-              setSelKota(e.target.value);
+              const selectedId = e.target.value;
+              const selectedNama = e.target.selectedOptions[0].text;
+              setSelKota(selectedId);
+              setNamaKota(selectedNama);
             }}
             defaultValue={user.kota}
-            selected={
-              user && user.kota != null ? user.kota : "Pilih Kabupaten / Kota"
-            }
+            selected={namaKota || "Pilih Kabupaten / Kota"}
             components={
               kota &&
               kota?.map((item, index) => {
