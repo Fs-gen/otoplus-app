@@ -51,17 +51,16 @@ const Register = () => {
           setShowNotif(true);
           setNotification("Registrasi Selesai, Silahkan Verifikasi OTP");
           setSuccess(true);
-          Cookies.set("no_tlp", no_tlp)
+          Cookies.set("no_tlp", no_tlp);
           setTimeout(() => {
             router.push("/Auth/otp/otp-register");
           }, 2000);
         } else {
           setShowNotif(true);
-          setNotification("Oops, sepertinya data dimasukkan salah");
+          setNotification(response.data.data.message);
           setTimeout(() => {
             setShowNotif(false);
           }, 2000);
-          console.log(JSON.stringify(response.data));
         }
       })
       .catch(() => {
@@ -115,11 +114,7 @@ const Register = () => {
               type="button"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? (
-                <Eye size={25} />
-              ) : (
-                <EyeOff size={25} />
-              )}
+              {showPassword ? <Eye size={25} /> : <EyeOff size={25} />}
             </button>
           </div>
           <div>

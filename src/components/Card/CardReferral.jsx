@@ -9,7 +9,7 @@ const Card = ({ color, icon, text }) => {
   return (
     <div className={`flex items-center px-4 gap-1 ${color}`}>
       <Image src={icon} width={20} height={20} alt="" />
-      <p className="text-xs">{text}</p>
+      <p className="text-xs capitalize">{text}</p>
     </div>
   );
 };
@@ -22,12 +22,12 @@ const CardReferral = ({ props }) => {
       <div className="flex justify-between items-center">
         <Card
           icon={CartCheckout}
-          text={`${props.sale} Penjualan`}
+          text={`Status : ${props.status}`}
           color="text-yellow-semi"
         />
         <Card
           icon={Clock}
-          text={`Terdaftar ${props.joinDate}`}
+          text={`Terdaftar ${props.created_at}`}
           color="text-[#4894FE]"
         />
       </div>

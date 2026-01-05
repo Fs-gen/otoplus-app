@@ -1,5 +1,6 @@
 import "@/styles/globals.css";
 import "react-loading-skeleton/dist/skeleton.css";
+import "swiper/css";
 import font from "@/styles/fonts.module.css";
 import Navbar from "@/components/Navbar";
 import { usePathname } from "next/navigation";
@@ -27,9 +28,8 @@ export default function App({ Component, pageProps }) {
       <Component {...pageProps} />
       {pageAuth.includes(router) ||
       dashboard.includes(router) === false ? null : (
-        <div className="mt-15"></div>
+        <div className="mt-20"></div>
       )}
-      <Navbar />
     </div>
   );
 }

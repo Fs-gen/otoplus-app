@@ -1,4 +1,5 @@
 import CardHistory from "@/components/Card/CardHistory";
+import Navbar from "@/components/Navbar";
 import dataReward from "@/pages/api/dummy.json";
 
 const { default: HeaderText } = require("@/components/Header/HeaderText");
@@ -10,6 +11,7 @@ const HistoryReward = () => {
       <div className="section-box">
         <CardHistory props={dataReward.dataHistoryReward} href={"/"} reward />
       </div>
+      <Navbar />
     </section>
   );
 };

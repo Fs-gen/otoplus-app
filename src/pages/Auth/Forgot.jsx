@@ -2,11 +2,57 @@ import Image from "next/image";
 import Logo from "@/assets/images/icons/logo.png";
 import LinkText from "@/components/LinkText";
 import FormLine from "@/components/Form/FormLine";
-import { ButtonLink } from "@/components/Button";
+import { ButtonForm } from "@/components/Button";
+import { mainURL } from "../api/api";
+import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/router";
+import NotificationBar from "@/components/NotificationBar";
 
 const Forgot = () => {
+  const [not_tlp, setNoTlp] = useState("");
+  const [showNotif, setShowNotif] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [text, setText] = useState("");
+  const router = useRouter();
+
+  const postOTP = async (e) => {
+    e.preventDefault();
+    let data = JSON.stringify({
+      not_tlp,
+    });
+
+    console.log(data);
+
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: mainURL("auth/send-otp"),
+      headers: {
+        "Content-Type": "application-json",
+      },
+      data: data,
+    };
+
+    await axios
+      .request(config)
+      .then((response) => {
+        setShowNotif(true);
+        setSuccess(true);
+        setText(`${response.data.message}. Mengalihkan otomatis`);
+        console.log(JSON.stringify(response.data));
+        // setTimeout(() => {
+        //   router.push("/Auth/otp/otp-forgot");
+        // }, 2000);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   return (
     <section className="section-box min-h-screen flex flex-col justify-between items-center">
+      <NotificationBar showNotif={showNotif} text={text} success={success} />
       <span></span>
       <div className="flex flex-col justify-center w-full">
         <Image
@@ -24,9 +70,10 @@ const Forgot = () => {
             title="No. Whatsapp"
             placeholder="Masukkan No. Whastapp"
             small
+            change={(e) => setNoTlp(e.target.value)}
           />
           <div className="text-center mt-12">
-            <ButtonLink href={"/Auth/otp/otp-forgot"} text="Kirim" />
+            <ButtonForm text="Request OTP" click={postOTP} />
           </div>
         </form>
       </div>

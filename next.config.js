@@ -4,10 +4,8 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: "placehold.co",
-      },
-      {
-        hostname: "min.otoplusid.com",
+        protocol: "https",
+        hostname: "**",
       },
     ],
   },

@@ -1,5 +1,5 @@
-@import 'tailwindcss';
-@import 'tailwind-scrollbar-hide/v4';
+@import "tailwindcss";
+@import "tailwind-scrollbar-hide/v4";
 
 @theme {
   --color-blue-light: #0198cd;
@@ -12,7 +12,7 @@
   --color-gray-semi: #98a2bb;
   --color-gray-dark: #565353;
   --color-text-gray: #727272;
-  --shadow-box-primary: 0 0 10px 10px rgb(0, 0,  0, 0.025);
+  --shadow-box-primary: 0 0 10px 10px rgb(0, 0, 0, 0.025);
   /* Heading 14 */
   --text-heading-14: var(--text-sm);
   --text-heading-14--line-height: var(--text-sm--line-height);
@@ -24,7 +24,12 @@
   width: 100%;
 }
 
-img { 
+.swiper {
+  overflow: hidden !important;
+  max-width: 500px;
+}
+
+img {
   height: auto;
 }
 

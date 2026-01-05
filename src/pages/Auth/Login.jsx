@@ -57,6 +57,16 @@ const Login = () => {
             setTimeout(() => {
               router.push("/Auth/otp/otp-register");
             }, 2000);
+          } else if (dataUser.profile_lengkap != true) {
+            setShowNotif(true);
+            setSuccess(true);
+            setNotification(
+              "Selamat Datang!. Silahkan Isi data diri terlebih dahulu.Mengalihkan otomatis"
+            );
+            Cookies.set("token", response.data.data.token);
+            setTimeout(() => {
+              router.push("/Profile/profil-saya");
+            }, 2000);
           } else {
             setShowNotif(true);
             setNotification("Proses Login Telah Berhasil");
@@ -65,7 +75,6 @@ const Login = () => {
             setTimeout(() => {
               router.push("/Home");
             }, 2000);
-            console.log(response.data.data.data_user);
           }
         } else {
           setShowNotif(true);
@@ -85,66 +94,64 @@ const Login = () => {
   };
 
   return (
-    <section>
+    <section className={AuthStyleBox}>
       <NotificationBar
         text={notification}
         showNotif={showNotif}
         success={success}
       />
-      <div className={AuthStyleBox}>
-        <span></span>
-        <div className="section-box">
-          <Image
-            fetchPriority="high"
-            loading="lazy"
-            src={Logo}
-            width={100}
-            height={100}
-            alt="Logo"
-            className="mx-auto"
-          />
-          <h1 className="mt-6.25 text-center text-heading-14">
-            Masuk ke Otoplus App
-          </h1>
-          <form action="submit" className="flex flex-col gap-4 mt-7.5 mb-8">
-            <FormLine
-              placeholder="No Whatsapp"
-              type="number"
-              value={no_tlp}
-              change={(e) => setNotlp(e.target.value)}
-            />
-            <div className="flex items-center">
-              <div className="flex-1">
-                <FormLine
-                  placeholder="Password"
-                  type={!showPassword ? "password" : "text"}
-                  value={password}
-                  change={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <button
-                className="w-max px-2"
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <Eye size={25} /> : <EyeOff size={25} />}
-              </button>
-            </div>
-            <Link
-              href={"/Auth/Forgot"}
-              className="text-xs font-semibold text-blue-dark"
-            >
-              Lupa kata sandi?
-            </Link>
-            <ButtonForm text="Login" click={onLogin} />
-          </form>
-        </div>
-        <LinkText
-          href={"/Auth/Register"}
-          text="Belum Punya Akun?"
-          linkText="Daftar"
+      <span></span>
+      <div className="section-box">
+        <Image
+          fetchPriority="high"
+          loading="lazy"
+          src={Logo}
+          width={100}
+          height={100}
+          alt="Logo"
+          className="mx-auto"
         />
+        <h1 className="mt-6.25 text-center text-heading-14">
+          Masuk ke Otoplus App
+        </h1>
+        <form action="submit" className="flex flex-col gap-4 mt-7.5 mb-8">
+          <FormLine
+            placeholder="No Whatsapp"
+            type="number"
+            value={no_tlp}
+            change={(e) => setNotlp(e.target.value)}
+          />
+          <div className="flex items-center">
+            <div className="flex-1">
+              <FormLine
+                placeholder="Password"
+                type={!showPassword ? "password" : "text"}
+                value={password}
+                change={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <button
+              className="w-max px-2"
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <Eye size={25} /> : <EyeOff size={25} />}
+            </button>
+          </div>
+          <Link
+            href={"/Auth/Forgot"}
+            className="text-xs font-semibold text-blue-dark"
+          >
+            Lupa kata sandi?
+          </Link>
+          <ButtonForm text="Login" click={onLogin} />
+        </form>
       </div>
+      <LinkText
+        href={"/Auth/Register"}
+        text="Belum Punya Akun?"
+        linkText="Daftar"
+      />
     </section>
   );
 };

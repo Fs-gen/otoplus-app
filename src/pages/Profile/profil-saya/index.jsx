@@ -1,12 +1,19 @@
 import { ButtonForm } from "@/components/Button";
 import FormLine from "@/components/Form/FormLine";
 import HeaderBack from "@/components/Header/HeaderBack";
-import { useEffect, useState } from "react";
-import { getUserProfile, mainURL } from "@/pages/api/api";
+import { useCallback, useEffect, useState } from "react";
+import {
+  getKotaById,
+  getProvinsi,
+  getUserProfile,
+  mainURL,
+} from "@/pages/api/api";
 import axios from "axios";
 import Cookies from "js-cookie";
 import NotificationBar from "@/components/NotificationBar";
 import FormArea from "@/components/Form/FormArea";
+import { useRouter } from "next/router";
+import FormOption from "@/components/Form/FormOption";
 
 const ProfilSaya = () => {
   const [user, setUser] = useState([]);
@@ -14,11 +21,55 @@ const ProfilSaya = () => {
   const [no_tlp, setNoTlp] = useState("");
   const [email, setEmail] = useState("");
   const [alamat, setAlamat] = useState("");
-  const [provinsi, setProvinsi] = useState("");
-  const [kota, setKota] = useState("");
+  const [provinsi, setProvinsi] = useState([]);
+  const [selProvinsi, setSelProvinsi] = useState(0);
+  const [kota, setKota] = useState([]);
+  const [selKota, setSelKota] = useState(0);
+
+  // Condition
   const [showNotif, setShowNotif] = useState(false);
   const [notification, setNotification] = useState("");
   const [success, setSuccess] = useState(false);
+
+  const router = useRouter();
+  console.log(provinsi);
+
+  const checker = (e) => {
+    e.preventDefault();
+    if (user.nama != null && user.alamat != null) {
+      router.push("/Profile");
+    } else {
+      Cookies.remove("token");
+      router.push("/Auth/Login");
+    }
+  };
+
+  const fetchProvinsi = async () => {
+    const res = await getProvinsi();
+    setProvinsi(res);
+  };
+
+  const fetchKota = async (id) => {
+    const header = Cookies.get("token");
+
+    let config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: mainURL("master/get-kabupaten-by-provinsi?id_provinsi=") + id,
+      headers: {
+        Authorization: "Bearer " + header,
+      },
+    };
+
+    await axios
+      .request(config)
+      .then((response) => {
+        setKota(response?.data?.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   const fetchData = async () => {
     const res = await getUserProfile();
@@ -31,8 +82,6 @@ const ProfilSaya = () => {
     setKota(res?.kota);
   };
 
-  console.log(user);
-
   const onUpdate = async (e) => {
     e.preventDefault();
     const token = Cookies.get("token");
@@ -41,8 +90,8 @@ const ProfilSaya = () => {
       no_tlp: no_tlp,
       email: email,
       alamat: alamat,
-      provinsi: provinsi,
-      kota: kota,
+      provinsi: selProvinsi,
+      kota: selKota,
     });
 
     const config = {
@@ -66,14 +115,13 @@ const ProfilSaya = () => {
           setTimeout(() => {
             setShowNotif(false);
           }, 2000);
-          console.log(JSON.stringify(response.data));
+          fetchData();
         } else {
           setShowNotif(true);
           setNotification("Oops, sepertinya ada kesalahan");
           setTimeout(() => {
             setShowNotif(false);
           }, 2000);
-          console.log(JSON.stringify(response.data));
         }
       })
       .catch(() => {
@@ -85,15 +133,14 @@ const ProfilSaya = () => {
       });
   };
 
-  console.log(user);
-
   useEffect(() => {
     fetchData();
+    fetchProvinsi();
   }, []);
 
   return (
     <section>
-      <HeaderBack text="Profil Saya" />
+      <HeaderBack text="Profil Saya" click={checker} />
       <NotificationBar
         showNotif={showNotif}
         success={success}
@@ -122,17 +169,44 @@ const ProfilSaya = () => {
             title="Alamat"
             type="text"
           />
-          <FormLine
+          <FormOption
             title="Provinsi"
-            small
-            value={provinsi}
-            change={(e) => setProvinsi(e.target.value)}
+            change={(e) => {
+              fetchKota(e.target.value);
+              setSelProvinsi(e.target.value);
+            }}
+            defaultValue={user.provinsi}
+            selected={user.provinsi ?? "Plih Wilayah"}
+            components={
+              provinsi &&
+              provinsi?.map((item, index) => {
+                return (
+                  <option key={index} value={item.id_provinsi}>
+                    {item.provinsi}
+                  </option>
+                );
+              })
+            }
           />
-          <FormLine
+          <FormOption
             title="Kabupaten / Kota"
-            small
-            value={kota}
-            change={(e) => setKota(e.target.value)}
+            change={(e) => {
+              setSelKota(e.target.value);
+            }}
+            defaultValue={user.kota}
+            selected={
+              user && user.kota != null ? user.kota : "Pilih Kabupaten / Kota"
+            }
+            components={
+              kota &&
+              kota?.map((item, index) => {
+                return (
+                  <option key={index} value={item.id_kabupaten}>
+                    {item.kabupaten}
+                  </option>
+                );
+              })
+            }
           />
           <FormLine title="Sponsor" small readOnly value={user.sponsor} />
           <div className="mt-5"></div>

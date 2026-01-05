@@ -4,10 +4,11 @@ import Home from "./Home";
 
 const App = () => {
   const token = Cookies.get("token");
-  if (token) {
-    return <Home />;
-  } else {
+
+  if (!token) {
     return <Login />;
+  } else {
+    return <Home />;
   }
 };
 
