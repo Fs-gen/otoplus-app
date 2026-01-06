@@ -1,7 +1,7 @@
 import { ButtonForm } from "@/components/Button";
 import FormLine from "@/components/Form/FormLine";
-import { mainURL, postOTPBank } from "@/pages/api/api";
-import { useState } from "react";
+import { getBankUser, mainURL, postOTPBank } from "@/pages/api/api";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 import NotificationBar from "@/components/NotificationBar";
@@ -11,6 +11,7 @@ import data from "@/pages/api/static/bank-name.json";
 const { default: HeaderBack } = require("@/components/Header/HeaderBack");
 
 const BankSaya = () => {
+  const [user, setUser] = useState([]);
   const [namaBank, setNamaBank] = useState("");
   const [noRek, setNoRek] = useState(0);
   const [atasNama, setAtasNama] = useState("");
@@ -18,6 +19,11 @@ const BankSaya = () => {
   const [showNotif, setShowNotif] = useState(false);
   const [success, setSuccess] = useState(false);
   const [text, setText] = useState("");
+
+  const fetchBank = async () => {
+    const res = await getBankUser();
+    setUser(res);
+  };
 
   const sendOTP = async (e) => {
     e.preventDefault();
@@ -51,14 +57,12 @@ const BankSaya = () => {
         if (response.data.status_code == "04") {
           setShowNotif(true);
           setText(response.data.data.message);
-          console.log(response);
           setTimeout(() => {
             setShowNotif(false);
           }, 2000);
         } else {
           setShowNotif(true);
           setText(response.data.data.message);
-          console.log(response);
           setSuccess(true);
           setTimeout(() => {
             setShowNotif(false);
@@ -69,9 +73,13 @@ const BankSaya = () => {
         }
       })
       .catch((e) => {
-        console.log(e);
+        return null;
       });
   };
+
+  useEffect(() => {
+    fetchBank();
+  });
 
   return (
     <section>

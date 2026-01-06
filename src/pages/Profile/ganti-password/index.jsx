@@ -35,7 +35,7 @@ const GantiPassword = () => {
     };
 
     if (password.length <= 6) {
-      setText("Harap masukkan password minila 6 karakter");
+      setText("Harap masukkan password minimal 6 karakter");
       setShowNotif(true);
       setTimeout(() => {
         setShowNotif(false);
@@ -45,7 +45,11 @@ const GantiPassword = () => {
         .request(config)
         .then((response) => {
           if (response.data.status_code == "07") {
-            console.log(response);
+            setShowNotif(true);
+            setText(response.data.data.message);
+            setTimeout(() => {
+              setShowNotif(false);
+            }, 3000);
           } else {
             setShowNotif(true);
             setText(response.data.data.message);
@@ -54,12 +58,12 @@ const GantiPassword = () => {
               setShowNotif(false);
               setTimeout(() => {
                 setSuccess(false);
-              }, 3500);
+              }, 3300);
             }, 3000);
           }
         })
         .catch((e) => {
-          console.log(e);
+          return null;
         });
     }
   };

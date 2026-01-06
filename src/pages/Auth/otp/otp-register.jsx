@@ -52,7 +52,6 @@ const OTPRegister = () => {
           setTimeout(() => {
             setShowNotif(false);
           }, 2000);
-          console.log(JSON.stringify(response.data));
         }
       })
       .catch(() => {

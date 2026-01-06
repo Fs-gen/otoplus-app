@@ -63,18 +63,16 @@ const DetailProduk = () => {
               return (
                 <div key={index}>
                   {foto.map((item, index) => {
-                    console.log(item);
                     return (
-                      <img src={item} alt="" key={index} className="h-auto"/>
-                      // <Image
-                      //   src={item}
-                      //   width={1024}
-                      //   height={1024}
-                      //   alt=""
-                      //   key={index}
-                      //   quality={100}
-                      //   priority
-                      // />
+                      <Image
+                        src={item}
+                        width={1024}
+                        height={1024}
+                        alt=""
+                        key={index}
+                        quality={100}
+                        priority
+                      />
                     );
                   })}
                   <div className="section-box">

@@ -128,7 +128,7 @@ export const getListReferral = async () => {
       data = response.data.data;
     })
     .catch((error) => {
-      console.log(error);
+      return null;
     });
   return data;
 };
@@ -157,6 +157,80 @@ export const getProvinsi = async () => {
   return data;
 };
 
+export const getHistoryTransaction = async () => {
+  const header = Cookies.get("token");
+  let data = [];
+
+  let config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("transaksi/get-data"),
+    headers: {
+      Authorization: "Bearer " + header,
+    },
+    data: data,
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch((e) => {
+      return null;
+    });
+  return data;
+};
+
+export const getHistoryReward = async () => {
+  const header = Cookies.get("token");
+  let data = [];
+
+  let config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("reward/get-data"),
+    headers: {
+      Authorization: "Bearer " + header,
+    },
+    data: data,
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch((e) => {
+      return null;
+    });
+  return data;
+};
+
+export const getBankUser = async () => {
+  const header = Cookies.get("token");
+  let data = [];
+
+  let config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("profile/get-bank"),
+    headers: {
+      Authorization: "Bearer " + header,
+    },
+    data: data,
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((e) => {
+      return null;
+    });
+};
+
 export const postOTPBank = async () => {
   const header = Cookies.get("token");
 
@@ -175,6 +249,6 @@ export const postOTPBank = async () => {
       console.log(response);
     })
     .catch((e) => {
-      console.log(e);
+      return null;
     });
 };

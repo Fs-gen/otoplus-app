@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import NotificationBar from "@/components/NotificationBar";
 
 const Forgot = () => {
-  const [not_tlp, setNoTlp] = useState("");
+  const [no_tlp, setNoTlp] = useState("");
   const [showNotif, setShowNotif] = useState(false);
   const [success, setSuccess] = useState(false);
   const [text, setText] = useState("");
@@ -19,10 +19,8 @@ const Forgot = () => {
   const postOTP = async (e) => {
     e.preventDefault();
     let data = JSON.stringify({
-      not_tlp,
+      no_tlp,
     });
-
-    console.log(data);
 
     let config = {
       method: "post",
@@ -39,14 +37,13 @@ const Forgot = () => {
       .then((response) => {
         setShowNotif(true);
         setSuccess(true);
-        setText(`${response.data.message}. Mengalihkan otomatis`);
-        console.log(JSON.stringify(response.data));
-        // setTimeout(() => {
-        //   router.push("/Auth/otp/otp-forgot");
-        // }, 2000);
+        setText(`${response.data.data.message} Mengalihkan otomatis`);
+        setTimeout(() => {
+          router.replace("/Auth/ResetPassword");
+        }, 2000);
       })
       .catch((e) => {
-        console.log(e);
+        return null;
       });
   };
 

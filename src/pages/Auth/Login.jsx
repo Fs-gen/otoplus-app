@@ -47,17 +47,7 @@ const Login = () => {
       .then((response) => {
         if (response.data.status_code == "00") {
           const dataUser = response.data.data.data_user;
-          if (dataUser.status != "active") {
-            setShowNotif(true);
-            setNotification(
-              "Silahkan Aktivasi Akun, Mengalihkan ke Verifikasi OTP"
-            );
-            setSuccess(true);
-            Cookies.set("no_tlp", dataUser.no_tlp);
-            setTimeout(() => {
-              router.push("/Auth/otp/otp-register");
-            }, 2000);
-          } else if (dataUser.profile_lengkap != true) {
+          if (dataUser.profile_lengkap != true) {
             setShowNotif(true);
             setSuccess(true);
             setNotification(
@@ -76,6 +66,14 @@ const Login = () => {
               router.push("/Home");
             }, 2000);
           }
+        } else if (response.data.data.message == "Akun Tidak Ditemukan") {
+          setShowNotif(true);
+          setNotification(
+            `${response.data.data.message}! Jika sudah registrasi namun tidak melakukan verifikasi OTP maka anda harus registrasi ulang`
+          );
+          setTimeout(() => {
+            setShowNotif(false);
+          }, 3000);
         } else {
           setShowNotif(true);
           setNotification("Oops, sepertinya data dimasukkan salah");
