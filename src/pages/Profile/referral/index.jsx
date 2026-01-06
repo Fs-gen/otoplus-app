@@ -1,7 +1,6 @@
 import CardReferral from "@/components/Card/CardReferral";
 import HeaderBack from "@/components/Header/HeaderBack";
 import { getListReferral } from "@/pages/api/api";
-import DataReferral from "@/pages/api/dummy.json";
 import { useEffect, useState } from "react";
 
 const Referral = () => {

@@ -32,15 +32,12 @@ const Id = ({ id }) => {
         if (response.data.status_code == "00") {
           Cookies.set("referral", referral);
           router.replace("/Auth/Register");
-          console.log(response);
         } else {
           setFailed(true);
-          console.log(`Error ${response}`);
-          console.log(response);
         }
       })
       .catch((e) => {
-        console.log(e);
+        return null;
       });
   };
 

@@ -16,12 +16,7 @@ export default function App({ Component, pageProps }) {
     "/Auth/otp/OTPForgot",
   ];
 
-  const dashboard = [
-    "/Home",
-    "/History/transaksi",
-    "/History/reward",
-    "/Profile",
-  ];
+  const dashboard = ["/History/transaksi", "/History/reward", "/Profile"];
 
   return (
     <div className={font.root}>

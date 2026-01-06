@@ -38,6 +38,8 @@ const Home = () => {
     setUser(res);
   };
 
+  console.log(user);
+
   useEffect(() => {
     cekToken();
     fetchData();
@@ -100,6 +102,7 @@ const Home = () => {
       />
       {/* News */}
       {/* BoxItem */}
+      <div className="mt-20"></div>
       <Navbar />
     </section>
   );

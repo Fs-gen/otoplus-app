@@ -43,6 +43,7 @@ const OTPRegister = () => {
           setNotification("Registrasi Selesai, Mengalihkan ke halaman login");
           setSuccess(true);
           Cookies.remove("no_tlp");
+          Cookies.remove("referral");
           setTimeout(() => {
             router.push("/Auth/Login");
           }, 2000);
