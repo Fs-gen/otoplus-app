@@ -4,7 +4,7 @@ import FormLine from "@/components/Form/FormLine";
 import LinkText from "@/components/LinkText";
 import { AuthStyleBox } from "@/styles/style";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 import NotificationBar from "@/components/NotificationBar";
@@ -21,14 +21,29 @@ const Register = () => {
   const [showNotif, setShowNotif] = useState(false);
   const [notification, setNotification] = useState("");
   const [success, setSuccess] = useState(false);
+  const referral = Cookies.get("referral");
 
   const router = useRouter();
+
+  const notifReferral = () => {
+    if (referral) {
+      setShowNotif(true);
+      setNotification("Kode Referral Berhasil Digunakan!");
+      setSuccess(true);
+      setTimeout(() => {
+        setShowNotif(false);
+        setTimeout(() => {
+          setSuccess(false);
+        }, 3200);
+      }, 3000);
+    }
+  };
 
   const data = JSON.stringify({
     no_tlp,
     password,
     area,
-    kode_referral,
+    kode_referral: referral || kode_referral,
   });
 
   let config = {
@@ -71,6 +86,10 @@ const Register = () => {
         }, 2000);
       });
   };
+
+  useEffect(() => {
+    notifReferral();
+  }, []);
 
   return (
     <section className={AuthStyleBox}>
@@ -139,7 +158,10 @@ const Register = () => {
           </div>
           <FormLine
             title="Kode Referral (Optional)"
-            value={kode_referral}
+            value={referral ?? ""}
+            readOnly={
+              referral && referral != null && kode_referral == "" ? true : false
+            }
             change={(e) => setKodeReferral(e.target.value)}
           />
           <ButtonForm type="submit" click={onSubmit} text="Daftar" />

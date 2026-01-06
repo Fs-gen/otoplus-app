@@ -79,7 +79,7 @@ const BankSaya = () => {
 
   useEffect(() => {
     fetchBank();
-  });
+  }, []);
 
   return (
     <section>
@@ -90,7 +90,7 @@ const BankSaya = () => {
           <FormOption
             change={(e) => setNamaBank(e.target.value)}
             title="Nama Bank"
-            selected="Pilih Bank"
+            selected={user.nama_bank ?? "Pilih Bank"}
             components={data.data_bank.map((item, index) => {
               return (
                 <option value={item} key={index}>
@@ -104,12 +104,14 @@ const BankSaya = () => {
             small
             title="No. Rekening"
             change={(e) => setNoRek(e.target.value)}
+            value={user.rekening ?? ""}
           />
           <FormLine
             type="text"
             small
             title="Atas Nama"
             change={(e) => setAtasNama(e.target.value)}
+            value={user.atas_nama ?? ""}
           />
           <div className="flex gap-7 items-center">
             <div className="flex-3">

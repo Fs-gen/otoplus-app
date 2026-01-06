@@ -224,11 +224,12 @@ export const getBankUser = async () => {
   await axios
     .request(config)
     .then((response) => {
-      console.log(response);
+      data = response?.data?.data;
     })
     .catch((e) => {
       return null;
     });
+  return data;
 };
 
 export const postOTPBank = async () => {
