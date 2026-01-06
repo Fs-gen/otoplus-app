@@ -5,5 +5,5 @@
 }
 
 .root {
-  font-family: "Montserrat" !important;
+  font-family: "Montserrat", system-ui !important;
 }
