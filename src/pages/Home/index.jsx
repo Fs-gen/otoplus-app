@@ -5,7 +5,7 @@ import dataDummy from "@/pages/api/dummy.json";
 import Amount from "./Amount";
 import Header from "./Header";
 import { useEffect, useState } from "react";
-import { getUserHome } from "../api/api";
+import { getUserHome, mainURL } from "../api/api";
 import Cookies from "js-cookie";
 
 // Image
@@ -16,12 +16,36 @@ import Navbar from "@/components/Navbar";
 import { Copy } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 import { highlightSkeleton } from "@/styles/style";
+import axios from "axios";
 
 const Home = () => {
   const [user, setUser] = useState([]);
   const [showNotif, setShowNotif] = useState(false);
   const [text, setText] = useState("");
   const token = Cookies.get("token");
+
+  const getNews = async () => {
+    let data = "";
+
+    let config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: mainURL("home/get-news"),
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      data: data,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const cekToken = () => {
     if (!token) {
@@ -41,6 +65,7 @@ const Home = () => {
   console.log(user);
 
   useEffect(() => {
+    getNews();
     cekToken();
     fetchData();
   }, []);
@@ -84,12 +109,14 @@ const Home = () => {
         src={CardPerson}
         href={"/InputJual"}
       />
-      <CardBig
-        title="Upgrade ke Agen Plus"
-        desc="Dapatkan Fasilitas dan Voucher Lebih Banyak!"
-        src={GroupStroke}
-        href={`/Detail/produk/`}
-      />
+      {user && user?.type_akun == "agen plus" ? null : (
+        <CardBig
+          title="Upgrade ke Agen Plus"
+          desc="Dapatkan Fasilitas dan Voucher Lebih Banyak!"
+          src={GroupStroke}
+          href={`/Detail/produk/`}
+        />
+      )}
       {/* Button Big */}
 
       {/* BoxItem */}

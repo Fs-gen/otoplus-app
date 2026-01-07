@@ -12,6 +12,8 @@ import { useEffect, useState } from "react";
 import Resizer from "react-image-file-resizer";
 import Cookies from "js-cookie";
 import axios from "axios";
+import NotificationBar from "@/components/NotificationBar";
+const FormData = require("form-data");
 
 const Transfer = ({ props }) => {
   const textGray = "text-xs";
@@ -52,12 +54,13 @@ const Transfer = ({ props }) => {
 const Id = ({ id }) => {
   const [dataid, setDataId] = useState(id);
   const [data, setData] = useState([]);
-  const [pending, isPending] = useState(true);
   const [success, setSuccess] = useState(false);
   const [image, setImage] = useState({
     file: null,
     previewURL: null,
   });
+
+  console.log(data);
 
   // FecthData
 
@@ -111,7 +114,6 @@ const Id = ({ id }) => {
       headers: {
         Authorization: "Bearer " + token,
         "Content-Type": "multipart/form-data",
-        ...data.getHeaders(),
       },
       data: data,
     };
@@ -119,6 +121,7 @@ const Id = ({ id }) => {
     await axios
       .request(config)
       .then((response) => {
+        fetchData();
         console.log(response);
       })
       .catch((e) => {
@@ -134,15 +137,22 @@ const Id = ({ id }) => {
   return (
     <section>
       <HeaderBack text="Detail Transaksi" />
+      {/* <NotificationBar /> */}
       <div className="section-box">
-        {pending == true ? <Transfer props={data} /> : null}
+        {data?.status == "belum dibayar" ? <Transfer props={data} /> : null}
         <h1 className="my-3 text-sm font-medium">Detail Transaksi</h1>
         <CardOrder
           props={data}
           status={data?.status}
-          colorStatus={"text-red-semi"}
+          colorStatus={`${
+            data?.status == "belum dibayar"
+              ? "text-red-semi"
+              : data?.status == "menunggu konfirmasi"
+              ? "text-blue-semi"
+              : "text-green-semi"
+          }`}
         />
-        {pending == true ? (
+        {(data?.status == "belum dibayar") == true ? (
           <div className="text-xs text-center mt-10 mb-24">
             <h1 className="font-medium">Transfer Sebelum</h1>
             <h1 className="font-semibold mb-3.75">{data.batas_akhir} WITA</h1>
@@ -155,23 +165,28 @@ const Id = ({ id }) => {
           </div>
         ) : null}
         <div className="text-center">
-          <label
-            htmlFor="buktiFile"
-            className="flex justify-center items-center bg-gray-light rounded-lg p-10 mb-12"
-          >
-            Silahkan Masukkan file disini
-          </label>
-          <input
-            type="file"
-            id="buktiFile"
-            className="hidden"
-            onChange={getImage}
-          />
-          {pending == true ? (
+          {data?.status != "belum dibayar" ? null : (
+            <div>
+              <label
+                htmlFor="buktiFile"
+                className="flex justify-center items-center bg-gray-light rounded-lg p-10 mb-12"
+              >
+                Silahkan Masukkan file disini
+              </label>
+              <input
+                type="file"
+                id="buktiFile"
+                className="hidden"
+                onChange={getImage}
+              />
+            </div>
+          )}
+          {(data?.status == "belum dibayar") == true ? (
             <ButtonForm text="Upload Bukti Transfer" click={postUploadImage} />
-          ) : pending == false && success == false ? null : (
+          ) : data?.status == "belum dibayar" ||
+            data?.status == "menunggu konfirmasi" ? null : (
             <div className="mt-12">
-              <ButtonLink href={"/"} text="Lihat Virtual ID Card" />
+              <ButtonLink text="Lihat Virtual Card ID" href={"/"} />
             </div>
           )}
         </div>
