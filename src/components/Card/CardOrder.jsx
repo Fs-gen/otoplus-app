@@ -1,7 +1,7 @@
 const CardInfo = ({ colorStatus, text, total, info }) => {
   return (
     <div className="flex justify-between items-center mb-2.5">
-      <p className="text-xs text-gray-light">{text}</p>
+      <p className="text-xs text-gray-dark font-medium">{text}</p>
       <p
         className={`${
           total ? "text-blue-dark" : "text-xs"
@@ -20,7 +20,11 @@ const CardOrder = ({ colorStatus, props, status }) => {
     <div className="py-3.75 px-2.5 rounded-[10px] shadow-md">
       {status ? (
         <div className="mb-1.25">
-          <CardInfo text="Status" colorStatus={colorStatus} info={props?.status} />
+          <CardInfo
+            text="Status"
+            colorStatus={colorStatus}
+            info={props?.status}
+          />
         </div>
       ) : null}
       <CardInfo
@@ -28,12 +32,15 @@ const CardOrder = ({ colorStatus, props, status }) => {
         info={props?.nama || props?.nama_transaksi}
       />
       <div className="my-3.75">
-        <CardInfo text="Harga" info={`Rp ${harga}`} />
+        <CardInfo
+          text="Harga"
+          info={`Rp ${new Intl.NumberFormat("de-De").format(harga)}`}
+        />
         {props && !props.kode_unik ? null : (
           <CardInfo
             text="Kode Unik"
             info={props?.kode_unik}
-            color="text-green-semi"
+            colorStatus="text-green-semi"
           />
         )}
       </div>

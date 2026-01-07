@@ -99,7 +99,7 @@ const OrderMetode = () => {
           {dataBank.map((item, index) => {
             return (
               <label
-                className="flex justify-between items-center p-2.5 shadow-lg shadow-gray-200 rounded-sm"
+                className="flex justify-between items-center p-2.5 shadow-lg shadow-gray-200 rounded-sm cursor-pointer"
                 key={index}
                 htmlFor={item.nama_bank}
               >

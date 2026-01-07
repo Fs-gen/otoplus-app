@@ -1,15 +1,17 @@
-import { ButtonLink } from "@/components/Button";
+import { ButtonForm, ButtonLink } from "@/components/Button";
 import CardOrder from "@/components/Card/CardOrder";
 import FormLine from "@/components/Form/FormLine";
 import HeaderBack from "@/components/Header/HeaderBack";
-import { getDetailTransaksi, postBatalTransaksi } from "@/pages/api/api";
+import {
+  getDetailTransaksi,
+  mainURL,
+  postBatalTransaksi,
+} from "@/pages/api/api";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-
-// const Id = ({ id }) => {
-
-//   return <h1>Hello World</h1>;
-// };
+import Resizer from "react-image-file-resizer";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 const Transfer = ({ props }) => {
   const textGray = "text-xs";
@@ -28,18 +30,18 @@ const Transfer = ({ props }) => {
             className="bg-gray-light p-1 rounded-sm w-max"
           />
           <div>
-            <h1 className={textGray}>Bank Rakyat Indonesia</h1>
-            <p className={textGray}>PT OTOPLUSID</p>
+            <h1 className={textGray}>{props?.metode_bayar}</h1>
+            <p className={textGray}>{props?.atas_nama}</p>
           </div>
         </div>
-        <FormLine readOnly value="12345123189309173" white />
+        <FormLine readOnly value={props?.rekening} white />
         <h1 className="text-xs mt-4.5 mb-2.5">Jumlah Transfer</h1>
         <FormLine
           readOnly
           value={`Rp ${new Intl.NumberFormat("de-DE").format(hasil)}`}
           white
         />
-        <p className="text-[8px] mt-1 ml-2">
+        <p className="text-[10px] font-medium mt-1 ml-2">
           Pastikan jumlahnya sama dengan 3 digit terakhir
         </p>
       </div>
@@ -48,22 +50,83 @@ const Transfer = ({ props }) => {
 };
 
 const Id = ({ id }) => {
-  const [pending, isPending] = useState(true);
-  const [success, setSuccess] = useState(false);
   const [dataid, setDataId] = useState(id);
   const [data, setData] = useState([]);
+  const [pending, isPending] = useState(true);
+  const [success, setSuccess] = useState(false);
+  const [image, setImage] = useState({
+    file: null,
+    previewURL: null,
+  });
+
+  // FecthData
 
   const fetchData = async () => {
     const res = await getDetailTransaksi(dataid);
     setData(res);
   };
 
-  console.log(data);
-
   const batalTransaksi = async (e) => {
     e.preventDefault();
-    await postBatalTransaksi();
+    await postBatalTransaksi(dataid);
   };
+
+  // FecthData
+
+  // ConvetImage
+
+  const resizeFile = (file) =>
+    new Promise((resolve) => {
+      Resizer.imageFileResizer(file, 500, 500, "JPEG", 70, 0, (uri) => {
+        resolve(uri);
+      }),
+        "base64";
+    });
+
+  const getImage = async (event) => {
+    try {
+      const file = event.target.files[0];
+      const result = await resizeFile(file);
+      setImage({
+        file: result,
+        previewURL: result,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const postUploadImage = async (e) => {
+    e.preventDefault();
+
+    const token = Cookies.get("token");
+    let data = new FormData();
+    data.append("kode_aktivasi", dataid);
+    data.append("file", image.file);
+
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: mainURL("produk/upload-bukti-transfer"),
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "multipart/form-data",
+        ...data.getHeaders(),
+      },
+      data: data,
+    };
+
+    await axios
+      .request(config)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  // ConvetImage
 
   useEffect(() => {
     fetchData();
@@ -74,23 +137,11 @@ const Id = ({ id }) => {
       <div className="section-box">
         {pending == true ? <Transfer props={data} /> : null}
         <h1 className="my-3 text-sm font-medium">Detail Transaksi</h1>
-        <CardOrder props={data} status={data?.status} colorStatus={"text-red-semi"}/>
-        {/* <CardOrder
-          color={
-            pending == true
-              ? "text-yellow-semi"
-              : pending == false && success == false
-              ? "text-blue-semi"
-              : "text-green-semi"
-          }
-          status={
-            pending == true
-              ? "Pending"
-              : pending == false && success == false
-              ? "Menunggu Konfirmasi"
-              : "Sukses"
-          }
-        /> */}
+        <CardOrder
+          props={data}
+          status={data?.status}
+          colorStatus={"text-red-semi"}
+        />
         {pending == true ? (
           <div className="text-xs text-center mt-10 mb-24">
             <h1 className="font-medium">Transfer Sebelum</h1>
@@ -104,8 +155,20 @@ const Id = ({ id }) => {
           </div>
         ) : null}
         <div className="text-center">
+          <label
+            htmlFor="buktiFile"
+            className="flex justify-center items-center bg-gray-light rounded-lg p-10 mb-12"
+          >
+            Silahkan Masukkan file disini
+          </label>
+          <input
+            type="file"
+            id="buktiFile"
+            className="hidden"
+            onChange={getImage}
+          />
           {pending == true ? (
-            <ButtonLink text="Upload Bukti Transfer" href={"/"} />
+            <ButtonForm text="Upload Bukti Transfer" click={postUploadImage} />
           ) : pending == false && success == false ? null : (
             <div className="mt-12">
               <ButtonLink href={"/"} text="Lihat Virtual ID Card" />
