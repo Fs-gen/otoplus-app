@@ -1,11 +1,11 @@
-const CardInfo = ({ color, text, total, info }) => {
+const CardInfo = ({ colorStatus, text, total, info }) => {
   return (
     <div className="flex justify-between items-center mb-2.5">
       <p className="text-xs text-gray-light">{text}</p>
       <p
         className={`${
           total ? "text-blue-dark" : "text-xs"
-        } font-semibold ${color}`}
+        } font-semibold capitalize ${colorStatus}`}
       >
         {info}
       </p>
@@ -13,16 +13,20 @@ const CardInfo = ({ color, text, total, info }) => {
   );
 };
 
-const CardOrder = ({ color, props, status }) => {
-  const harga = new Intl.NumberFormat("de-DE").format(props?.harga);
+const CardOrder = ({ colorStatus, props, status }) => {
+  const harga = parseInt(props?.harga) || parseInt(props?.jumlah);
+  const hasil = harga + parseInt(props?.kode_unik);
   return (
     <div className="py-3.75 px-2.5 rounded-[10px] shadow-md">
       {status ? (
         <div className="mb-1.25">
-          <CardInfo text="Status" color={color} info={props?.status} />
+          <CardInfo text="Status" colorStatus={colorStatus} info={props?.status} />
         </div>
       ) : null}
-      <CardInfo text="Nama Pesanan" info={props?.nama} />
+      <CardInfo
+        text="Nama Pesanan"
+        info={props?.nama || props?.nama_transaksi}
+      />
       <div className="my-3.75">
         <CardInfo text="Harga" info={`Rp ${harga}`} />
         {props && !props.kode_unik ? null : (
@@ -40,7 +44,7 @@ const CardOrder = ({ color, props, status }) => {
           info={
             props && !props.kode_unik
               ? `Rp ${harga}`
-              : `Rp ${parseInt(harga) + parseInt(props.kode_unik)}`
+              : `Rp ${new Intl.NumberFormat("de-DE").format(hasil)}`
           }
         />
       </div>

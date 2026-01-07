@@ -5,6 +5,9 @@ import { getHistoryTransaction } from "@/pages/api/api";
 import { highlightSkeleton } from "@/styles/style";
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
+import CartBlue from "@/assets/images/icons/shopping/cart-blue.svg";
+import ArrowDown from "@/assets/images/icons/arrow/arrow-circle-blue-down.svg";
+import Image from "next/image";
 
 const HistoryTransaction = () => {
   const [transaksi, setTransaksi] = useState([]);
@@ -52,6 +55,23 @@ const HistoryTransaction = () => {
                 {transaksi.map((item, index) => {
                   return (
                     <CardHistory
+                      icon={
+                        item.nama_transaksi == "Upgrade ke Agen Plus" ? (
+                          <Image
+                            src={CartBlue}
+                            width={20}
+                            height={20}
+                            alt="icon"
+                          />
+                        ) : (
+                          <Image
+                            src={ArrowDown}
+                            width={20}
+                            height={20}
+                            alt="icon"
+                          />
+                        )
+                      }
                       props={item}
                       key={index}
                       href={`/Detail/order/transaksi/${item.kode_aktivasi}`}

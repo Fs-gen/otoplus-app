@@ -260,13 +260,12 @@ export const getRekCompany = async () => {
 
 export const getDetailTransaksi = async (id) => {
   const token = Cookies.get("token");
-  console.log(id);
   let data = JSON.stringify({
     id_transaksi: id,
   });
 
   let config = {
-    method: "get",
+    method: "post",
     maxBodyLength: Infinity,
     url: mainURL("produk/get-transaksi-produk"),
     headers: {
@@ -279,7 +278,6 @@ export const getDetailTransaksi = async (id) => {
   await axios
     .request(config)
     .then((response) => {
-      console.log(response);
       data = response?.data?.data;
     })
     .catch((e) => {
@@ -307,5 +305,32 @@ export const postOTPBank = async () => {
     })
     .catch((e) => {
       return null;
+    });
+};
+
+export const postBatalTransaksi = async (id) => {
+  const token = Cookies.get("token");
+  let data = JSON.stringify({
+    id_transaksi: id,
+  });
+
+  let config = {
+    method: "post",
+    maxBodyLength: Infinity,
+    url: mainURL("produk/batalkan-transaksi"),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+    data: data,
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((e) => {
+      console.log(e);
     });
 };

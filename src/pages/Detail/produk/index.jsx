@@ -22,6 +22,7 @@ const DetailProduk = () => {
   };
 
   const setCookies = (e) => {
+    e.preventDefault();
     produk.map((item) => {
       Cookies.set("nama", item.nama);
       Cookies.set("harga", item.harga);

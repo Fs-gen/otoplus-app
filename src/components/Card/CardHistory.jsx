@@ -2,13 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 // Image
-import ArrowDown from "@/assets/images/icons/arrow/arrow-circle-blue-down.svg";
-import CartBlue from "@/assets/images/icons/shopping/cart-blue.svg";
-import Rupiah from "@/assets/images/icons/shopping/rupiah-line.svg";
+
 import Coin from "@/assets/images/icons/shopping/coin-blue.svg";
+import Rupiah from "@/assets/images/icons/shopping/rupiah-line.svg";
 import { House } from "lucide-react";
 
-const CardHistory = ({ href, props }) => {
+const CardHistory = ({ href, icon, props }) => {
   const fontSemi = "text-xs font-semibold";
   return (
     <Link
@@ -16,8 +15,8 @@ const CardHistory = ({ href, props }) => {
       href={href}
     >
       <div className="flex gap-2">
-        <div className="p-2 bg-gray-semi rounded-full h-max">
-          <House size={20} color="#FFFFFF" />
+        <div className="p-1.5 flex bg-gray-semi rounded-full h-max">
+          {icon}
         </div>
         <div className="flex flex-col gap-1.5 text-xs capitalize">
           <h1 className="font-semibold">{props.nama_transaksi || props.jenis_transaksi}</h1>
