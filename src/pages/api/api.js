@@ -52,7 +52,7 @@ export const getUserHome = async () => {
       datas = response.data?.data;
     })
     .catch((e) => {
-      return null;
+      console.log(e.response);
     });
   return datas;
 };
@@ -228,6 +228,62 @@ export const getBankUser = async () => {
     })
     .catch((e) => {
       return null;
+    });
+  return data;
+};
+
+export const getRekCompany = async () => {
+  const token = Cookies.get("token");
+  let data = [];
+
+  let config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("master/get-bank-company"),
+    headers: {
+      "Content-Type": "text/plain",
+      Authorization: "Bearer " + token,
+    },
+    data: data,
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch((e) => {
+      return null;
+    });
+  return data;
+};
+
+export const getDetailTransaksi = async (id) => {
+  const token = Cookies.get("token");
+  console.log(id);
+  let data = JSON.stringify({
+    id_transaksi: id,
+  });
+
+  let config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("produk/get-transaksi-produk"),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+    data: data,
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      console.log(response);
+      data = response?.data?.data;
+    })
+    .catch((e) => {
+      console.log(e);
     });
   return data;
 };

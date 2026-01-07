@@ -2,7 +2,6 @@ import CardHistory from "@/components/Card/CardHistory";
 import HeaderText from "@/components/Header/HeaderText";
 import Navbar from "@/components/Navbar";
 import { getHistoryTransaction } from "@/pages/api/api";
-import historyData from "@/pages/api/dummy.json";
 import { highlightSkeleton } from "@/styles/style";
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
@@ -14,6 +13,8 @@ const HistoryTransaction = () => {
     const res = await getHistoryTransaction();
     setTransaksi(res);
   };
+
+  console.log(transaksi);
 
   useEffect(() => {
     fetchData();
@@ -43,10 +44,22 @@ const HistoryTransaction = () => {
             <LoadingCard />
           </div>
         ) : (
-          <div className="flex flex-col">
-            {transaksi.map((item, index) => {
-              return <CardHistory props={item} key={index} href={"/"} />;
-            })}
+          <div>
+            {transaksi && transaksi.message == "Data Tidak Ditemukan" ? (
+              <h1 className="text-center">Tidak Ada Transaksi</h1>
+            ) : (
+              <div className="flex flex-col">
+                {transaksi.map((item, index) => {
+                  return (
+                    <CardHistory
+                      props={item}
+                      key={index}
+                      href={`/Detail/order/transaksi/${item.kode_aktivasi}`}
+                    />
+                  );
+                })}
+              </div>
+            )}
           </div>
         )}
       </div>

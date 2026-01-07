@@ -21,7 +21,7 @@ const CardHistory = ({ href, props }) => {
         </div>
         <div className="flex flex-col gap-1.5 text-xs capitalize">
           <h1 className="font-semibold">{props.nama_transaksi || props.jenis_transaksi}</h1>
-          <h2 className="text-text-gray">{props.tanggal_bayar || props.tanggal_transaksi}</h2>
+          <h2 className="text-text-gray">{props.tanggal_bayar || props.created_at}</h2>
           <h2 className="font-semibold">
             Rp. {new Intl.NumberFormat("de-DE").format(props.jumlah)}
           </h2>

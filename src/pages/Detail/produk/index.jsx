@@ -1,4 +1,4 @@
-import { ButtonLink } from "@/components/Button";
+import { ButtonForm } from "@/components/Button";
 import ArrowBack from "@/assets/images/icons/arrow/arrow-line-left-white.svg";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { getProduk } from "@/pages/api/api";
 import Skeleton from "react-loading-skeleton";
 import { highlightSkeleton } from "@/styles/style";
+import Cookies from "js-cookie";
 
 const DetailProduk = () => {
   const [produk, setProduk] = useState([]);
@@ -19,6 +20,17 @@ const DetailProduk = () => {
       setFoto(item.foto);
     });
   };
+
+  const setCookies = (e) => {
+    produk.map((item) => {
+      Cookies.set("nama", item.nama);
+      Cookies.set("harga", item.harga);
+      Cookies.set("id", item.id_produk);
+    });
+    router.push("/Detail/order");
+  };
+
+  console.log(produk);
 
   useEffect(() => {
     fetchData();
@@ -89,7 +101,7 @@ const DetailProduk = () => {
           </div>
         )}
         <div className="section-box text-center">
-          <ButtonLink href={`/Detail/order/order-bank`} text="Pesan Sekarang" />
+          <ButtonForm click={setCookies} text="Pesan Sekarang" />
         </div>
       </div>
     </section>
