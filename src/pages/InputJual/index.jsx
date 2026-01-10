@@ -13,6 +13,8 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import FileResizer from "react-image-file-resizer";
 import { resolve } from "styled-jsx/css";
+import { LoadingPadding } from "@/styles/style";
+import NotificationBar from "@/components/NotificationBar";
 
 const InputJual = () => {
   const [perluasanAsuransi, setPerluasanAsuransi] = useState([]);
@@ -33,7 +35,18 @@ const InputJual = () => {
     alamat_kantor: "",
     telp_kantor: "",
     penghasilan_bulanan: "",
-    metode_pembayaran: "",
+    merek_tipe_mobil: "",
+    varian: "",
+    warna: "",
+    tahun_produksi: "",
+    harga_otr: "",
+    nomor_rangka: "",
+    nomor_mesin: "",
+    aksesoris_tambahan: "",
+    jenis_pembayaran: "",
+    jenis_asuransi: "",
+    periode_asuransi: "",
+    nama_tertanggung: "",
     perluasan_asuransi: "",
     tipe_pemilik: "",
     alamat_stnk: "",
@@ -49,17 +62,26 @@ const InputJual = () => {
   const [showPekerjaan, setShowPekerjaan] = useState(false);
   const [showKendaraan, setShowKendaraan] = useState(false);
   const [showPembayaran, setShowPembayaran] = useState(false);
+  const [showAsuransi, setShowAsuransi] = useState(false);
   const [showSTNK, setShowSTNK] = useState(false);
   const [invalidIdentitas, setInvalidIdentitas] = useState(false);
   const [invalidPekerjaan, setInvalidPekerjaan] = useState(false);
   const [invalidKendaraan, setInvalidKendaraan] = useState(false);
   const [invalidPembayaran, setInvalidPembayaran] = useState(false);
+  const [invalidAsuransi, setInvalidAsuransi] = useState(false);
   const [invalidSTNK, setInvalidSTNK] = useState(false);
+
+  const [showNotif, setShowNotif] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [text, setText] = useState("");
+  const [loading, setLoading] = useState(false);
   const [image, setImage] = useState({
     url: null,
     previewURL: null,
   });
   const token = Cookies.get("token");
+
+  console.log(form);
 
   const imageResizer = (file) =>
     new Promise((resolve) => {
@@ -73,13 +95,15 @@ const InputJual = () => {
     const { name } = e.target;
     const file = e.target.files[0];
     const result = await imageResizer(file);
-    setImage({
-      url: result,
-      previewURL: result
-    })
+    // setImage({
+    //   url: result,
+    //   previewURL: result
+    // })
+    setForm({
+      ...form,
+      [name]: result,
+    });
   };
-
-  console.log(form);
 
   const handlerForm = (e) => {
     const { name, value } = e.target;
@@ -127,45 +151,65 @@ const InputJual = () => {
     ) {
       setInvalidIdentitas(true);
       setShowIdentitas(true);
-    } else if (form.jenis_pekerjaan == "") {
-      setInvalidPekerjaan(true);
-      setShowPekerjaan(true);
-    } else if (form.tipe_mobil) {
-      setShowKendaraan(true);
-      setInvalidKendaraan(true);
-    } else if (form.metode_pembayaran == "") {
-      setShowPembayaran(true);
-      setInvalidPembayaran(true);
-    } else if (form.tipe_pemilik) {
-      setShowSTNK(true);
-      setInvalidSTNK(true);
-    } else {
-      let data = JSON.stringify(form);
+    } 
+    // else if (form.jenis_pekerjaan == "") {
+    //   setInvalidPekerjaan(true);
+    //   setShowPekerjaan(true);
+    // } else if (form.tipe_mobil) {
+    //   setShowKendaraan(true);
+    //   setInvalidKendaraan(true);
+    // } else if (form.metode_pembayaran == "") {
+    //   setShowPembayaran(true);
+    //   setInvalidPembayaran(true);
+    // } else if (form.tipe_pemilik) {
+    //   setShowSTNK(true);
+    //   setInvalidSTNK(true);
+    // }
+    setLoading(true);
+    let data = JSON.stringify(form);
 
-      let config = {
-        method: "post",
-        maxBodyLength: Infinity,
-        url: mainURL("penjualan/create"),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-        data: data,
-      };
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: mainURL("penjualan/create"),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      data: data,
+    };
 
-      await axios
-        .request(config)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
+    await axios
+      .request(config)
+      .then((response) => {
+        console.log(response);
+        if (response?.data?.status_code == "00") {
+          setShowNotif(true);
+          setSuccess(true);
+          setText(response?.data?.message);
+          setTimeout(() => {
+            setShowNotif(false);
+            setTimeout(() => {
+              setSuccess(false);
+            }, 3200);
+          }, 3000);
+        } else {
+          setShowNotif(true);
+          setText("Oops! sepertinya ada kolom wajib yang belum terisi");
+          setTimeout(() => {
+            setShowNotif(false);
+          }, 3000);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    return setLoading(false);
   };
 
   return (
     <section className="bg-gray-100 min-h-screen">
+      <NotificationBar showNotif={showNotif} text={text} success={success} />
       <HeaderBack text="Input Penjualan" />
       <div className="p-4">
         <div className="p-4 bg-blue-semi rounded-lg text-white">
@@ -208,7 +252,7 @@ const InputJual = () => {
             show={showKendaraan}
             change={handlerForm}
             invalid={invalidKendaraan}
-            merek_mobil={form.merek_mobil}
+            merek_tipe_mobil={form.merek_tipe_mobil}
             varian={form.varian}
             warna={form.warna}
             tahun_produksi={form.tahun_produksi}
@@ -222,10 +266,16 @@ const InputJual = () => {
             click={() => setShowPembayaran(!showPembayaran)}
             change={handlerForm}
             invalid={invalidPembayaran}
-            metode_pembayaran={form.metode_pembayaran}
+            jenis_pembayaran={form.jenis_pembayaran}
           />
           <DataAsuransi
             change={handlerPerluasanAsuransi}
+            changeOption={handlerForm}
+            click={() => setShowAsuransi(!showAsuransi)}
+            show={showAsuransi}
+            jenis_asuransi={form.jenis_asuransi}
+            periode_asuransi={form.periode_asuransi}
+            nama_tertanggung={form.nama_tertanggung}
             banjir={perluasanAsuransi.includes("Banjir")}
             huruhara={perluasanAsuransi.includes("Huru-Hara")}
             gempabumi={perluasanAsuransi.includes("Gempa Bumi")}
@@ -271,9 +321,10 @@ const InputJual = () => {
           />
           <div className="mt-10"></div>
           <ButtonForm
-            type="submit"
             text="Kirim Formulir"
             click={postUploadForm}
+            loading={loading}
+            padding={loading ? LoadingPadding : null}
           />
         </form>
       </div>

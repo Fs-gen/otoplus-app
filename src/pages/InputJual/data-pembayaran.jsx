@@ -5,7 +5,7 @@ const DataPembayaran = ({
   change,
   click,
   invalid,
-  metode_pembayaran,
+  jenis_pembayaran,
   show,
 }) => {
   return (
@@ -28,18 +28,18 @@ const DataPembayaran = ({
             </h1>
           ) : null}
           <label
-            htmlForfor="metode_pembayaran"
+            htmlForfor="jenis_pembayaran"
             className="text-xs mb-1.25 font-bold"
           >
             Metode Pembayaran <span className="text-red-semi">*</span>
           </label>
           <select
-            name="metode_pembayaran"
-            id="metode_pembayaran"
+            name="jenis_pembayaran"
+            id="jenis_pembayaran"
             className="p-3 placeholder:text-gray-light focus:outline-blue-light font-semibold w-full text-sm rounded-xl border border-gray-light"
             onChange={change}
             required
-            value={metode_pembayaran}
+            value={jenis_pembayaran}
           >
             <option value="">Pilih Metode Pembayaran</option>
             <option value="Cash">Cash</option>

@@ -7,7 +7,7 @@ const DataKendaraan = ({
   click,
   invalid,
   show,
-  merek_mobil,
+  merek_tipe_mobil,
   varian,
   warna,
   tahun_produksi,
@@ -38,11 +38,11 @@ const DataKendaraan = ({
         <FormLine
           bold
           change={change}
-          name="merek_mobil"
+          name="merek_tipe_mobil"
           placeholder="Contoh: Toyota Avanza"
           required={true}
           title="Merek & Tipe Mobile"
-          value={merek_mobil}
+          value={merek_tipe_mobil}
         />
         <div className={BoxForm}>
           <FormLine
@@ -68,7 +68,7 @@ const DataKendaraan = ({
           <FormLine
             bold
             change={change}
-            name="tahun produksi"
+            name="tahun_produksi"
             placeholder="2024"
             required={true}
             title="Tahun Produksi"

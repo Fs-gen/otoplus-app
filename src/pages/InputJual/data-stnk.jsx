@@ -43,12 +43,15 @@ const DataSTNK = ({
             required
             value={tipe_pemilik}
           >
+            <option value="">Pilih Pemilik</option>
             <option value="Pribadi">Pribadi</option>
             <option value="Perusahaan">Perusahaan</option>
           </select>
         </div>
         <FormArea
           bold
+          change={change}
+          name="alamat_stnk"
           placeholder="Alamat yang akan tertera di STNK"
           required={true}
           title="Alamat STNK"

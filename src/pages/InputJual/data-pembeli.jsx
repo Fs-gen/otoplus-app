@@ -114,7 +114,7 @@ const DataPembeli = ({
         />
         <div className="flex flex-col">
           <label htmlFor="statusKawin" className="text-xs mb-1.25 font-bold">
-            Status Perkawinan <span className="text-red-semi">*</span>
+            Status Perkawinan <span>(Wajib)</span>
           </label>
           <select
             className="p-3 placeholder:text-gray-light focus:outline-blue-light font-semibold w-full text-sm rounded-xl border border-gray-light"

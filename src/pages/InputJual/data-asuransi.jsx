@@ -1,24 +1,26 @@
 const { default: ButtonInput } = require("./ButtonInput");
 import Shield from "@/assets/images/icons/system/shield.svg";
 import FormLine from "@/components/Form/FormLine";
-import { useState } from "react";
 
 const DataAsuransi = ({
+  click,
+  show,
+  changeOption,
+  jenis_asuransi,
+  periode_asuransi,
+  nama_tertanggung,
   banjir,
   huruhara,
   gempabumi,
   change,
-  tipePemilik,
-  perluasan_asuransi,
 }) => {
-  const [show, setShow] = useState(false);
   return (
     <div>
       <ButtonInput
         icon={Shield}
         title="Data Asuransi"
         text="Pilih asuransi kendaraan Anda"
-        click={() => setShow(!show)}
+        click={click}
       />
       <div
         className={`bg-white ${
@@ -27,24 +29,38 @@ const DataAsuransi = ({
       >
         <div className="flex flex-col">
           <label for="jenis_asuransi" className="text-xs mb-1.25 font-bold">
-            Jenis Asuransi <span className="text-red-semi">*</span>
+            Jenis Asuransi
           </label>
           <select
             name="jenis_asuransi"
             id="jenis_asuransi"
+            value={jenis_asuransi}
             className="p-3 placeholder:text-gray-light focus:outline-blue-light font-semibold w-full text-sm rounded-xl border border-gray-light"
-            onChange={tipePemilik}
+            onChange={changeOption}
             required
           >
+            <option value="">Pilih Asuransi</option>
             <option value="All Risk">All Risk</option>
-            <option value="tlo">TLO ( Total Lost Only )</option>
+            <option value="TLO ( Total Lost Only )">
+              TLO ( Total Lost Only )
+            </option>
           </select>
         </div>
-        <FormLine title="Periode Asuransi" placeholder="Contoh: 1 Tahun" bold />
         <FormLine
-          title="Nama Tertanggung"
-          placeholder="Nama Tertanggung"
           bold
+          change={changeOption}
+          name="periode_asuransi"
+          placeholder="Contoh: 1 Tahun"
+          title="Periode Asuransi"
+          value={periode_asuransi}
+        />
+        <FormLine
+          bold
+          change={changeOption}
+          name="nama_tertanggung"
+          placeholder="Nama Tertanggung"
+          title="Nama Tertanggung"
+          value={nama_tertanggung}
         />
         <div className="">
           <h1 className="text-sm font-semibold mb-2">Perluasan Asuransi</h1>

@@ -2,7 +2,7 @@ const { default: ButtonInput } = require("./ButtonInput");
 import Upload from "@/assets/images/icons/system/upload.svg";
 import { useState } from "react";
 
-const InputFile = ({ change, id, text, value }) => {
+const InputFile = ({ change, id, text }) => {
   return (
     <label
       htmlFor={id}
@@ -13,7 +13,6 @@ const InputFile = ({ change, id, text, value }) => {
           type="file"
           id={id}
           name={id}
-          value={value}
           onChange={change}
           className="hidden"
         />
@@ -41,8 +40,8 @@ const DataDokumen = ({
     <div>
       <ButtonInput
         icon={Upload}
-        title="Data Untuk STNK & BPKB"
-        text="Informasi Registrasi Kendaraan"
+        title="Dokumen Pendukung"
+        text="Upload dokumen yang diperlukan"
         click={() => setShow(!show)}
       />
       <div
@@ -62,21 +61,11 @@ const DataDokumen = ({
             <li className="ml-6">Surat keterangan kerja / usaha</li>
           </ul>
         </div>
-        <InputFile text={ktp} id="dok_ktp" value={dok_ktp} change={change} />
-        <InputFile text={kk} id="dok_kk" value={dok_kk} change={change} />
-        <InputFile text={npwp} id="dok_npwp" value={dok_npwp} change={change} />
-        <InputFile
-          text={slipGaji}
-          id="dok_slip_gaji"
-          value={dok_slip_gaji}
-          change={change}
-        />
-        <InputFile
-          text={suratKerja}
-          id="dok_surat_kerja"
-          value={dok_surat_kerja}
-          change={change}
-        />
+        <InputFile text={ktp} id="dok_ktp" change={change} />
+        <InputFile text={kk} id="dok_kk" change={change} />
+        <InputFile text={npwp} id="dok_npwp" change={change} />
+        <InputFile text={slipGaji} id="dok_slip_gaji" change={change} />
+        <InputFile text={suratKerja} id="dok_surat_kerja" change={change} />
       </div>
     </div>
   );
