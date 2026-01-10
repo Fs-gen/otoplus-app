@@ -32,7 +32,7 @@ const InputJual = () => {
     telp_kantor: "",
     penghasilan_bulanan: "",
     metode_pembayaran: "",
-    perluasan_asuransi: [],
+    perluasan_asuransi: "",
     // stnk
     tipe_pemilik: "",
     alamat_stnk: "",
@@ -49,6 +49,7 @@ const InputJual = () => {
   const [invalidKendaraan, setInvalidKendaraan] = useState(false);
   const [invalidPembayaran, setInvalidPembayaran] = useState(false);
   const [invalidSTNK, setInvalidSTNK] = useState(false);
+  const [perluasan, setPerluasan] = useState("");
   const token = Cookies.get("token");
 
   const handlerForm = (e) => {
@@ -75,6 +76,31 @@ const InputJual = () => {
   //     setShowPekerjaan(true);
   //   }
   // };
+
+
+  const handlerPerluasanAsuransi = async (e) => {
+  const { value } = e.target;
+
+  //set isChecked state
+  let isChecked = e.target.checked;
+
+  //update perluasanAsuransi state
+  let updatedPerluasan;
+  if (isChecked) {
+    updatedPerluasan = [...perluasanAsuransi, value];
+    setPerluasanAsuransi(updatedPerluasan);
+  } else {
+    updatedPerluasan = perluasanAsuransi.filter((item) => item !== value);
+    setPerluasanAsuransi(updatedPerluasan);
+  }
+
+  // array to string 
+  let data = updatedPerluasan.join(";");
+  setForm({
+    ...form,
+    ["perluasan_asuransi"]: data,
+  });
+  }
 
   const postUploadForm = async (e) => {
     e.preventDefault();
