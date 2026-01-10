@@ -73,10 +73,10 @@ const InputJual = () => {
     const { name } = e.target;
     const file = e.target.files[0];
     const result = await imageResizer(file);
-    setForm({
-      ...form,
-      [name]: result,
-    });
+    setImage({
+      url: result,
+      previewURL: result
+    })
   };
 
   console.log(form);
