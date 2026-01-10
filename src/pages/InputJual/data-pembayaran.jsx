@@ -1,16 +1,20 @@
 const { default: ButtonInput } = require("./ButtonInput");
 import Card from "@/assets/images/icons/shopping/card-bank.svg";
-import { useState } from "react";
 
-const DataPembayaran = ({ pembayaran }) => {
-  const [show, setShow] = useState(false);
+const DataPembayaran = ({
+  change,
+  click,
+  invalid,
+  metode_pembayaran,
+  show,
+}) => {
   return (
     <div>
       <ButtonInput
         icon={Card}
         title="Skema Pembayaran"
         text="Plih metode pembayaran Anda"
-        click={() => setShow(!show)}
+        click={click}
       />
       <div
         className={`bg-white ${
@@ -18,16 +22,26 @@ const DataPembayaran = ({ pembayaran }) => {
         } p-4 mt-1 rounded-lg `}
       >
         <div className="flex flex-col">
-          <label for="statusKawin" className="text-xs mb-1.25 font-bold">
+          {invalid ? (
+            <h1 className="text-center text-red-semi text-sm font-semibold mb-2">
+              Harap kolom wajib diisi dengan benar
+            </h1>
+          ) : null}
+          <label
+            htmlForfor="metode_pembayaran"
+            className="text-xs mb-1.25 font-bold"
+          >
             Metode Pembayaran <span className="text-red-semi">*</span>
           </label>
           <select
-            name="pembayaran"
-            id="pembayaran"
+            name="metode_pembayaran"
+            id="metode_pembayaran"
             className="p-3 placeholder:text-gray-light focus:outline-blue-light font-semibold w-full text-sm rounded-xl border border-gray-light"
-            onChange={pembayaran}
+            onChange={change}
             required
+            value={metode_pembayaran}
           >
+            <option value="">Pilih Metode Pembayaran</option>
             <option value="Cash">Cash</option>
             <option value="Kredit">Kredit</option>
           </select>

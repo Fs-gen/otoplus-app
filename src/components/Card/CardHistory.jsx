@@ -1,13 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 
-// Image
-
-import Coin from "@/assets/images/icons/shopping/coin-blue.svg";
-import Rupiah from "@/assets/images/icons/shopping/rupiah-line.svg";
-import { House } from "lucide-react";
-
-const CardHistory = ({ href, icon, props }) => {
+const CardHistory = ({ href, icon, props, reward, status }) => {
   const fontSemi = "text-xs font-semibold";
   return (
     <Link
@@ -15,18 +8,26 @@ const CardHistory = ({ href, icon, props }) => {
       href={href}
     >
       <div className="flex gap-2">
-        <div className="p-1.5 flex bg-gray-semi rounded-full h-max">
+        <div className="p-1.5 flex bg-gray-semi rounded-full max-h-7.75">
           {icon}
         </div>
         <div className="flex flex-col gap-1.5 text-xs capitalize">
-          <h1 className="font-semibold">{props.nama_transaksi || props.jenis_transaksi}</h1>
-          <h2 className="text-text-gray">{props.tanggal_bayar || props.created_at}</h2>
-          <h2 className="font-semibold">
+          <h1 className="font-semibold">
+            {props.nama_transaksi || props.keterangan}
+          </h1>
+          <h2 className="text-text-gray">
+            {props.tanggal_transaksi || props.created_at}
+          </h2>
+          <h2 className={`${reward ? "text-green-semi" : ""} font-semibold`}>
             Rp. {new Intl.NumberFormat("de-DE").format(props.jumlah)}
           </h2>
         </div>
       </div>
-      <h1 className="text-xs font-semibold capitalize">{props.status}</h1>
+      {status ? (
+        <h1 className={`${status} text-xs font-semibold capitalize`}>
+          {props.status}
+        </h1>
+      ) : null}
     </Link>
   );
 };

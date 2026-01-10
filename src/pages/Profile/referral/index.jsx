@@ -11,6 +11,8 @@ const Referral = () => {
     setData(res);
   };
 
+  console.log(data);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -20,9 +22,13 @@ const Referral = () => {
       <HeaderBack text="Referral Saya" />
       <div className="section-box">
         <div className="flex flex-col gap-3">
-          {data.map((item, index) => {
-            return <CardReferral props={item} key={index} />;
-          })}
+          {data && data?.message == "Data Referral Tidak Ditemukan" ? (
+            <h1 className="text-center">Tidak ada Referral</h1>
+          ) : (
+            data.map((item, index) => {
+              return <CardReferral props={item} key={index} />;
+            })
+          )}
         </div>
       </div>
     </section>

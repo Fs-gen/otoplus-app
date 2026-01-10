@@ -55,6 +55,13 @@ const HistoryTransaction = () => {
                 {transaksi.map((item, index) => {
                   return (
                     <CardHistory
+                      status={
+                        item?.status == "belum dibayar"
+                          ? "text-yellow-semi"
+                          : item?.status == "menunggu konfirmasi"
+                          ? "text-blue-semi"
+                          : "text-green-semi"
+                      }
                       icon={
                         item.nama_transaksi == "Upgrade ke Agen Plus" ? (
                           <Image

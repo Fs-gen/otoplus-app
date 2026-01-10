@@ -1,73 +1,81 @@
-import BoxItem from "@/components/Box";
-import CardBig from "@/components/Card/CardBig";
-import CardNews from "@/components/Card/CardNews";
-import dataDummy from "@/pages/api/dummy.json";
-import Amount from "./Amount";
-import Header from "./Header";
-import { useEffect, useState } from "react";
-import { getUserHome, mainURL } from "../api/api";
-import Cookies from "js-cookie";
-
 // Image
 import GroupStroke from "@/assets/images/illustration/group-stroke.png";
 import CardPerson from "@/assets/images/illustration/car-person.png";
 import NotificationBar from "@/components/NotificationBar";
 import Navbar from "@/components/Navbar";
 import { Copy } from "lucide-react";
+
+import BoxItem from "@/components/Box";
+import CardBig from "@/components/Card/CardBig";
+import CardNews from "@/components/Card/CardNews";
+import Amount from "./Amount";
+import Header from "./Header";
+import { useEffect, useState } from "react";
+import { getNews, getUserHome } from "../api/api";
+import Cookies from "js-cookie";
 import Skeleton from "react-loading-skeleton";
 import { highlightSkeleton } from "@/styles/style";
-import axios from "axios";
+import { useRouter } from "next/router";
+
+const SkeletonNews = () => {
+  return (
+    <div className="flex flex-col gap-2.5 max-w-75">
+      <Skeleton
+        count={1}
+        width={300}
+        height={200}
+        highlightColor={highlightSkeleton}
+      />
+      <Skeleton count={3} width={300} highlightColor={highlightSkeleton} />
+      <div className="flex justify-between">
+        <Skeleton count={1} width={100} highlightColor={highlightSkeleton} />
+        <Skeleton count={1} width={100} highlightColor={highlightSkeleton} />
+      </div>
+    </div>
+  );
+};
 
 const Home = () => {
   const [user, setUser] = useState([]);
+  const [news, setNews] = useState([]);
   const [showNotif, setShowNotif] = useState(false);
   const [text, setText] = useState("");
+  const router = useRouter();
   const token = Cookies.get("token");
-
-  const getNews = async () => {
-    let data = "";
-
-    let config = {
-      method: "get",
-      maxBodyLength: Infinity,
-      url: mainURL("home/get-news"),
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-      data: data,
-    };
-
-    axios
-      .request(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
   const cekToken = () => {
     if (!token) {
       setShowNotif(true);
       setText("Silahkan Login Terlebih Dahulu. Mengalihkan ke halaman login!");
       setTimeout(() => {
-        window.location.href = "/Auth/Login";
+        router.replace("/");
+      }, 3000);
+    } else if (user.message == "Unauthorized") {
+      setShowNotif(true);
+      setText("Akun telah digunakan pada device berbeda! Mengalihkan otomatis");
+      Cookies.remove("token");
+      setTimeout(() => {
+        router.replace("/");
       }, 3000);
     }
   };
 
-  const fetchData = async () => {
+  const fetchDataUser = async () => {
     const res = await getUserHome();
     setUser(res);
   };
 
-  console.log(user);
+  const fetchDataNews = async () => {
+    const res = await getNews();
+    setNews(res);
+  };
+
+  console.log(news);
 
   useEffect(() => {
-    getNews();
     cekToken();
-    fetchData();
+    fetchDataUser();
+    fetchDataNews();
   }, []);
 
   return (
@@ -125,7 +133,16 @@ const Home = () => {
         text="News"
         isMore
         href={"/Home"}
-        components={<CardNews href={"/Home"} props={dataDummy.dataNews} />}
+        components={
+          news && news.length == 0 ? (
+            <div className="flex overflow-x-hidden gap-6 items-center">
+              <SkeletonNews />
+              <SkeletonNews />
+            </div>
+          ) : (
+            <CardNews props={news} />
+          )
+        }
       />
       {/* News */}
       {/* BoxItem */}

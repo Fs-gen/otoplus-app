@@ -13,6 +13,7 @@ import Resizer from "react-image-file-resizer";
 import Cookies from "js-cookie";
 import axios from "axios";
 import NotificationBar from "@/components/NotificationBar";
+import { useRouter } from "next/router";
 const FormData = require("form-data");
 
 const Transfer = ({ props }) => {
@@ -54,13 +55,14 @@ const Transfer = ({ props }) => {
 const Id = ({ id }) => {
   const [dataid, setDataId] = useState(id);
   const [data, setData] = useState([]);
+  const [showNotif, setShowNotif] = useState(false);
+  const [text, setText] = useState("");
   const [success, setSuccess] = useState(false);
   const [image, setImage] = useState({
     file: null,
     previewURL: null,
   });
-
-  console.log(data);
+  const router = useRouter();
 
   // FecthData
 
@@ -121,8 +123,16 @@ const Id = ({ id }) => {
     await axios
       .request(config)
       .then((response) => {
+        setShowNotif(true);
+        setSuccess(true);
+        setText(response?.data?.message);
+        setTimeout(() => {
+          setShowNotif(false);
+          setTimeout(() => {
+            setSuccess(false);
+          }, 3200);
+        }, 3000);
         fetchData();
-        console.log(response);
       })
       .catch((e) => {
         console.log(e);
@@ -136,8 +146,11 @@ const Id = ({ id }) => {
   }, []);
   return (
     <section>
-      <HeaderBack text="Detail Transaksi" />
-      {/* <NotificationBar /> */}
+      <HeaderBack
+        text="Detail Transaksi"
+        click={() => router.replace("/History/transaksi")}
+      />
+      <NotificationBar showNotif={showNotif} success={success} text={text} />
       <div className="section-box">
         {data?.status == "belum dibayar" ? <Transfer props={data} /> : null}
         <h1 className="my-3 text-sm font-medium">Detail Transaksi</h1>

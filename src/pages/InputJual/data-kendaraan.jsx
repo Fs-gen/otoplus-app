@@ -1,10 +1,21 @@
 const { default: ButtonInput } = require("./ButtonInput");
 import Car from "@/assets/images/icons/other/car.svg";
 import FormLine from "@/components/Form/FormLine";
-import { useState } from "react";
 
-const DataKendaraan = ({}) => {
-  const [show, setShow] = useState(false);
+const DataKendaraan = ({
+  change,
+  click,
+  invalid,
+  show,
+  merek_mobil,
+  varian,
+  warna,
+  tahun_produksi,
+  harga_otr,
+  nomor_rangka,
+  nomor_mesin,
+  aksesoris_tambahan,
+}) => {
   const BoxForm = "flex items-center gap-4";
   return (
     <div>
@@ -12,27 +23,95 @@ const DataKendaraan = ({}) => {
         icon={Car}
         title="Data Kendaraan yang Dibeli"
         text="Spesifikasi mobile pilihan Anda"
-        click={() => setShow(!show)}
+        click={click}
       />
       <div
         className={`bg-white ${
           show ? "flex flex-col gap-2.5" : "hidden"
         } p-4 mt-1 rounded-lg `}
       >
-        <FormLine title="Merek & Tipe Mobile" required={true} bold placeholder="Contoh: Toyota Avanza" />
+        {invalid ? (
+          <h1 className="text-center text-red-semi text-sm font-semibold mb-2">
+            Harap kolom wajib diisi dengan benar
+          </h1>
+        ) : null}
+        <FormLine
+          bold
+          change={change}
+          name="merek_mobil"
+          placeholder="Contoh: Toyota Avanza"
+          required={true}
+          title="Merek & Tipe Mobile"
+          value={merek_mobil}
+        />
         <div className={BoxForm}>
-          <FormLine title="Varian" required={true} bold placeholder="Contoh: 1.3 G MT"/>
-          <FormLine title="Warna" placeholder="Warna" bold required={true} />
+          <FormLine
+            bold
+            change={change}
+            name="varian"
+            placeholder="Contoh: 1.3 G MT"
+            required={true}
+            title="Varian"
+            value={varian}
+          />
+          <FormLine
+            bold
+            change={change}
+            name="warna"
+            placeholder="Warna"
+            required={true}
+            title="Warna"
+            value={warna}
+          />
         </div>
         <div className={BoxForm}>
-          <FormLine title="Tahun Produksi" required={true} bold placeholder="2024"/>
-          <FormLine title="Harga OTR" required={true} bold placeholder="Rp 0"/>
+          <FormLine
+            bold
+            change={change}
+            name="tahun produksi"
+            placeholder="2024"
+            required={true}
+            title="Tahun Produksi"
+            type="number"
+            value={tahun_produksi}
+          />
+          <FormLine
+            bold
+            change={change}
+            name="harga_otr"
+            placeholder="Rp 0"
+            required={true}
+            title="Harga OTR"
+            type="number"
+            value={harga_otr}
+          />
         </div>
         <div className={BoxForm}>
-          <FormLine title="Nomor Rangka" placeholder="Diisi Dealer" bold />
-          <FormLine title="Nomor Mesin" placeholder="Diisi Dealer" bold />
+          <FormLine
+            bold
+            change={change}
+            name="nomor_rangka"
+            placeholder="Diisi Dealer"
+            title="Nomor Rangka"
+            value={nomor_rangka}
+          />
+          <FormLine
+            bold
+            change={change}
+            name="nomor_mesin"
+            placeholder="Diisi Dealer"
+            title="Nomor Mesin"
+            value={nomor_mesin}
+          />
         </div>
-        <FormLine title="Aksesoris Tambahan" placeholder="Contoh: Kaca Film, Seat Cover, DLL" bold/>
+        <FormLine
+          bold
+          change={change}
+          name="aksesoris_tambahan"
+          placeholder="Contoh: Kaca Film, Seat Cover, DLL"
+          title="Aksesoris Tambahan"
+          value={aksesoris_tambahan}
+        />
       </div>
     </div>
   );

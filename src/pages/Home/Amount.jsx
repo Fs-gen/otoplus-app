@@ -10,7 +10,16 @@ const Amount = ({ props }) => {
       <h1 className="text-[16px] font-semibold">
         Rp{" "}
         <span className="font-semibold text-2xl">
-          {new Intl.NumberFormat("de-De").format(props?.reward)}
+          {props && props?.reward == null ? (
+            <Skeleton
+              count={1}
+              height={20}
+              width={150}
+              highlightColor={highlightSkeleton}
+            />
+          ) : (
+            new Intl.NumberFormat("de-De").format(props?.reward)
+          )}
         </span>
       </h1>
       <div className="flex justify-between items-center mt-3.75">

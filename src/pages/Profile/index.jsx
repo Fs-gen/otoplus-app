@@ -54,7 +54,7 @@ const Profile = () => {
         "Silahkan Login Terlebih Dahulu. Mengalihkan ke halaman login!"
       );
       setTimeout(() => {
-        window.location.href = "/Auth/Login";
+        router.replace("/");
       }, 3000);
     }
   };
@@ -89,7 +89,7 @@ const Profile = () => {
       });
 
     Cookies.remove("token");
-    router.push("/Auth/Login", undefined, { replace: true });
+    router.replace("/");
   };
 
   useEffect(() => {

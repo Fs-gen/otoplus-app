@@ -1,8 +1,11 @@
+// Image
+import Coin from "@/assets/images/icons/shopping/coin-blue.svg";
+
 import CardHistory from "@/components/Card/CardHistory";
 import Navbar from "@/components/Navbar";
 import { getHistoryReward } from "@/pages/api/api";
-import dataReward from "@/pages/api/dummy.json";
 import { highlightSkeleton } from "@/styles/style";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 
@@ -15,6 +18,8 @@ const HistoryReward = () => {
     const res = await getHistoryReward();
     setReward(res);
   };
+
+  console.log(reward);
 
   useEffect(() => {
     fetchData();
@@ -45,9 +50,21 @@ const HistoryReward = () => {
           </div>
         ) : (
           <div className="flex flex-col">
-            {reward.map((item, index) => {
-              return <CardHistory props={item} href={"/"} key={index} />;
-            })}
+            {reward && reward?.message == "Data Tidak Ditemukan" ? (
+              <h1 className="text-center">Tidak Histori Reward</h1>
+            ) : (
+              reward.map((item, index) => {
+                return (
+                  <CardHistory
+                    reward
+                    props={item}
+                    href={""}
+                    key={index}
+                    icon={<Image src={Coin} alt="" width={20} height={20} />}
+                  />
+                );
+              })
+            )}
           </div>
         )}
       </div>

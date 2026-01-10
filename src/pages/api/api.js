@@ -52,9 +52,34 @@ export const getUserHome = async () => {
       datas = response.data?.data;
     })
     .catch((e) => {
-      console.log(e.response);
+      datas = e?.response?.data
     });
   return datas;
+};
+
+export const getNews = async () => {
+  const token = Cookies.get("token");
+  let data = null;
+
+  let config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("home/get-news"),
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+    data: data,
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return data;
 };
 
 export const getCekAkun = async () => {

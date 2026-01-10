@@ -3,7 +3,14 @@ import Shield from "@/assets/images/icons/system/shield.svg";
 import FormLine from "@/components/Form/FormLine";
 import { useState } from "react";
 
-const DataAsuransi = ({ tipePemilik }) => {
+const DataAsuransi = ({
+  banjir,
+  huruhara,
+  gempabumi,
+  change,
+  tipePemilik,
+  perluasan_asuransi,
+}) => {
   const [show, setShow] = useState(false);
   return (
     <div>
@@ -34,9 +41,49 @@ const DataAsuransi = ({ tipePemilik }) => {
           </select>
         </div>
         <FormLine title="Periode Asuransi" placeholder="Contoh: 1 Tahun" bold />
-        <FormLine title="Nama Tertanggung" placeholder="Nama Tertanggung" bold/>
-        <div className="flex flex-col">
-          <label for="perluasan_asuransi" className="text-xs mb-1.25 font-bold">
+        <FormLine
+          title="Nama Tertanggung"
+          placeholder="Nama Tertanggung"
+          bold
+        />
+        <div className="">
+          <h1 className="text-sm font-semibold mb-2">Perluasan Asuransi</h1>
+          <div className="flex flex-col text-sm font-semibold">
+            <div className="flex gap-2 item-center">
+              <input
+                checked={banjir}
+                id="banjir"
+                name="perluasan_asuransi"
+                onChange={change}
+                type="checkbox"
+                value="Banjir"
+              />
+              <label htmlFor="banjir">Banjir</label>
+            </div>
+            <div className="flex gap-2 item-center">
+              <input
+                checked={huruhara}
+                name="perluasan_asuransi"
+                id="huru_hara"
+                onChange={change}
+                type="checkbox"
+                value="Huru-Hara"
+              />
+              <label htmlFor="huru_hara">Huru-Hara</label>
+            </div>
+            <div className="flex gap-2 item-center">
+              <input
+                checked={gempabumi}
+                id="gempa_bumi"
+                name="perluasan_asuransi"
+                onChange={change}
+                type="checkbox"
+                value="Gempa Bumi"
+              />
+              <label htmlFor="gempa_bumi">Gempa Bumi</label>
+            </div>
+          </div>
+          {/* <label for="perluasan_asuransi" className="text-xs mb-1.25 font-bold">
             Perluasan Asuransi<span className="text-red-semi">*</span>
           </label>
           <select
@@ -50,7 +97,7 @@ const DataAsuransi = ({ tipePemilik }) => {
             <option value="Banjir">Banjir</option>
             <option value="Huru-Hara">Huru-Hara</option>
             <option value="Gempa Bumi">Gempa Bumi</option>
-          </select>
+          </select> */}
         </div>
       </div>
     </div>

@@ -3,12 +3,13 @@ import Link from "next/link";
 const buttonStyle =
   "bg-blue-dark rounded-[10px] text-xs font-medium mx-auto text-white";
 
-export const ButtonForm = ({ click, padding, type, text }) => {
+export const ButtonForm = ({ click, padding, target, type, text }) => {
   return (
     <button
       type={type}
       className={`${buttonStyle} ${padding ? padding : "px-20 py-3"}`}
       onClick={click}
+      formTarget={target}
     >
       {text}
     </button>

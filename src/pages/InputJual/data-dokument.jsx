@@ -17,7 +17,7 @@ const DataDokumen = () => {
           show ? "flex flex-col gap-2.5" : "hidden"
         } p-4 mt-1 rounded-lg `}
       >
-        <label for="file-upload" className="bg-[#F7F7F7] p-4 rounded-xl">
+        <div for="file-upload" className="bg-[#F7F7F7] p-4 rounded-xl">
           <h1 className="text-sm font-bold">Dokumen yang dilampirkan:</h1>
           <ul className="text-xs font-medium text-gray-dark list-disc flex flex-col gap-1">
             <li className="ml-6 mt-2">Fotokopi KTP</li>
@@ -26,8 +26,8 @@ const DataDokumen = () => {
             <li className="ml-6">Slip Gaji / rekening koran ( 3 bulan terakhir )</li>
             <li className="ml-6">Surat keterangan kerja / usaha</li>
           </ul>
-        </label>
-        <input type="file" id="file-upload" multiple accept="image/*" className="file:hidden text-sm ml-1 font-semibold"/>
+        </div>
+        <input type="file" name="" id="" className="placeholder:hidden"/>
       </div>
     </div>
   );
