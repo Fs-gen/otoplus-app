@@ -7,17 +7,20 @@ import { useState } from "react";
 import Logo from "@/assets/images/icons/logo.png";
 import { mainURL } from "../api/api";
 import axios from "axios";
+import { LoadingPadding } from "@/styles/style";
 
 const ResetPassword = () => {
   const [otp, SetOTP] = useState("");
   const [password, setPassword] = useState("");
   const [showNotif, setShowNotif] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [text, setText] = useState("");
   const router = useRouter();
 
   const postUpdate = async (e) => {
     e.preventDefault();
+    setLoading(true);
     let data = JSON.stringify({
       password,
       otp,
@@ -58,6 +61,7 @@ const ResetPassword = () => {
       .catch((e) => {
         return null;
       });
+    return setLoading(false);
   };
 
   return (
@@ -88,7 +92,12 @@ const ResetPassword = () => {
             change={(e) => setPassword(e.target.value)}
           />
           <div className="text-center mt-8">
-            <ButtonForm text="Request OTP" click={postUpdate} />
+            <ButtonForm
+              text="Request OTP"
+              click={postUpdate}
+              loading={loading}
+              padding={loading ? LoadingPadding : null}
+            />
           </div>
         </form>
       </div>

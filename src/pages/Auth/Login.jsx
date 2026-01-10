@@ -6,7 +6,7 @@ import Link from "next/link";
 import LinkText from "@/components/LinkText";
 import { ButtonForm } from "@/components/Button";
 import { useState } from "react";
-import { AuthStyleBox } from "@/styles/style";
+import { AuthStyleBox, LoadingPadding } from "@/styles/style";
 import { useRouter } from "next/navigation";
 import NotificationBar from "@/components/NotificationBar";
 import Cookies from "js-cookie";
@@ -19,10 +19,13 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showNotif, setShowNotif] = useState(false);
-  const [notification, setNotification] = useState("");
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [notification, setNotification] = useState("");
 
   const router = useRouter();
+
+  console.log(no_tlp);
 
   let data = JSON.stringify({
     no_tlp,
@@ -41,11 +44,17 @@ const Login = () => {
 
   const onLogin = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     await axios
       .request(config)
       .then((response) => {
-        if (response.data.status_code == "00") {
+        if (no_tlp.trim() == "" || password.trim() == "") {
+          setShowNotif(true);
+          setNotification("Harap masukkan akun anda yang telah terdaftar");
+          setTimeout(() => {
+            setShowNotif(false);
+          }, 2000);
+        } else if (response.data.status_code == "00") {
           const dataUser = response.data.data.data_user;
           if (dataUser.profile_lengkap != true) {
             setShowNotif(true);
@@ -89,6 +98,7 @@ const Login = () => {
           setShowNotif(false);
         }, 2000);
       });
+    return setLoading(false);
   };
 
   return (
@@ -142,7 +152,12 @@ const Login = () => {
           >
             Lupa kata sandi?
           </Link>
-          <ButtonForm text="Login" click={onLogin} />
+          <ButtonForm
+            text="Login"
+            click={onLogin}
+            loading={loading}
+            padding={loading ? LoadingPadding : null}
+          />
         </form>
       </div>
       <LinkText

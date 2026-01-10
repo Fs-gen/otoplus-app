@@ -57,6 +57,18 @@ button {
   animation: spinner-kh173p 1s infinite;
 }
 
+.spinner-small {
+  width: 25px;
+  height: 25px;
+  --c: radial-gradient(farthest-side, white 92%, #0000);
+  background: var(--c) 50% 0, var(--c) 50% 100%, var(--c) 100% 50%,
+    var(--c) 0 50%;
+  background-size: 7px 7px;
+  background-repeat: no-repeat;
+  animation: spinner-kh173p 1s infinite;
+}
+
+
 @keyframes spinner-kh173p {
   to {
     transform: rotate(0.5turn);

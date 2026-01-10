@@ -14,6 +14,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import NotificationBar from "@/components/NotificationBar";
 import { useRouter } from "next/router";
+import { LoadingPadding } from "@/styles/style";
 const FormData = require("form-data");
 
 const Transfer = ({ props }) => {
@@ -58,6 +59,7 @@ const Id = ({ id }) => {
   const [showNotif, setShowNotif] = useState(false);
   const [text, setText] = useState("");
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [image, setImage] = useState({
     file: null,
     previewURL: null,
@@ -103,7 +105,7 @@ const Id = ({ id }) => {
 
   const postUploadImage = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     const token = Cookies.get("token");
     let data = new FormData();
     data.append("kode_aktivasi", dataid);
@@ -137,6 +139,7 @@ const Id = ({ id }) => {
       .catch((e) => {
         console.log(e);
       });
+    return setLoading(false);
   };
 
   // ConvetImage
@@ -195,7 +198,12 @@ const Id = ({ id }) => {
             </div>
           )}
           {(data?.status == "belum dibayar") == true ? (
-            <ButtonForm text="Upload Bukti Transfer" click={postUploadImage} />
+            <ButtonForm
+              text="Upload Bukti Transfer"
+              click={postUploadImage}
+              padding={loading ? LoadingPadding : null}
+              loading={loading}
+            />
           ) : data?.status == "belum dibayar" ||
             data?.status == "menunggu konfirmasi" ? null : (
             <div className="mt-12">

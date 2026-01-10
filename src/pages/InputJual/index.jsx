@@ -187,12 +187,12 @@ const InputJual = () => {
             invalid={invalidPembayaran}
             metode_pembayaran={form.metode_pembayaran}
           />
-          {/* <DataAsuransi
+          <DataAsuransi
             change={handlerPerluasanAsuransi}
             banjir={perluasanAsuransi.includes("Banjir")}
             huruhara={perluasanAsuransi.includes("Huru-Hara")}
             gempabumi={perluasanAsuransi.includes("Gempa Bumi")}
-          /> */}
+          />
           <DataSTNK
             click={() => setShowSTNK(!showSTNK)}
             change={handlerForm}

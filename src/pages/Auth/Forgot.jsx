@@ -8,16 +8,19 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import NotificationBar from "@/components/NotificationBar";
+import { LoadingPadding } from "@/styles/style";
 
 const Forgot = () => {
   const [no_tlp, setNoTlp] = useState("");
   const [showNotif, setShowNotif] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [text, setText] = useState("");
   const router = useRouter();
 
   const postOTP = async (e) => {
     e.preventDefault();
+    setLoading(true);
     let data = JSON.stringify({
       no_tlp,
     });
@@ -45,6 +48,7 @@ const Forgot = () => {
       .catch((e) => {
         return null;
       });
+    return setLoading(false);
   };
 
   return (
@@ -70,7 +74,12 @@ const Forgot = () => {
             change={(e) => setNoTlp(e.target.value)}
           />
           <div className="text-center mt-12">
-            <ButtonForm text="Request OTP" click={postOTP} />
+            <ButtonForm
+              text="Request OTP"
+              click={postOTP}
+              loading={loading}
+              padding={loading ? LoadingPadding : null}
+            />
           </div>
         </form>
       </div>

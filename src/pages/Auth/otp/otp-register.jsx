@@ -8,12 +8,14 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Cookies from "js-cookie";
 import NotificationBar from "@/components/NotificationBar";
+import { LoadingPadding } from "@/styles/style";
 
 const OTPRegister = () => {
   const [otp, setOTP] = useState("");
   const [showNotif, setShowNotif] = useState(false);
-  const [notification, setNotification] = useState("");
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [notification, setNotification] = useState("");
   const router = useRouter();
 
   const noWhatsapp = Cookies.get("no_tlp");
@@ -88,7 +90,12 @@ const OTPRegister = () => {
             change={(e) => setOTP(e.target.value)}
           />
           <div className="mt-4.5 ">
-            <ButtonForm text="Verifikasi" click={onOTP} />
+            <ButtonForm
+              text="Verifikasi"
+              click={onOTP}
+              loading={loading}
+              padding={loading ? LoadingPadding : null}
+            />
           </div>
         </form>
       </div>

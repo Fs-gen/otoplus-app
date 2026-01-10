@@ -2,17 +2,14 @@ import { ButtonForm } from "@/components/Button";
 import FormLine from "@/components/Form/FormLine";
 import HeaderBack from "@/components/Header/HeaderBack";
 import { useEffect, useState } from "react";
-import {
-  getProvinsi,
-  getUserProfile,
-  mainURL,
-} from "@/pages/api/api";
+import { getProvinsi, getUserProfile, mainURL } from "@/pages/api/api";
 import axios from "axios";
 import Cookies from "js-cookie";
 import NotificationBar from "@/components/NotificationBar";
 import FormArea from "@/components/Form/FormArea";
 import { useRouter } from "next/router";
 import FormOption from "@/components/Form/FormOption";
+import { LoadingPadding } from "@/styles/style";
 
 const ProfilSaya = () => {
   const [user, setUser] = useState([]);
@@ -31,6 +28,7 @@ const ProfilSaya = () => {
   const [showNotif, setShowNotif] = useState(false);
   const [notification, setNotification] = useState("");
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
   console.log(provinsi);
@@ -47,8 +45,8 @@ const ProfilSaya = () => {
 
   const fetchProvinsi = async () => {
     const res = await getProvinsi();
-    console.log('provinsi', res);
-    
+    console.log("provinsi", res);
+
     setProvinsi(res);
   };
 
@@ -76,13 +74,13 @@ const ProfilSaya = () => {
 
   const fetchNamaProvinsi = async (id) => {
     if (!id || !provinsi.length) return;
-    const prov = provinsi.find(item => item.id_provinsi == id);
+    const prov = provinsi.find((item) => item.id_provinsi == id);
     if (prov) setNamaProvinsi(prov.provinsi);
   };
 
   const fetchNamaKota = async (id) => {
     if (!id || !kota.length) return;
-    const kotaData = kota.find(item => item.id_kabupaten == id);
+    const kotaData = kota.find((item) => item.id_kabupaten == id);
     if (kotaData) setNamaKota(kotaData.kabupaten);
   };
 
@@ -95,7 +93,7 @@ const ProfilSaya = () => {
     setAlamat(res?.alamat);
     setSelProvinsi(res?.provinsi);
     setSelKota(res?.kota);
-    
+
     // Load kota jika provinsi sudah ada
     if (res?.provinsi) {
       await fetchKota(res.provinsi);
@@ -104,6 +102,7 @@ const ProfilSaya = () => {
 
   const onUpdate = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const token = Cookies.get("token");
     const data = JSON.stringify({
       nama: nama,
@@ -151,6 +150,7 @@ const ProfilSaya = () => {
           setShowNotif(false);
         }, 2000);
       });
+    return setLoading(false);
   };
 
   useEffect(() => {
@@ -248,7 +248,12 @@ const ProfilSaya = () => {
           />
           <FormLine title="Sponsor" small readOnly value={user.sponsor} />
           <div className="mt-5"></div>
-          <ButtonForm text="Update Profile" click={onUpdate} />
+          <ButtonForm
+            text="Update Profile"
+            click={onUpdate}
+            padding={loading ? LoadingPadding : null}
+            loading={loading}
+          />
         </form>
       </div>
     </section>

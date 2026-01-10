@@ -5,6 +5,7 @@ import { useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 import NotificationBar from "@/components/NotificationBar";
+import { LoadingPadding } from "@/styles/style";
 
 const { default: HeaderBack } = require("@/components/Header/HeaderBack");
 
@@ -13,10 +14,12 @@ const GantiPassword = () => {
   const [confirm, setConfirm] = useState("");
   const [showNotif, setShowNotif] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [text, setText] = useState("");
 
   const postUpdate = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const token = Cookies.get("token");
     let data = JSON.stringify({
       new_password: password,
@@ -66,6 +69,7 @@ const GantiPassword = () => {
           return null;
         });
     }
+    return setLoading(false);
   };
 
   return (
@@ -86,7 +90,12 @@ const GantiPassword = () => {
             change={(e) => setConfirm(e.target.value)}
           />
           <div className="text-center mt-10">
-            <ButtonForm text="Update Password" click={postUpdate} />
+            <ButtonForm
+              text="Update Password"
+              click={postUpdate}
+              loading={loading}
+              padding={loading ? LoadingPadding : null}
+            />
           </div>
         </form>
       </div>

@@ -7,6 +7,7 @@ import axios from "axios";
 import NotificationBar from "@/components/NotificationBar";
 import FormOption from "@/components/Form/FormOption";
 import data from "@/pages/api/static/bank-name.json";
+import { LoadingPadding } from "@/styles/style";
 
 const { default: HeaderBack } = require("@/components/Header/HeaderBack");
 
@@ -18,6 +19,7 @@ const BankSaya = () => {
   const [otp, setOTP] = useState(0);
   const [showNotif, setShowNotif] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [text, setText] = useState("");
 
   const fetchBank = async () => {
@@ -32,6 +34,7 @@ const BankSaya = () => {
 
   const postUpdateBankData = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const token = Cookies.get("token");
     let data = JSON.stringify({
       rekening: noRek,
@@ -75,6 +78,7 @@ const BankSaya = () => {
       .catch((e) => {
         return null;
       });
+    return setLoading(false);
   };
 
   useEffect(() => {
@@ -129,7 +133,12 @@ const BankSaya = () => {
             />
           </div>
           <div className="mx-auto mt-12">
-            <ButtonForm text="Update Bank" click={postUpdateBankData} />
+            <ButtonForm
+              text="Update Bank"
+              click={postUpdateBankData}
+              loading={loading}
+              padding={loading ? LoadingPadding : null}
+            />
           </div>
         </form>
       </div>

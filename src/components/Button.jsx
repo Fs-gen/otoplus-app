@@ -1,9 +1,9 @@
 import Link from "next/link";
 
 const buttonStyle =
-  "bg-blue-dark rounded-[10px] text-xs font-medium mx-auto text-white";
+  "bg-blue-dark rounded-[10px] text-xs font-medium mx-auto text-white transition-all duration-500";
 
-export const ButtonForm = ({ click, padding, target, type, text }) => {
+export const ButtonForm = ({ click, padding, loading, target, type, text }) => {
   return (
     <button
       type={type}
@@ -11,7 +11,7 @@ export const ButtonForm = ({ click, padding, target, type, text }) => {
       onClick={click}
       formTarget={target}
     >
-      {text}
+      {loading ? <div className="spinner-small"></div> : text}
     </button>
   );
 };

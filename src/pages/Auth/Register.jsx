@@ -2,7 +2,7 @@ import Logo from "@/assets/images/icons/logo.png";
 import { ButtonForm } from "@/components/Button";
 import FormLine from "@/components/Form/FormLine";
 import LinkText from "@/components/LinkText";
-import { AuthStyleBox } from "@/styles/style";
+import { AuthStyleBox, LoadingPadding } from "@/styles/style";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
@@ -19,8 +19,9 @@ const Register = () => {
   const [kode_referral, setKodeReferral] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showNotif, setShowNotif] = useState(false);
-  const [notification, setNotification] = useState("");
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [notification, setNotification] = useState("");
   const referral = Cookies.get("referral");
 
   const router = useRouter();
@@ -58,7 +59,7 @@ const Register = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     await axios
       .request(config)
       .then((response) => {
@@ -85,6 +86,7 @@ const Register = () => {
           setShowNotif(false);
         }, 2000);
       });
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -164,7 +166,13 @@ const Register = () => {
             }
             change={(e) => setKodeReferral(e.target.value)}
           />
-          <ButtonForm type="submit" click={onSubmit} text="Daftar" />
+          <ButtonForm
+            type="submit"
+            click={onSubmit}
+            text="Daftar"
+            loading={loading}
+            padding={loading ? LoadingPadding : null}
+          />
         </form>
       </div>
       <LinkText

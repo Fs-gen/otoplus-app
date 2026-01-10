@@ -8,6 +8,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import NotificationBar from "@/components/NotificationBar";
+import { LoadingPadding } from "@/styles/style";
 
 const OrderMetode = () => {
   const [dataBank, setDataBank] = useState([]);
@@ -16,6 +17,7 @@ const OrderMetode = () => {
   const [showNotif, setShowNotif] = useState(false);
   const [success, setSuccess] = useState(false);
   const [text, setText] = useState("");
+  const [loading, setLoading] = useState(false);
   const token = Cookies.get("token");
   const router = useRouter();
 
@@ -23,8 +25,6 @@ const OrderMetode = () => {
     const res = await getRekCompany();
     setDataBank(res);
   };
-
-  console.log(selectBank);
 
   const removeCookies = (e) => {
     e.preventDefault();
@@ -45,6 +45,7 @@ const OrderMetode = () => {
 
   const postTransaksi = async (e) => {
     e.preventDefault();
+    setLoading(true);
     let data = JSON.stringify({
       id_produk: produk.id_produk,
       id_bank: selectBank,
@@ -76,6 +77,7 @@ const OrderMetode = () => {
       .catch((e) => {
         return null;
       });
+    return setLoading(false);
   };
 
   useEffect(() => {
@@ -128,7 +130,12 @@ const OrderMetode = () => {
             );
           })}
           <div className="mt-12.5"></div>
-          <ButtonForm click={postTransaksi} text="Proses Transaksi" />
+          <ButtonForm
+            click={postTransaksi}
+            text="Proses Transaksi"
+            loading={loading}
+            padding={loading ? LoadingPadding : null}
+          />
         </form>
       </div>
     </section>
