@@ -13,7 +13,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 
 const InputJual = () => {
-  // const [perluasanAsuransi, setPerluasanAsuransi] = useState([]);
+  const [perluasanAsuransi, setPerluasanAsuransi] = useState([]);
   const [form, setForm] = useState({
     nama_lengkap: "",
     nik: "",
@@ -32,7 +32,7 @@ const InputJual = () => {
     telp_kantor: "",
     penghasilan_bulanan: "",
     metode_pembayaran: "",
-    perluasan_asuransi: "",
+    perluasan_asuransi: [],
     // stnk
     tipe_pemilik: "",
     alamat_stnk: "",
