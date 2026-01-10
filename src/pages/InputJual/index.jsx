@@ -11,6 +11,8 @@ import { ButtonForm } from "@/components/Button";
 import { mainURL } from "../api/api";
 import Cookies from "js-cookie";
 import axios from "axios";
+import FileResizer from "react-image-file-resizer";
+import { resolve } from "styled-jsx/css";
 
 const InputJual = () => {
   const [perluasanAsuransi, setPerluasanAsuransi] = useState([]);
@@ -33,11 +35,15 @@ const InputJual = () => {
     penghasilan_bulanan: "",
     metode_pembayaran: "",
     perluasan_asuransi: "",
-    // stnk
     tipe_pemilik: "",
     alamat_stnk: "",
     npwp: "",
     nama_faktur: "",
+    dok_ktp: null,
+    dok_kk: null,
+    dok_npwp: null,
+    dok_slip_gaji: null,
+    dok_surat_kerja: null,
   });
   const [showIdentitas, setShowIdentitas] = useState(false);
   const [showPekerjaan, setShowPekerjaan] = useState(false);
@@ -49,8 +55,31 @@ const InputJual = () => {
   const [invalidKendaraan, setInvalidKendaraan] = useState(false);
   const [invalidPembayaran, setInvalidPembayaran] = useState(false);
   const [invalidSTNK, setInvalidSTNK] = useState(false);
-  const [perluasan, setPerluasan] = useState("");
+  const [image, setImage] = useState({
+    url: null,
+    previewURL: null,
+  });
   const token = Cookies.get("token");
+
+  const imageResizer = (file) =>
+    new Promise((resolve) => {
+      FileResizer.imageFileResizer(file, 1000, 1000, "JPEG", 90, 0, (uri) => {
+        resolve(uri);
+      }),
+        "base64";
+    });
+
+  const handlerImage = async (e) => {
+    const { name } = e.target;
+    const file = e.target.files[0];
+    const result = await imageResizer(file);
+    setForm({
+      ...form,
+      [name]: result,
+    });
+  };
+
+  console.log(form);
 
   const handlerForm = (e) => {
     const { name, value } = e.target;
@@ -60,47 +89,29 @@ const InputJual = () => {
     });
   };
 
-  // const checker = () => {
-  //   if (
-  //     form.nama_lengkap ||
-  //     form.nik ||
-  //     form.tempat_lahir ||
-  //     form.tanggal_lahir ||
-  //     form.alamat_ktp ||
-  //     form.no_hp ||
-  //     form.email ||
-  //     form.status_perkawinan == ""
-  //   ) {
-  //     setShowIdentitas(true);
-  //   } else if (form.jenis_pekerjaan == "") {
-  //     setShowPekerjaan(true);
-  //   }
-  // };
-
-
   const handlerPerluasanAsuransi = async (e) => {
-  const { value } = e.target;
+    const { value } = e.target;
 
-  //set isChecked state
-  let isChecked = e.target.checked;
+    //set isChecked state
+    let isChecked = e.target.checked;
 
-  //update perluasanAsuransi state
-  let updatedPerluasan;
-  if (isChecked) {
-    updatedPerluasan = [...perluasanAsuransi, value];
-    setPerluasanAsuransi(updatedPerluasan);
-  } else {
-    updatedPerluasan = perluasanAsuransi.filter((item) => item !== value);
-    setPerluasanAsuransi(updatedPerluasan);
-  }
+    //update perluasanAsuransi state
+    let updatedPerluasan;
+    if (isChecked) {
+      updatedPerluasan = [...perluasanAsuransi, value];
+      setPerluasanAsuransi(updatedPerluasan);
+    } else {
+      updatedPerluasan = perluasanAsuransi.filter((item) => item !== value);
+      setPerluasanAsuransi(updatedPerluasan);
+    }
 
-  // array to string 
-  let data = updatedPerluasan.join(";");
-  setForm({
-    ...form,
-    ["perluasan_asuransi"]: data,
-  });
-  }
+    // array to string
+    let data = updatedPerluasan.join(";");
+    setForm({
+      ...form,
+      ["perluasan_asuransi"]: data,
+    });
+  };
 
   const postUploadForm = async (e) => {
     e.preventDefault();
@@ -225,7 +236,39 @@ const InputJual = () => {
             show={showSTNK}
             invalid={invalidSTNK}
           />
-          <DataDokumen />
+          <DataDokumen
+            ktp={
+              form.dok_ktp == null
+                ? "Silahkan Masukkan File Dokumen KTP disini"
+                : "Dokumen KTP Sudah Dimasukkan"
+            }
+            dok_ktp={form.dok_ktp}
+            kk={
+              form.dok_kk == null
+                ? "Silahkan Masukkan File Dokumen KK disini"
+                : "Dokumen KK Sudah Dimasukkan"
+            }
+            dok_kk={form.dok_kk}
+            npwp={
+              form.dok_npwp == null
+                ? "Silahkan Masukkan File Dokumen NPWP disini"
+                : "Dokumen NPWP Sudah Dimasukkan"
+            }
+            dok_npwp={form.dok_npwp}
+            slipGaji={
+              form.dok_slip_gaji == null
+                ? "Silahkan Masukkan File Dokumen Slip Gaji disini"
+                : "Dokumen Slip Gaji Sudah Dimasukkan"
+            }
+            dok_slip_gaji={form.dok_slip_gaji}
+            suratKerja={
+              form.dok_surat_kerja == null
+                ? "Silahkan Masukkan File Dokumen Surat Kerja disini"
+                : "Dokumen Surat Kerja Sudah Dimasukkan"
+            }
+            dok_surat_kerja={form.dok_surat_kerja}
+            change={handlerImage}
+          />
           <div className="mt-10"></div>
           <ButtonForm
             type="submit"

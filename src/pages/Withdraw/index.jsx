@@ -1,16 +1,21 @@
 import { ButtonForm } from "@/components/Button";
 import FormLine from "@/components/Form/FormLine";
 import HeaderBack from "@/components/Header/HeaderBack";
-import { getBankUser } from "../api/api";
+import { getBankUser, mainURL } from "../api/api";
 import { useEffect, useState } from "react";
 import NotificationBar from "@/components/NotificationBar";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
+import axios from "axios";
+import { LoadingPadding } from "@/styles/style";
 
 const Withdraw = () => {
   const [user, setUser] = useState([]);
   const [showNotif, setShowNotif] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [text, setText] = useState("");
+  const token = Cookies.get("token");
   const router = useRouter();
 
   const fetchData = async () => {
@@ -27,8 +32,29 @@ const Withdraw = () => {
     }
   };
 
-  console.log(user);
+  const postWithdrawl = async (e) => {
+    e.preventeDefault();
+    let data = JSON.stringify({});
 
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: mainURL(),
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      data: data,
+    };
+
+    await axios
+      .request(config)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   useEffect(() => {
     fetchData();
   }, []);
@@ -71,7 +97,12 @@ const Withdraw = () => {
             value={user.atas_nama}
           />
           <div className="mt-5 mx-auto">
-            <ButtonForm text="Withdraw" />
+            <ButtonForm
+              text="Withdraw"
+              loading={loading}
+              padding={loading ? LoadingPadding : null}
+              click={postWithdrawl}
+            />
           </div>
         </form>
       </div>

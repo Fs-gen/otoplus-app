@@ -2,7 +2,40 @@ const { default: ButtonInput } = require("./ButtonInput");
 import Upload from "@/assets/images/icons/system/upload.svg";
 import { useState } from "react";
 
-const DataDokumen = () => {
+const InputFile = ({ change, id, text, value }) => {
+  return (
+    <label
+      htmlFor={id}
+      className="bg-[#F7F7F7] text-center p-2 font-semibold text-xs cursor-pointer"
+    >
+      <div className="border-2 border-gray-dark px-2 py-4 border-dashed text-gray-700">
+        <input
+          type="file"
+          id={id}
+          name={id}
+          value={value}
+          onChange={change}
+          className="hidden"
+        />
+        {text}
+      </div>
+    </label>
+  );
+};
+
+const DataDokumen = ({
+  change,
+  ktp,
+  dok_ktp,
+  kk,
+  dok_kk,
+  npwp,
+  dok_npwp,
+  slipGaji,
+  dok_slip_gaji,
+  suratKerja,
+  dok_surat_kerja,
+}) => {
   const [show, setShow] = useState(false);
   return (
     <div>
@@ -23,11 +56,27 @@ const DataDokumen = () => {
             <li className="ml-6 mt-2">Fotokopi KTP</li>
             <li className="ml-6">Kartu Keluarga</li>
             <li className="ml-6">NPWP</li>
-            <li className="ml-6">Slip Gaji / rekening koran ( 3 bulan terakhir )</li>
+            <li className="ml-6">
+              Slip Gaji / rekening koran ( 3 bulan terakhir )
+            </li>
             <li className="ml-6">Surat keterangan kerja / usaha</li>
           </ul>
         </div>
-        <input type="file" name="" id="" className="placeholder:hidden"/>
+        <InputFile text={ktp} id="dok_ktp" value={dok_ktp} change={change} />
+        <InputFile text={kk} id="dok_kk" value={dok_kk} change={change} />
+        <InputFile text={npwp} id="dok_npwp" value={dok_npwp} change={change} />
+        <InputFile
+          text={slipGaji}
+          id="dok_slip_gaji"
+          value={dok_slip_gaji}
+          change={change}
+        />
+        <InputFile
+          text={suratKerja}
+          id="dok_surat_kerja"
+          value={dok_surat_kerja}
+          change={change}
+        />
       </div>
     </div>
   );
