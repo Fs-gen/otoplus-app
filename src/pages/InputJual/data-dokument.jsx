@@ -1,6 +1,5 @@
 const { default: ButtonInput } = require("./ButtonInput");
 import Upload from "@/assets/images/icons/system/upload.svg";
-import { useState } from "react";
 
 const InputFile = ({ change, id, text }) => {
   return (
@@ -24,31 +23,33 @@ const InputFile = ({ change, id, text }) => {
 
 const DataDokumen = ({
   change,
+  click,
+  show,
+  invalid,
   ktp,
-  dok_ktp,
   kk,
-  dok_kk,
   npwp,
-  dok_npwp,
   slipGaji,
-  dok_slip_gaji,
   suratKerja,
-  dok_surat_kerja,
 }) => {
-  const [show, setShow] = useState(false);
   return (
     <div>
       <ButtonInput
         icon={Upload}
         title="Dokumen Pendukung"
         text="Upload dokumen yang diperlukan"
-        click={() => setShow(!show)}
+        click={click}
       />
       <div
         className={`bg-white ${
           show ? "flex flex-col gap-2.5" : "hidden"
         } p-4 mt-1 rounded-lg `}
       >
+        {invalid ? (
+          <h1 className="text-center text-red-semi text-sm font-semibold mb-2">
+            Harap kolom wajib diisi dengan benar
+          </h1>
+        ) : null}
         <div for="file-upload" className="bg-[#F7F7F7] p-4 rounded-xl">
           <h1 className="text-sm font-bold">Dokumen yang dilampirkan:</h1>
           <ul className="text-xs font-medium text-gray-dark list-disc flex flex-col gap-1">

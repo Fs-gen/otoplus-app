@@ -1,10 +1,12 @@
 import Link from "next/link";
 
-const CardHistory = ({ href, icon, props, reward, status }) => {
+const CardHistory = ({ href, icon, cursor, props, reward, status }) => {
   const fontSemi = "text-xs font-semibold";
   return (
     <Link
-      className="flex justify-between items-center px-3.75 py-2.5 border border-[#e3e3e3] rounded-[20px] mb-2.5"
+      className={`flex justify-between items-center px-3.75 py-2.5 border border-[#e3e3e3] rounded-[20px] mb-2.5 ${
+        cursor ? "cursor-default" : ""
+      }`}
       href={href}
     >
       <div className="flex gap-2">

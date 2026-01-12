@@ -39,7 +39,7 @@ const CardOrder = ({ colorStatus, props, status }) => {
         {props && !props.kode_unik ? null : (
           <CardInfo
             text="Kode Unik"
-            info={props?.kode_unik}
+            info={`+ Rp ${props?.kode_unik}`}
             colorStatus="text-green-semi"
           />
         )}

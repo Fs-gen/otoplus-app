@@ -31,7 +31,17 @@ const ProfilSaya = () => {
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
-  console.log(provinsi);
+
+  const TopMessage = (text, success) => {
+    setShowNotif(true);
+    setNotification(text);
+    {
+      success;
+    }
+    setTimeout(() => {
+      setShowNotif(false);
+    }, 3000);
+  };
 
   const checker = (e) => {
     e.preventDefault();
@@ -45,7 +55,6 @@ const ProfilSaya = () => {
 
   const fetchProvinsi = async () => {
     const res = await getProvinsi();
-    console.log("provinsi", res);
 
     setProvinsi(res);
   };
@@ -127,28 +136,25 @@ const ProfilSaya = () => {
     await axios
       .request(config)
       .then((response) => {
-        if (response.data.status_code == "00") {
-          setShowNotif(true);
-          setNotification("Perubahan Data Telah Berhasil");
-          setSuccess(true);
-          setTimeout(() => {
-            setShowNotif(false);
-          }, 2000);
+        if (
+          nama.trim() == "" ||
+          alamat.trim() == "" ||
+          namaProvinsi.trim() == "" ||
+          namaKota.trim() == ""
+        ) {
+          TopMessage("Harap isi kolom yang masih kosong!", setSuccess(false));
+        } else if (response.data.status_code == "00") {
+          TopMessage("Perubahan Data Telah Berhasil", setSuccess(true));
           fetchData();
         } else {
-          setShowNotif(true);
-          setNotification("Oops, sepertinya ada kesalahan");
-          setTimeout(() => {
-            setShowNotif(false);
-          }, 2000);
+          TopMessage("Oops! sepertinya ada kesalahan", setSuccess(false));
         }
       })
       .catch(() => {
-        setShowNotif(true);
-        setNotification("Oops, sepertinya jaringan anda bermasalah");
-        setTimeout(() => {
-          setShowNotif(false);
-        }, 2000);
+        TopMessage(
+          "Oops, sepertinya jaringan anda bermasalah",
+          setSuccess(false)
+        );
       });
     return setLoading(false);
   };
@@ -204,7 +210,6 @@ const ProfilSaya = () => {
           <FormOption
             title="Provinsi"
             change={(e) => {
-              console.log(e);
               const selectedId = e.target.value;
               const selectedNama = e.target.selectedOptions[0].text;
               fetchKota(selectedId);

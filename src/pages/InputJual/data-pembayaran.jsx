@@ -1,13 +1,7 @@
 const { default: ButtonInput } = require("./ButtonInput");
 import Card from "@/assets/images/icons/shopping/card-bank.svg";
 
-const DataPembayaran = ({
-  change,
-  click,
-  invalid,
-  jenis_pembayaran,
-  show,
-}) => {
+const DataPembayaran = ({ change, click, invalid, jenis_pembayaran, show }) => {
   return (
     <div>
       <ButtonInput
@@ -31,7 +25,7 @@ const DataPembayaran = ({
             htmlForfor="jenis_pembayaran"
             className="text-xs mb-1.25 font-bold"
           >
-            Metode Pembayaran <span className="text-red-semi">*</span>
+            Metode Pembayaran <span>(Wajib)</span>
           </label>
           <select
             name="jenis_pembayaran"

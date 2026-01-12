@@ -14,22 +14,46 @@ const { default: HeaderBack } = require("@/components/Header/HeaderBack");
 const BankSaya = () => {
   const [user, setUser] = useState([]);
   const [namaBank, setNamaBank] = useState("");
-  const [noRek, setNoRek] = useState(0);
+  const [noRek, setNoRek] = useState("");
   const [atasNama, setAtasNama] = useState("");
-  const [otp, setOTP] = useState(0);
+  const [otp, setOTP] = useState("");
   const [showNotif, setShowNotif] = useState(false);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingOTP, setLoadingOTP] = useState(false);
+  const [messageOTP, setMessageOTP] = useState("");
   const [text, setText] = useState("");
+
+  const TopMessage = (text, success) => {
+    setShowNotif(true);
+    setText(text);
+    {
+      success;
+    }
+    setTimeout(() => {
+      setShowNotif(false);
+    }, 3000);
+  };
 
   const fetchBank = async () => {
     const res = await getBankUser();
     setUser(res);
+    setNoRek(user?.rekening);
+    setAtasNama(user?.atas_nama);
+    setNamaBank(user?.nama_bank);
   };
 
   const sendOTP = async (e) => {
     e.preventDefault();
-    postOTPBank();
+    setLoadingOTP(true);
+    const res = await postOTPBank();
+    setMessageOTP(res);
+    if (messageOTP == "00") {
+      TopMessage(messageOTP?.data?.message, setSuccess(true));
+    } else {
+      TopMessage(messageOTP?.data?.message, setSuccess(false));
+    }
+    setLoadingOTP(false);
   };
 
   const postUpdateBankData = async (e) => {
@@ -57,26 +81,25 @@ const BankSaya = () => {
     await axios
       .request(config)
       .then((response) => {
-        if (response.data.status_code == "04") {
-          setShowNotif(true);
-          setText(response.data.data.message);
-          setTimeout(() => {
-            setShowNotif(false);
-          }, 2000);
+        if (
+          namaBank.trim() == "" ||
+          noRek.trim() == "" ||
+          atasNama.trim() == ""
+        ) {
+          TopMessage("Harap isi semua kolom yang ada!", setSuccess(false));
+        } else if (otp.trim() == "") {
+          TopMessage("Masukkan Kode OTP Anda!");
+        } else if (response.data.status_code == "04") {
+          TopMessage(response.data.data.message, setSuccess(false));
         } else {
-          setShowNotif(true);
-          setText(response.data.data.message);
-          setSuccess(true);
+          TopMessage(response.data.data.message, setSuccess(true));
           setTimeout(() => {
-            setShowNotif(false);
-            setTimeout(() => {
-              setSuccess(false);
-            }, 3500);
-          }, 3000);
+            setSuccess(false);
+          }, 3500);
         }
       })
       .catch((e) => {
-        return null;
+        TopMessage(e);
       });
     return setLoading(false);
   };
@@ -94,7 +117,8 @@ const BankSaya = () => {
           <FormOption
             change={(e) => setNamaBank(e.target.value)}
             title="Nama Bank"
-            selected={user.nama_bank ?? "Pilih Bank"}
+            defaultValue={user?.nama_bank}
+            selected={user?.nama_bank || "Pilih Bank"}
             components={data.data_bank.map((item, index) => {
               return (
                 <option value={item} key={index}>
@@ -108,14 +132,14 @@ const BankSaya = () => {
             small
             title="No. Rekening"
             change={(e) => setNoRek(e.target.value)}
-            value={user.rekening ?? ""}
+            value={noRek}
           />
           <FormLine
             type="text"
             small
             title="Atas Nama"
             change={(e) => setAtasNama(e.target.value)}
-            value={user.atas_nama ?? ""}
+            value={atasNama}
           />
           <div className="flex gap-7 items-center">
             <div className="flex-3">
@@ -128,8 +152,9 @@ const BankSaya = () => {
             </div>
             <ButtonForm
               text="Request OTP"
-              padding="py-2 px-4 mt-5"
               click={sendOTP}
+              loading={loadingOTP}
+              padding={loadingOTP ? `p-2 mt-5` : "py-2 px-4 mt-6"}
             />
           </div>
           <div className="mx-auto mt-12">

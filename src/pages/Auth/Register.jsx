@@ -26,17 +26,23 @@ const Register = () => {
 
   const router = useRouter();
 
+  const TopMessage = (text, success) => {
+    setShowNotif(true);
+    setNotification(text);
+    {
+      success;
+    }
+    setTimeout(() => {
+      setShowNotif(false);
+    }, 3000);
+  };
+
   const notifReferral = () => {
     if (referral) {
-      setShowNotif(true);
-      setNotification("Kode Referral Berhasil Digunakan!");
-      setSuccess(true);
+      TopMessage("Kode Referral Berhasil Digunakan!", setSuccess(true));
       setTimeout(() => {
-        setShowNotif(false);
-        setTimeout(() => {
-          setSuccess(false);
-        }, 3200);
-      }, 3000);
+        setSuccess(false);
+      }, 3200);
     }
   };
 
@@ -63,28 +69,24 @@ const Register = () => {
     await axios
       .request(config)
       .then((response) => {
-        if (response.data.status_code == "00") {
-          setShowNotif(true);
-          setNotification("Registrasi Selesai, Silahkan Verifikasi OTP");
-          setSuccess(true);
+        console.log(response);
+        if (no_tlp.trim() == "" || password.trim() == "") {
+          TopMessage("Harap Isi Kolom dibawah ini!");
+        } else if (response.data.status_code == "00") {
+          TopMessage(
+            "Registrasi Selesai, Silahkan Verifikasi OTP",
+            setSuccess(true)
+          );
           Cookies.set("no_tlp", no_tlp);
           setTimeout(() => {
             router.push("/Auth/otp/otp-register");
           }, 2000);
         } else {
-          setShowNotif(true);
-          setNotification(response.data.data.message);
-          setTimeout(() => {
-            setShowNotif(false);
-          }, 2000);
+          TopMessage("Anda harus memasukkan kode referral dari agen plus untuk mendaftar!");
         }
       })
       .catch(() => {
-        setShowNotif(true);
-        setNotification("Oops, sepertinya jaringan anda bermasalah");
-        setTimeout(() => {
-          setShowNotif(false);
-        }, 2000);
+        TopMessage("Oops!, sepertinya jaringan anda bermasalah");
       });
     setLoading(false);
   };
@@ -159,7 +161,7 @@ const Register = () => {
             </select>
           </div>
           <FormLine
-            title="Kode Referral (Optional)"
+            title="Kode Referral"
             value={referral ?? ""}
             readOnly={
               referral && referral != null && kode_referral == "" ? true : false

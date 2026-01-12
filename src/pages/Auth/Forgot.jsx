@@ -18,6 +18,17 @@ const Forgot = () => {
   const [text, setText] = useState("");
   const router = useRouter();
 
+  const TopMessage = (text, success) => {
+    setShowNotif(true);
+    setText(text);
+    {
+      success;
+    }
+    setTimeout(() => {
+      setShowNotif(false);
+    }, 3000);
+  };
+
   const postOTP = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -38,15 +49,32 @@ const Forgot = () => {
     await axios
       .request(config)
       .then((response) => {
-        setShowNotif(true);
-        setSuccess(true);
-        setText(`${response.data.data.message} Mengalihkan otomatis`);
-        setTimeout(() => {
-          router.replace("/Auth/ResetPassword");
-        }, 2000);
+        if (no_tlp.trim() == "") {
+          TopMessage("Harap isi nomor whatsapp anda!");
+        } else if (
+          response.data.data.message ==
+          "Anda sudah melakukan request Kode OTP, silahkan cek WhatsApp Anda"
+        ) {
+          console.log(response);
+          TopMessage(
+            `${response.data.data.message}! Mengalihkan Otomatis`,
+            setSuccess(true)
+          );
+          setTimeout(() => {
+            router.replace("/Auth/ResetPassword");
+          }, 2000);
+        } else {
+          TopMessage(
+            `${response.data.data.message}! Mengalihkan otomatis`,
+            setSuccess(true)
+          );
+          setTimeout(() => {
+            router.replace("/Auth/ResetPassword");
+          }, 2000);
+        }
       })
       .catch((e) => {
-        return null;
+        TopMessage("Oops! sepertinya jaringan anda bermasalah");
       });
     return setLoading(false);
   };

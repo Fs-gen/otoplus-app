@@ -1,6 +1,6 @@
 import HeaderBack from "@/components/Header/HeaderBack";
 import DataPembeli from "./data-pembeli";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import DataPekerjaan from "./data-pekerjaan";
 import DataKendaraan from "./data-kendaraan";
 import DataPembayaran from "./data-pembayaran";
@@ -12,7 +12,6 @@ import { mainURL } from "../api/api";
 import Cookies from "js-cookie";
 import axios from "axios";
 import FileResizer from "react-image-file-resizer";
-import { resolve } from "styled-jsx/css";
 import { LoadingPadding } from "@/styles/style";
 import NotificationBar from "@/components/NotificationBar";
 
@@ -64,12 +63,22 @@ const InputJual = () => {
   const [showPembayaran, setShowPembayaran] = useState(false);
   const [showAsuransi, setShowAsuransi] = useState(false);
   const [showSTNK, setShowSTNK] = useState(false);
+  const [showDokumen, setShowDokumen] = useState(false);
   const [invalidIdentitas, setInvalidIdentitas] = useState(false);
   const [invalidPekerjaan, setInvalidPekerjaan] = useState(false);
   const [invalidKendaraan, setInvalidKendaraan] = useState(false);
   const [invalidPembayaran, setInvalidPembayaran] = useState(false);
   const [invalidAsuransi, setInvalidAsuransi] = useState(false);
   const [invalidSTNK, setInvalidSTNK] = useState(false);
+  const [invalidDokumen, setInvalidDokumen] = useState(false);
+
+  const indetitasRef = useRef(null);
+  const pekerjaanRef = useRef();
+  const kendaraanRef = useRef();
+  const pembayaranRef = useRef();
+  const asuransiRef = useRef();
+  const STNKRef = useRef();
+  const dokumenRef = useRef();
 
   const [showNotif, setShowNotif] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -137,73 +146,133 @@ const InputJual = () => {
     });
   };
 
+  const HideInvalid = ({
+    identitas,
+    pekerjaan,
+    kendaraan,
+    pembayaran,
+    stnk,
+    dokumen,
+  }) => {
+    {
+      identitas ? null : setInvalidIdentitas(false);
+    }
+    {
+      pekerjaan ? null : setInvalidPekerjaan(false);
+    }
+    {
+      kendaraan ? null : setInvalidKendaraan(false);
+    }
+    {
+      pembayaran ? null : setInvalidPembayaran(false);
+    }
+    {
+      stnk ? null : setInvalidSTNK(false);
+    }
+    {
+      dokumen ? null : setInvalidDokumen(false);
+    }
+  };
+
   const postUploadForm = async (e) => {
     e.preventDefault();
     if (
-      form.nama_lengkap ||
-      form.nik ||
-      form.tempat_lahir ||
-      form.tanggal_lahir ||
-      form.alamat_ktp ||
-      form.no_hp ||
-      form.email ||
-      form.status_perkawinan == ""
+      form.nama_lengkap.trim() == "" ||
+      form.nik.trim() == "" ||
+      form.tempat_lahir.trim() == "" ||
+      form.tanggal_lahir.trim() == "" ||
+      form.alamat_ktp.trim() == "" ||
+      form.no_hp.trim() == "" ||
+      form.email.trim() == "" ||
+      form.status_perkawinan.trim() == ""
     ) {
+      // HideInvalid();
+      indetitasRef.current.scrollIntoView({ behavior: "smooth" });
       setInvalidIdentitas(true);
       setShowIdentitas(true);
-    } 
-    // else if (form.jenis_pekerjaan == "") {
-    //   setInvalidPekerjaan(true);
-    //   setShowPekerjaan(true);
-    // } else if (form.tipe_mobil) {
-    //   setShowKendaraan(true);
-    //   setInvalidKendaraan(true);
-    // } else if (form.metode_pembayaran == "") {
-    //   setShowPembayaran(true);
-    //   setInvalidPembayaran(true);
-    // } else if (form.tipe_pemilik) {
-    //   setShowSTNK(true);
-    //   setInvalidSTNK(true);
-    // }
-    setLoading(true);
-    let data = JSON.stringify(form);
+    } else if (
+      form.jenis_pekerjaan.trim() == "" ||
+      form.nama_perusahaan.trim() == "" ||
+      form.jabatan.trim() == "" ||
+      form.lama_bekerja.trim() == "" ||
+      form.alamat_kantor.trim() == "" ||
+      form.penghasilan_bulanan.trim() == ""
+    ) {
+      pekerjaanRef.current.scrollIntoView({ behavior: "smooth" });
+      setInvalidPekerjaan(true);
+      setShowPekerjaan(true);
+    } else if (
+      form.merek_tipe_mobil.trim() == "" ||
+      form.varian.trim() == "" ||
+      form.warna.trim() == "" ||
+      form.tahun_produksi.trim() == "" ||
+      form.harga_otr.trim() == ""
+    ) {
+      kendaraanRef.current.scrollIntoView({ behavior: "smooth" });
+      setShowKendaraan(true);
+      setInvalidKendaraan(true);
+    } else if (form.jenis_pembayaran == "") {
+      pembayaranRef.current.scrollIntoView({ behavior: "smooth" });
+      setShowPembayaran(true);
+      setInvalidPembayaran(true);
+    } else if (
+      form.jenis_asuransi.trim() == "" ||
+      form.periode_asuransi.trim() == ""
+      // form.nama_tertanggung
+    ) {
+      alert("Ok")
+    } else if (
+      form.tipe_pemilik.trim() == "" ||
+      form.alamat_stnk.trim() == ""
+    ) {
+      STNKRef.current.scrollIntoView({ behavior: "smooth" });
+      setShowSTNK(true);
+      setInvalidSTNK(true);
+    } else if (form.dok_kk == null) {
+      dokumenRef.current.scrollIntoView({ behavior: "smooth" });
+      setShowDokumen(true)
+      setInvalidDokumen(true)
+    } else {
+      setLoading(true);
+      let data = JSON.stringify(form);
 
-    let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: mainURL("penjualan/create"),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-      data: data,
-    };
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: mainURL("penjualan/create"),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        data: data,
+      };
 
-    await axios
-      .request(config)
-      .then((response) => {
-        console.log(response);
-        if (response?.data?.status_code == "00") {
-          setShowNotif(true);
-          setSuccess(true);
-          setText(response?.data?.message);
-          setTimeout(() => {
-            setShowNotif(false);
+      await axios
+        .request(config)
+        .then((response) => {
+          console.log(response);
+          if (response?.data?.status_code == "00") {
+            setShowNotif(true);
+            setSuccess(true);
+            setText("Data anda telah berhasil di kirim!");
             setTimeout(() => {
-              setSuccess(false);
-            }, 3200);
-          }, 3000);
-        } else {
-          setShowNotif(true);
-          setText("Oops! sepertinya ada kolom wajib yang belum terisi");
-          setTimeout(() => {
-            setShowNotif(false);
-          }, 3000);
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+              setShowNotif(false);
+              setTimeout(() => {
+                setSuccess(false);
+              }, 3200);
+            }, 3000);
+          } else {
+            setShowNotif(true);
+            setText("Oops! sepertinya ada kolom wajib yang belum terisi");
+            setTimeout(() => {
+              setShowNotif(false);
+            }, 3000);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
     return setLoading(false);
   };
 
@@ -219,106 +288,123 @@ const InputJual = () => {
           </p>
         </div>
         <form className="mt-6 flex flex-col gap-4">
-          <DataPembeli
-            click={() => setShowIdentitas(!showIdentitas)}
-            show={showIdentitas}
-            change={handlerForm}
-            invalid={invalidIdentitas}
-            nama_lengkap={form.nama_lengkap}
-            nik={form.nik}
-            tempat_lahir={form.tempat_lahir}
-            tanggal_lahir={form.tanggal_lahir}
-            alamat_ktp={form.alamat_ktp}
-            alamat_domisili={form.alamat_domisili}
-            no_hp={form.no_hp}
-            email={form.email}
-            status_perkawinan={form.status_perkawinan}
-          />
-          <DataPekerjaan
-            click={() => setShowPekerjaan(!showPekerjaan)}
-            show={showPekerjaan}
-            change={handlerForm}
-            invalid={invalidPekerjaan}
-            jenis_pekerjaan={form.jenis_pekerjaan}
-            nama_perusahaan={form.nama_perusahaan}
-            jabatan={form.jabatan}
-            lama_bekerja={form.lama_bekerja}
-            alamat_kantor={form.alamat_kantor}
-            telp_kantor={form.telp_kantor}
-            penghasilan_bulanan={form.penghasilan_bulanan}
-          />
-          <DataKendaraan
-            click={() => setShowKendaraan(!showKendaraan)}
-            show={showKendaraan}
-            change={handlerForm}
-            invalid={invalidKendaraan}
-            merek_tipe_mobil={form.merek_tipe_mobil}
-            varian={form.varian}
-            warna={form.warna}
-            tahun_produksi={form.tahun_produksi}
-            harga_otr={form.harga_otr}
-            nomor_rangka={form.nomor_rangka}
-            nomor_mesin={form.nomor_mesin}
-            aksesoris_tambahan={form.aksesoris_tambahan}
-          />
-          <DataPembayaran
-            show={showPembayaran}
-            click={() => setShowPembayaran(!showPembayaran)}
-            change={handlerForm}
-            invalid={invalidPembayaran}
-            jenis_pembayaran={form.jenis_pembayaran}
-          />
-          <DataAsuransi
-            change={handlerPerluasanAsuransi}
-            changeOption={handlerForm}
-            click={() => setShowAsuransi(!showAsuransi)}
-            show={showAsuransi}
-            jenis_asuransi={form.jenis_asuransi}
-            periode_asuransi={form.periode_asuransi}
-            nama_tertanggung={form.nama_tertanggung}
-            banjir={perluasanAsuransi.includes("Banjir")}
-            huruhara={perluasanAsuransi.includes("Huru-Hara")}
-            gempabumi={perluasanAsuransi.includes("Gempa Bumi")}
-          />
-          <DataSTNK
-            click={() => setShowSTNK(!showSTNK)}
-            change={handlerForm}
-            show={showSTNK}
-            invalid={invalidSTNK}
-          />
-          <DataDokumen
-            ktp={
-              form.dok_ktp == null
-                ? "Silahkan Masukkan File Dokumen KTP disini"
-                : "Dokumen KTP Sudah Dimasukkan"
-            }
-            dok_ktp={form.dok_ktp}
-            kk={
-              form.dok_kk == null
-                ? "Silahkan Masukkan File Dokumen KK disini"
-                : "Dokumen KK Sudah Dimasukkan"
-            }
-            dok_kk={form.dok_kk}
-            npwp={
-              form.dok_npwp == null
-                ? "Silahkan Masukkan File Dokumen NPWP disini"
-                : "Dokumen NPWP Sudah Dimasukkan"
-            }
-            dok_npwp={form.dok_npwp}
-            slipGaji={
-              form.dok_slip_gaji == null
-                ? "Silahkan Masukkan File Dokumen Slip Gaji disini"
-                : "Dokumen Slip Gaji Sudah Dimasukkan"
-            }
-            dok_slip_gaji={form.dok_slip_gaji}
-            suratKerja={
-              form.dok_surat_kerja == null
-                ? "Silahkan Masukkan File Dokumen Surat Kerja disini"
-                : "Dokumen Surat Kerja Sudah Dimasukkan"
-            }
-            dok_surat_kerja={form.dok_surat_kerja}
-            change={handlerImage}
-          />
+          <div ref={indetitasRef}>
+            <DataPembeli
+              click={() => setShowIdentitas(!showIdentitas)}
+              show={showIdentitas}
+              change={handlerForm}
+              invalid={invalidIdentitas}
+              nama_lengkap={form.nama_lengkap}
+              nik={form.nik}
+              tempat_lahir={form.tempat_lahir}
+              tanggal_lahir={form.tanggal_lahir}
+              alamat_ktp={form.alamat_ktp}
+              alamat_domisili={form.alamat_domisili}
+              no_hp={form.no_hp}
+              email={form.email}
+              status_perkawinan={form.status_perkawinan}
+            />
+          </div>
+          <div ref={pekerjaanRef}>
+            <DataPekerjaan
+              click={() => setShowPekerjaan(!showPekerjaan)}
+              show={showPekerjaan}
+              change={handlerForm}
+              invalid={invalidPekerjaan}
+              jenis_pekerjaan={form.jenis_pekerjaan}
+              nama_perusahaan={form.nama_perusahaan}
+              jabatan={form.jabatan}
+              lama_bekerja={form.lama_bekerja}
+              alamat_kantor={form.alamat_kantor}
+              telp_kantor={form.telp_kantor}
+              penghasilan_bulanan={form.penghasilan_bulanan}
+            />
+          </div>
+          <div ref={kendaraanRef}>
+            <DataKendaraan
+              click={() => setShowKendaraan(!showKendaraan)}
+              show={showKendaraan}
+              change={handlerForm}
+              invalid={invalidKendaraan}
+              merek_tipe_mobil={form.merek_tipe_mobil}
+              varian={form.varian}
+              warna={form.warna}
+              tahun_produksi={form.tahun_produksi}
+              harga_otr={form.harga_otr}
+              nomor_rangka={form.nomor_rangka}
+              nomor_mesin={form.nomor_mesin}
+              aksesoris_tambahan={form.aksesoris_tambahan}
+            />
+          </div>
+          <div ref={pembayaranRef}>
+            <DataPembayaran
+              show={showPembayaran}
+              click={() => setShowPembayaran(!showPembayaran)}
+              change={handlerForm}
+              invalid={invalidPembayaran}
+              jenis_pembayaran={form.jenis_pembayaran}
+            />
+          </div>
+          <div ref={asuransiRef}>
+            <DataAsuransi
+              change={handlerPerluasanAsuransi}
+              changeOption={handlerForm}
+              click={() => setShowAsuransi(!showAsuransi)}
+              show={showAsuransi}
+              jenis_asuransi={form.jenis_asuransi}
+              periode_asuransi={form.periode_asuransi}
+              nama_tertanggung={form.nama_tertanggung}
+              banjir={perluasanAsuransi.includes("Banjir")}
+              huruhara={perluasanAsuransi.includes("Huru-Hara")}
+              gempabumi={perluasanAsuransi.includes("Gempa Bumi")}
+            />
+          </div>
+          <div ref={STNKRef}>
+            <DataSTNK
+              click={() => setShowSTNK(!showSTNK)}
+              change={handlerForm}
+              show={showSTNK}
+              invalid={invalidSTNK}
+            />
+          </div>
+          <div ref={dokumenRef}>
+            <DataDokumen
+              change={handlerImage}
+              show={showDokumen}
+              click={() => setShowDokumen(!showDokumen)}
+              invalid={invalidDokumen}
+              ktp={
+                form.dok_ktp == null
+                  ? "Silahkan Masukkan File Dokumen KTP disini"
+                  : "Dokumen KTP Sudah Dimasukkan"
+              }
+              dok_ktp={form.dok_ktp}
+              kk={
+                form.dok_kk == null
+                  ? "Silahkan Masukkan File Dokumen KK disini"
+                  : "Dokumen KK Sudah Dimasukkan"
+              }
+              dok_kk={form.dok_kk}
+              npwp={
+                form.dok_npwp == null
+                  ? "Silahkan Masukkan File Dokumen NPWP disini"
+                  : "Dokumen NPWP Sudah Dimasukkan"
+              }
+              dok_npwp={form.dok_npwp}
+              slipGaji={
+                form.dok_slip_gaji == null
+                  ? "Silahkan Masukkan File Dokumen Slip Gaji disini"
+                  : "Dokumen Slip Gaji Sudah Dimasukkan"
+              }
+              dok_slip_gaji={form.dok_slip_gaji}
+              suratKerja={
+                form.dok_surat_kerja == null
+                  ? "Silahkan Masukkan File Dokumen Surat Kerja disini"
+                  : "Dokumen Surat Kerja Sudah Dimasukkan"
+              }
+              dok_surat_kerja={form.dok_surat_kerja}
+            />
+          </div>
           <div className="mt-10"></div>
           <ButtonForm
             text="Kirim Formulir"

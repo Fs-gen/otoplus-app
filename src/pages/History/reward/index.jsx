@@ -53,17 +53,21 @@ const HistoryReward = () => {
             {reward && reward?.message == "Data Tidak Ditemukan" ? (
               <h1 className="text-center">Tidak Histori Reward</h1>
             ) : (
-              reward.map((item, index) => {
-                return (
-                  <CardHistory
-                    reward
-                    props={item}
-                    href={""}
-                    key={index}
-                    icon={<Image src={Coin} alt="" width={20} height={20} />}
-                  />
-                );
-              })
+              reward
+                ?.slice()
+                .reverse()
+                .map((item, index) => {
+                  return (
+                    <CardHistory
+                      reward
+                      cursor
+                      props={item}
+                      href={""}
+                      key={index}
+                      icon={<Image src={Coin} alt="" width={20} height={20} />}
+                    />
+                  );
+                })
             )}
           </div>
         )}

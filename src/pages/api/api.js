@@ -52,7 +52,7 @@ export const getUserHome = async () => {
       datas = response.data?.data;
     })
     .catch((e) => {
-      datas = e?.response?.data
+      datas = e?.response?.data;
     });
   return datas;
 };
@@ -174,7 +174,6 @@ export const getProvinsi = async () => {
     .request(config)
     .then((response) => {
       data = response?.data?.data;
-      console.log(data);
     })
     .catch((e) => {
       return null;
@@ -311,8 +310,33 @@ export const getDetailTransaksi = async (id) => {
   return data;
 };
 
+export const postOTPWithdraw = async () => {
+  const token = Cookies.get("token");
+  let otp = "";
+
+  const config = {
+    method: "post",
+    maxBodyLength: Infinity,
+    url: mainURL("withdraw/send-otp-withdraw"),
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      otp = response?.data;
+    })
+    .catch((e) => {
+      return null;
+    });
+  return otp;
+};
+
 export const postOTPBank = async () => {
   const header = Cookies.get("token");
+  let otp = "";
 
   const config = {
     method: "post",
@@ -326,11 +350,12 @@ export const postOTPBank = async () => {
   await axios
     .request(config)
     .then((response) => {
-      console.log(response);
+      otp = response.data;
     })
     .catch((e) => {
       return null;
     });
+  return otp;
 };
 
 export const postBatalTransaksi = async (id) => {

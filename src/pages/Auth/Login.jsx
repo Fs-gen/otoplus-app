@@ -42,6 +42,17 @@ const Login = () => {
     data: data,
   };
 
+  const TopMessage = (text, success) => {
+    setShowNotif(true);
+    setNotification(text);
+    {
+      success;
+    }
+    setTimeout(() => {
+      setShowNotif(false);
+    }, 3000);
+  };
+
   const onLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -49,54 +60,35 @@ const Login = () => {
       .request(config)
       .then((response) => {
         if (no_tlp.trim() == "" || password.trim() == "") {
-          setShowNotif(true);
-          setNotification("Harap masukkan akun anda yang telah terdaftar");
-          setTimeout(() => {
-            setShowNotif(false);
-          }, 2000);
+          TopMessage("Harap masukkan akun anda yang telah terdaftar");
         } else if (response.data.status_code == "00") {
           const dataUser = response.data.data.data_user;
           if (dataUser.profile_lengkap != true) {
-            setShowNotif(true);
-            setSuccess(true);
-            setNotification(
-              "Selamat Datang!. Silahkan Isi data diri terlebih dahulu.Mengalihkan otomatis"
+            TopMessage(
+              "Selamat Datang! Silahkan Isi data diri terlebih dahulu.Mengalihkan otomatis",
+              setSuccess(true)
             );
             Cookies.set("token", response.data.data.token);
             setTimeout(() => {
               router.push("/Profile/profil-saya");
             }, 2000);
           } else {
-            setShowNotif(true);
-            setNotification("Proses Login Telah Berhasil");
-            setSuccess(true);
+            TopMessage("Proses Login Telah Berhasil", setSuccess(true));
             Cookies.set("token", response.data.data.token);
             setTimeout(() => {
               router.push("/Home");
             }, 2000);
           }
         } else if (response.data.data.message == "Akun Tidak Ditemukan") {
-          setShowNotif(true);
-          setNotification(
+          TopMessage(
             `${response.data.data.message}! Jika sudah registrasi namun tidak melakukan verifikasi OTP maka anda harus registrasi ulang`
           );
-          setTimeout(() => {
-            setShowNotif(false);
-          }, 3000);
         } else {
-          setShowNotif(true);
-          setNotification("Oops, sepertinya data dimasukkan salah");
-          setTimeout(() => {
-            setShowNotif(false);
-          }, 2000);
+          TopMessage("Oops! sepertinya data dimasukkan salah");
         }
       })
       .catch(() => {
-        setShowNotif(true);
-        setNotification("Oops, sepertinya jaringan anda bermasalah");
-        setTimeout(() => {
-          setShowNotif(false);
-        }, 2000);
+        TopMessage("Oops! sepertinya jaringan anda bermasalah");
       });
     return setLoading(false);
   };

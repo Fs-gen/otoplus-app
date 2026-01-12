@@ -25,9 +25,12 @@ const Referral = () => {
           {data && data?.message == "Data Referral Tidak Ditemukan" ? (
             <h1 className="text-center">Tidak ada Referral</h1>
           ) : (
-            data.map((item, index) => {
-              return <CardReferral props={item} key={index} />;
-            })
+            data
+              ?.slice()
+              .reverse()
+              .map((item, index) => {
+                return <CardReferral props={item} key={index} />;
+              })
           )}
         </div>
       </div>

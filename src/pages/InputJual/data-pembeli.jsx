@@ -124,6 +124,7 @@ const DataPembeli = ({
             required
             value={status_perkawinan}
           >
+            <option value="">Pilih Status</option>
             <option value="Belum Kawin">Belum Kawin</option>
             <option value="Kawin">Kawin</option>
             <option value="Cerai Hidup">Cerai Hidup</option>

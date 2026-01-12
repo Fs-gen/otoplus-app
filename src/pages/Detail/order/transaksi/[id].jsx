@@ -66,6 +66,8 @@ const Id = ({ id }) => {
   });
   const router = useRouter();
 
+  console.log(image.file);
+
   // FecthData
 
   const fetchData = async () => {
@@ -182,12 +184,14 @@ const Id = ({ id }) => {
         ) : null}
         <div className="text-center">
           {data?.status != "belum dibayar" ? null : (
-            <div>
+            <div className="bg-[#F7F7F7] rounded-lg p-2 mb-12">
               <label
                 htmlFor="buktiFile"
-                className="flex justify-center items-center bg-gray-light rounded-lg p-10 mb-12"
+                className="flex justify-center border-2 border-dashed border-gray-semi items-center m-2 p-10 text-gray-semi font-semibold"
               >
-                Silahkan Masukkan file disini
+                {image.file == null
+                  ? "Silahkan Masukkan file disini"
+                  : "File bukti transfer sudah dimasukkan!"}
               </label>
               <input
                 type="file"

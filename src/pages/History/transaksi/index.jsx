@@ -52,39 +52,42 @@ const HistoryTransaction = () => {
               <h1 className="text-center">Tidak Ada Transaksi</h1>
             ) : (
               <div className="flex flex-col">
-                {transaksi.map((item, index) => {
-                  return (
-                    <CardHistory
-                      status={
-                        item?.status == "belum dibayar"
-                          ? "text-yellow-semi"
-                          : item?.status == "menunggu konfirmasi"
-                          ? "text-blue-semi"
-                          : "text-green-semi"
-                      }
-                      icon={
-                        item.nama_transaksi == "Upgrade ke Agen Plus" ? (
-                          <Image
-                            src={CartBlue}
-                            width={20}
-                            height={20}
-                            alt="icon"
-                          />
-                        ) : (
-                          <Image
-                            src={ArrowDown}
-                            width={20}
-                            height={20}
-                            alt="icon"
-                          />
-                        )
-                      }
-                      props={item}
-                      key={index}
-                      href={`/Detail/order/transaksi/${item.kode_aktivasi}`}
-                    />
-                  );
-                })}
+                {transaksi
+                  ?.slice()
+                  .reverse()
+                  .map((item, index) => {
+                    return (
+                      <CardHistory
+                        status={
+                          item?.status == "belum dibayar"
+                            ? "text-yellow-semi"
+                            : item?.status == "menunggu konfirmasi"
+                            ? "text-blue-semi"
+                            : "text-green-semi"
+                        }
+                        icon={
+                          item.nama_transaksi == "Upgrade ke Agen Plus" ? (
+                            <Image
+                              src={CartBlue}
+                              width={20}
+                              height={20}
+                              alt="icon"
+                            />
+                          ) : (
+                            <Image
+                              src={ArrowDown}
+                              width={20}
+                              height={20}
+                              alt="icon"
+                            />
+                          )
+                        }
+                        props={item}
+                        key={index}
+                        href={`/Detail/order/transaksi/${item.kode_aktivasi}`}
+                      />
+                    );
+                  })}
               </div>
             )}
           </div>

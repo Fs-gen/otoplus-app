@@ -20,6 +20,15 @@ const OTPRegister = () => {
 
   const noWhatsapp = Cookies.get("no_tlp");
 
+  const TopMessage = (text, success) => {
+    setShowNotif(true);
+    setNotification(text);
+    {success}
+    setTimeout(() => {
+      setShowNotif(false);
+    }, 3000);
+  };
+
   const data = JSON.stringify({
     no_tlp: noWhatsapp,
     otp,
@@ -37,33 +46,32 @@ const OTPRegister = () => {
 
   const onOTP = async (e) => {
     e.preventDefault();
+    setLoading(true);
     await axios
       .request(config)
       .then((response) => {
-        if (response.data.status_code == "00") {
-          setShowNotif(true);
-          setNotification("Registrasi Selesai, Mengalihkan ke halaman login");
-          setSuccess(true);
+        if (otp.trim() == "") {
+          TopMessage(
+            "Harap masukkan Kode OTP anda yang telah dikirimkan melalui whatsapp!"
+          );
+        } else if (response.data.status_code == "00") {
+          TopMessage(
+            "Registrasi Selesai, Mengalihkan ke halaman login",
+            setSuccess(true)
+          );
           Cookies.remove("no_tlp");
           Cookies.remove("referral");
           setTimeout(() => {
             router.push("/Auth/Login");
           }, 2000);
         } else {
-          setShowNotif(true);
-          setNotification("Kode OTP Salah, Periksa kembali kode OTP");
-          setTimeout(() => {
-            setShowNotif(false);
-          }, 2000);
+          TopMessage("Kode OTP Salah! Periksa kembali kode OTP");
         }
       })
       .catch(() => {
-        setShowNotif(true);
-        setNotification("Oops, sepertinya jaringan anda bermasalah");
-        setTimeout(() => {
-          setShowNotif(false);
-        }, 2000);
+        TopMessage("Oops! sepertinya jaringan anda bermasalah");
       });
+    return setLoading(false);
   };
 
   return (

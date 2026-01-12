@@ -43,16 +43,31 @@ const Home = () => {
   const router = useRouter();
   const token = Cookies.get("token");
 
+  const TopMessage = (text, success) => {
+    setShowNotif(true);
+    setText(text);
+    {
+      success;
+    }
+    setTimeout(() => {
+      setShowNotif(false);
+    }, 3000);
+  };
+
+  console.log(user);
+
   const cekToken = () => {
     if (!token) {
-      setShowNotif(true);
-      setText("Silahkan Login Terlebih Dahulu. Mengalihkan ke halaman login!");
+      TopMessage(
+        "Silahkan Login Terlebih Dahulu. Mengalihkan ke halaman login!"
+      );
       setTimeout(() => {
         router.replace("/");
       }, 3000);
     } else if (user.message == "Unauthorized") {
-      setShowNotif(true);
-      setText("Akun telah digunakan pada device berbeda! Mengalihkan otomatis");
+      TopMessage(
+        "Akun telah digunakan pada device berbeda! Mengalihkan otomatis"
+      );
       Cookies.remove("token");
       setTimeout(() => {
         router.replace("/");
@@ -70,8 +85,6 @@ const Home = () => {
     setNews(res);
   };
 
-  console.log(news);
-
   useEffect(() => {
     cekToken();
     fetchDataUser();
@@ -83,32 +96,36 @@ const Home = () => {
       <NotificationBar showNotif={showNotif} text={text} />
       <Header props={user} />
       <Amount props={user} />
-      <div className="mx-6 my-8.5">
-        <h1 className="font-semibold mb-4">
-          Bagikan Link kamu dan Dapatkan Reward!
-        </h1>
-        <p className="font-semibold text-xs text-text-gray">Link Undangan</p>
-        <div className="flex justify-between gap-4 items-center mt-1.5">
-          {user && user.length == 0 ? (
-            <Skeleton
-              borderRadius={10}
-              count={1}
-              containerClassName="w-full"
-              height={30}
-              highlightColor={highlightSkeleton}
-            />
-          ) : (
-            <input
-              disabled
-              className="text-sm font-medium placeholder:text-black py-1.5 px-3 border border-gray-semi rounded-lg w-full"
-              value={`https://test-otoplus.vercel.app/ref/${user.kode_referral}`}
-            />
-          )}
-          <button type="button">
-            <Copy size={25} />
-          </button>
+      {user.type_akun == "freelance" ? (
+        <span className="my-8.5"></span>
+      ) : (
+        <div className="mx-6 my-8.5">
+          <h1 className="font-semibold mb-4">
+            Bagikan Link kamu dan Dapatkan Reward!
+          </h1>
+          <p className="font-semibold text-xs text-text-gray">Link Undangan</p>
+          <div className="flex justify-between gap-4 items-center mt-1.5">
+            {user && user.length == 0 ? (
+              <Skeleton
+                borderRadius={10}
+                count={1}
+                containerClassName="w-full"
+                height={30}
+                highlightColor={highlightSkeleton}
+              />
+            ) : (
+              <input
+                disabled
+                className="text-sm font-medium placeholder:text-black py-1.5 px-3 border border-gray-semi rounded-lg w-full"
+                value={`https://test-otoplus.vercel.app/ref/${user.kode_referral}`}
+              />
+            )}
+            <button type="button">
+              <Copy size={25} />
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Button Big */}
       <CardBig

@@ -1,22 +1,44 @@
+// Image
+import Rupiah from "@/assets/images/icons/shopping/rupiah-line.svg";
+
 import { ButtonForm } from "@/components/Button";
 import FormLine from "@/components/Form/FormLine";
 import HeaderBack from "@/components/Header/HeaderBack";
-import { getBankUser, mainURL } from "../api/api";
+import { getBankUser, mainURL, postOTPWithdraw } from "../api/api";
 import { useEffect, useState } from "react";
 import NotificationBar from "@/components/NotificationBar";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { LoadingPadding } from "@/styles/style";
+import Image from "next/image";
 
 const Withdraw = () => {
   const [user, setUser] = useState([]);
+  const [minimal, setMinimal] = useState("");
+  const [jumlah, setJumlah] = useState("");
+  const [otp, setOTP] = useState("");
   const [showNotif, setShowNotif] = useState(false);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingOTP, setLoadingOTP] = useState(false);
+  const [messageOTP, setMessageOTP] = useState("");
   const [text, setText] = useState("");
   const token = Cookies.get("token");
   const router = useRouter();
+
+  console.log(minimal);
+
+  const TopMessage = (text, success) => {
+    setShowNotif(true);
+    setText(text);
+    {
+      success;
+    }
+    setTimeout(() => {
+      setShowNotif(false);
+    }, 3000);
+  };
 
   const fetchData = async () => {
     const res = await getBankUser();
@@ -32,15 +54,53 @@ const Withdraw = () => {
     }
   };
 
+  const getMinimumWithdrawl = async () => {
+    const config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: mainURL("withdraw/get-minimal-withdraw"),
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+
+    await axios
+      .request(config)
+      .then((response) => {
+        setMinimal(response?.data?.data?.min_withdraw);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const sendOTP = async (e) => {
+    e.preventDefault();
+    setLoadingOTP(true);
+    const res = await postOTPWithdraw();
+    setMessageOTP(res);
+    if (messageOTP?.status_code == "00") {
+      TopMessage(messageOTP?.data?.message, setSuccess(true));
+    } else {
+      TopMessage(messageOTP?.data?.message, setSuccess(false));
+    }
+    setLoadingOTP(false);
+  };
+
   const postWithdrawl = async (e) => {
-    e.preventeDefault();
-    let data = JSON.stringify({});
+    e.preventDefault();
+    setLoading(true);
+    let data = JSON.stringify({
+      jumlah,
+      otp,
+    });
 
     let config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: mainURL(),
+      url: mainURL("withdraw/request"),
       headers: {
+        "Content-Type": "application/json",
         Authorization: "Bearer " + token,
       },
       data: data,
@@ -49,14 +109,21 @@ const Withdraw = () => {
     await axios
       .request(config)
       .then((response) => {
-        console.log(response);
+        if (response?.data?.status_code == "00") {
+          TopMessage(response?.data?.data?.message, setSuccess(true));
+        } else {
+          TopMessage(response?.data?.data?.message, setSuccess(false));
+        }
       })
       .catch((e) => {
-        console.log(e);
+        TopMessage(response?.data?.data?.message);
       });
+    setLoading(false);
   };
+
   useEffect(() => {
     fetchData();
+    getMinimumWithdrawl();
   }, []);
 
   return (
@@ -65,17 +132,28 @@ const Withdraw = () => {
       <HeaderBack text="Withdraw" />
       <div className="section-box">
         <div className="flex items-center gap-2 mt-6.5 mb-7.5">
-          <h1 className="p-3.5 rounded-full bg-gray-light">Rp</h1>
+          <div className="rounded-full bg-gray-light p-3.5">
+            <Image src={Rupiah} width={25} height={25} alt="" />
+          </div>
           <div>
             <h1 className="text-sm font-semibold">Jumlah Reward</h1>
-            <p className="text-sm">Rp. 3.000.000</p>
+            <p className="text-sm font-medium">Rp. 3.000.000</p>
           </div>
         </div>
         <form action="" method="post" className="flex flex-col gap-3.75">
           <div>
-            <FormLine title="Jumlah Withdraw" small />
-            <p className="text-[10px] text-text-gray mt-1">
-              Minimal Withdraw Rp. 50.000
+            <FormLine
+              type="text"
+              title="Jumlah Withdraw"
+              small
+              value={jumlah}
+              change={(e) =>
+                setJumlah(new Intl.NumberFormat("de-DE").format(e.target.value))
+              }
+            />
+            <p className="text-[10px] text-text-gray font-semibold mt-1">
+              Minimal Withdraw Rp{" "}
+              {new Intl.NumberFormat("de-De").format(minimal)}
             </p>
           </div>
           <FormLine
@@ -96,6 +174,23 @@ const Withdraw = () => {
             readOnly={true}
             value={user.atas_nama}
           />
+          <div className="flex gap-7 items-center">
+            <div className="flex-3">
+              <FormLine
+                small
+                type="number"
+                title="Kode OTP"
+                value={otp}
+                change={(e) => setOTP(e.target.value)}
+              />
+            </div>
+            <ButtonForm
+              text="Request OTP"
+              click={sendOTP}
+              loading={loadingOTP}
+              padding={loadingOTP ? `p-2 mt-5` : "py-2 px-4 mt-6"}
+            />
+          </div>
           <div className="mt-5 mx-auto">
             <ButtonForm
               text="Withdraw"

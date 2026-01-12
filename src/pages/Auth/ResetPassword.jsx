@@ -18,6 +18,17 @@ const ResetPassword = () => {
   const [text, setText] = useState("");
   const router = useRouter();
 
+  const TopMessage = (text, success) => {
+    setShowNotif(true);
+    setText(text);
+    {
+      success;
+    }
+    setTimeout(() => {
+      setShowNotif(false);
+    }, 3000);
+  };
+
   const postUpdate = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -39,27 +50,26 @@ const ResetPassword = () => {
     await axios
       .request(config)
       .then((response) => {
-        if (response.data.status_code != "00") {
-          setShowNotif(true);
-          setText(
-            `${response.data.data.message}. Pastikan kode OTP sudah benar!`
-          );
-          setTimeout(() => {
-            setShowNotif(false);
-          }, 3000);
-        } else {
-          setShowNotif(true);
-          setSuccess(true);
-          setText(
-            `${response.data.data.message}. Mengalihkan otomatis halaman login`
+        console.log(response.data);
+        if (otp.trim() == "" || password.trim() == "") {
+          TopMessage("Harap isi semua kolom yang ada!");
+        } else if (response.data.status_code == "00") {
+          TopMessage(
+            `${response.data.data.message}! Mengalihkan otomatis halaman login`,
+            setSuccess(true)
           );
           setTimeout(() => {
             router.replace("/Auth/Login");
           }, 3000);
+        } else {
+          TopMessage(
+            `${response.data.data.message}! Pastikan kode OTP sudah benar atau tidak memasukkan password yang sama`
+          );
         }
       })
       .catch((e) => {
-        return null;
+        console.log(e);
+        TopMessage("Oops! sepertinya jaringan anda bermasalah");
       });
     return setLoading(false);
   };

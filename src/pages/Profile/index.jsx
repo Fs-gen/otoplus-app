@@ -42,17 +42,35 @@ const ButtonIcon = ({ href, icon, text }) => {
 const Profile = () => {
   const [user, setUser] = useState([]);
   const [showNotif, setShowNotif] = useState(false);
-  const [textNotif, setTextNotif] = useState("");
+  const [text, setText] = useState("");
   const router = useRouter();
   const BoxItem = "flex flex-col gap-5";
   const TitleBox = "mb-1 font-bold mt-6.5";
 
+  const TopMessage = (text, success) => {
+    setShowNotif(true);
+    setText(text);
+    {
+      success;
+    }
+    setTimeout(() => {
+      setShowNotif(false);
+    }, 3000);
+  };
+
   const cekToken = () => {
     if (!token) {
-      setShowNotif(true);
-      setTextNotif(
+      TopMessage(
         "Silahkan Login Terlebih Dahulu. Mengalihkan ke halaman login!"
       );
+      setTimeout(() => {
+        router.replace("/");
+      }, 3000);
+    } else if (user.message == "Unauthorized") {
+      TopMessage(
+        "Akun telah digunakan pada device berbeda! Mengalihkan otomatis"
+      );
+      Cookies.remove("token");
       setTimeout(() => {
         router.replace("/");
       }, 3000);
@@ -85,7 +103,7 @@ const Profile = () => {
         console.log(response);
       })
       .catch((e) => {
-        console.log(e);
+        return null;
       });
 
     Cookies.remove("token");
@@ -99,7 +117,7 @@ const Profile = () => {
 
   return (
     <section>
-      <NotificationBar showNotif={showNotif} text={textNotif} />
+      <NotificationBar showNotif={showNotif} text={text} />
       <div className="section-box">
         <HeaderUser props={user} />
         <div className={BoxItem}>

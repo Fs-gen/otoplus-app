@@ -49,7 +49,7 @@ const GantiPassword = () => {
         .then((response) => {
           if (response.data.status_code == "07") {
             setShowNotif(true);
-            setText(response.data.data.message);
+            setText(`${response.data.data.message} Atau Kolom Konfirmasi Kosong`);
             setTimeout(() => {
               setShowNotif(false);
             }, 3000);
