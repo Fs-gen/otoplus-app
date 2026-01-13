@@ -47,9 +47,9 @@ const DataDokumen = ({
       >
         {invalid ? (
           <h1 className="text-center text-red-semi text-sm font-semibold mb-2">
-            Harap kolom wajib diisi dengan benar
+            Harap Upload Setidaknya Dokumen KK
           </h1>
-        ) : null}
+        ) : null }
         <div for="file-upload" className="bg-[#F7F7F7] p-4 rounded-xl">
           <h1 className="text-sm font-bold">Dokumen yang dilampirkan:</h1>
           <ul className="text-xs font-medium text-gray-dark list-disc flex flex-col gap-1">

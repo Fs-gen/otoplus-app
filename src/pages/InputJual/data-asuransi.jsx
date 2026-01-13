@@ -99,21 +99,6 @@ const DataAsuransi = ({
               <label htmlFor="gempa_bumi">Gempa Bumi</label>
             </div>
           </div>
-          {/* <label for="perluasan_asuransi" className="text-xs mb-1.25 font-bold">
-            Perluasan Asuransi<span className="text-red-semi">*</span>
-          </label>
-          <select
-            name="perluasan_asuransi"
-            id="perluasan_asuransi"
-            className="p-3 placeholder:text-gray-light focus:outline-blue-light font-semibold w-full text-sm rounded-xl border border-gray-light"
-            onChange={tipePemilik}
-            required
-          >
-            <option value="Tidak Perlu">Tidak Perlu</option>
-            <option value="Banjir">Banjir</option>
-            <option value="Huru-Hara">Huru-Hara</option>
-            <option value="Gempa Bumi">Gempa Bumi</option>
-          </select> */}
         </div>
       </div>
     </div>

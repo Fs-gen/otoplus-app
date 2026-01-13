@@ -61,7 +61,6 @@ const DataPembeli = ({
             change={change}
             name="tempat_lahir"
             placeholder="Kota"
-            required
             title="Tempat Lahir"
             value={tempat_lahir}
           />
@@ -69,7 +68,6 @@ const DataPembeli = ({
             bold
             change={change}
             name="tanggal_lahir"
-            required
             title="Tanggal Lahir"
             type="date"
             value={tanggal_lahir}
@@ -80,7 +78,6 @@ const DataPembeli = ({
           change={change}
           name="alamat_ktp"
           placeholder="Alamat Kengkap sesuai KTP"
-          required={true}
           title="Alamat Lengkap ( sesuai KTP )"
           value={alamat_ktp}
         />
@@ -107,21 +104,19 @@ const DataPembeli = ({
           change={change}
           name="email"
           placeholder="email@example.com"
-          required={true}
           title="Email"
           type="mail"
           value={email}
         />
         <div className="flex flex-col">
           <label htmlFor="statusKawin" className="text-xs mb-1.25 font-bold">
-            Status Perkawinan <span>(Wajib)</span>
+            Status Perkawinan
           </label>
           <select
             className="p-3 placeholder:text-gray-light focus:outline-blue-light font-semibold w-full text-sm rounded-xl border border-gray-light"
             id="statusKawin"
             name="status_perkawinan"
             onChange={change}
-            required
             value={status_perkawinan}
           >
             <option value="">Pilih Status</option>

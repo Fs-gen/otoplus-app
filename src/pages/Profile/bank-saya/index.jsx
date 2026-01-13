@@ -35,12 +35,14 @@ const BankSaya = () => {
     }, 3000);
   };
 
+  console.log(user);
+
   const fetchBank = async () => {
     const res = await getBankUser();
     setUser(res);
-    setNoRek(user?.rekening);
-    setAtasNama(user?.atas_nama);
-    setNamaBank(user?.nama_bank);
+    setNoRek(res?.rekening);
+    setAtasNama(res?.atas_nama);
+    setNamaBank(res?.nama_bank);
   };
 
   const sendOTP = async (e) => {

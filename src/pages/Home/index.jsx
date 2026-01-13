@@ -54,8 +54,6 @@ const Home = () => {
     }, 3000);
   };
 
-  console.log(user);
-
   const cekToken = () => {
     if (!token) {
       TopMessage(
@@ -99,7 +97,7 @@ const Home = () => {
       {user.type_akun == "freelance" ? (
         <span className="my-8.5"></span>
       ) : (
-        <div className="mx-6 my-8.5">
+        <div className="mx-4 my-8.5">
           <h1 className="font-semibold mb-4">
             Bagikan Link kamu dan Dapatkan Reward!
           </h1>

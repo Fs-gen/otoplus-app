@@ -32,7 +32,7 @@ const DataKendaraan = ({
       >
         {invalid ? (
           <h1 className="text-center text-red-semi text-sm font-semibold mb-2">
-            Harap kolom wajib diisi dengan benar
+            Harap Masukkan Setidaknya Merek & Tipe Mobil Anda!
           </h1>
         ) : null}
         <FormLine
@@ -41,7 +41,7 @@ const DataKendaraan = ({
           name="merek_tipe_mobil"
           placeholder="Contoh: Toyota Avanza"
           required={true}
-          title="Merek & Tipe Mobile"
+          title="Merek & Tipe Mobil"
           value={merek_tipe_mobil}
         />
         <div className={BoxForm}>
@@ -50,7 +50,6 @@ const DataKendaraan = ({
             change={change}
             name="varian"
             placeholder="Contoh: 1.3 G MT"
-            required={true}
             title="Varian"
             value={varian}
           />
@@ -59,7 +58,6 @@ const DataKendaraan = ({
             change={change}
             name="warna"
             placeholder="Warna"
-            required={true}
             title="Warna"
             value={warna}
           />
@@ -70,7 +68,6 @@ const DataKendaraan = ({
             change={change}
             name="tahun_produksi"
             placeholder="2024"
-            required={true}
             title="Tahun Produksi"
             type="number"
             value={tahun_produksi}
@@ -80,7 +77,6 @@ const DataKendaraan = ({
             change={change}
             name="harga_otr"
             placeholder="Rp 0"
-            required={true}
             title="Harga OTR"
             type="number"
             value={harga_otr}

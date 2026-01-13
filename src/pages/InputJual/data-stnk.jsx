@@ -26,11 +26,6 @@ const DataSTNK = ({
           show ? "flex flex-col gap-2.5" : "hidden"
         } p-4 mt-1 rounded-lg `}
       >
-        {invalid ? (
-          <h1 className="text-center text-red-semi text-sm font-semibold mb-2">
-            Harap kolom wajib diisi dengan benar
-          </h1>
-        ) : null}
         <div className="flex flex-col">
           <label for="tipe_pemilik" className="text-xs mb-1.25 font-bold">
             Tipe Pemilik <span>(Wajib)</span>
@@ -40,7 +35,6 @@ const DataSTNK = ({
             id="tipe_pemilik"
             name="tipe_pemilik"
             onChange={change}
-            required
             value={tipe_pemilik}
           >
             <option value="">Pilih Pemilik</option>
@@ -53,7 +47,6 @@ const DataSTNK = ({
           change={change}
           name="alamat_stnk"
           placeholder="Alamat yang akan tertera di STNK"
-          required={true}
           title="Alamat STNK"
           value={alamat_stnk}
         />

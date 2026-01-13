@@ -7,7 +7,6 @@ const DataPekerjaan = ({
   change,
   click,
   show,
-  invalid,
   jenis_pekerjaan,
   nama_perusahaan,
   jabatan,
@@ -29,17 +28,11 @@ const DataPekerjaan = ({
           show ? "flex flex-col gap-2.5" : "hidden"
         } p-4 mt-1 rounded-lg `}
       >
-        {invalid ? (
-          <h1 className="text-center text-red-semi text-sm font-semibold mb-2">
-            Harap kolom wajib diisi dengan benar
-          </h1>
-        ) : null}
         <FormLine
           bold
           change={change}
           name="jenis_pekerjaan"
           placeholder="Masukkan jenis pekerjaan"
-          required={true}
           title="Jenis Pekerjaan"
           value={jenis_pekerjaan}
         />
@@ -48,7 +41,6 @@ const DataPekerjaan = ({
           change={change}
           name="nama_perusahaan"
           placeholder="Nama Perusahaan / Usaha"
-          required={true}
           title="Nama Perusahaan / Usaha"
           value={nama_perusahaan}
         />
@@ -58,7 +50,6 @@ const DataPekerjaan = ({
             change={change}
             name="jabatan"
             placeholder="Jabatan"
-            required={true}
             title="Jabatan"
             value={jabatan}
           />
@@ -67,7 +58,6 @@ const DataPekerjaan = ({
             change={change}
             name="lama_bekerja"
             placeholder="Tahun"
-            required={true}
             title="Lama Bekerja"
             type="number"
             value={lama_bekerja}
@@ -78,7 +68,6 @@ const DataPekerjaan = ({
           change={change}
           name="alamat_kantor"
           placeholder="Alamat Lengkap Kantor"
-          required={true}
           title="Alamat Kantor"
           value={alamat_kantor}
         />
@@ -96,7 +85,6 @@ const DataPekerjaan = ({
           change={change}
           name="penghasilan_bulanan"
           placeholder="Rp 0"
-          required={true}
           title="Penghasilan Per Bulan"
           type="number"
           value={penghasilan_bulanan}

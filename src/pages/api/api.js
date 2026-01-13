@@ -231,6 +231,54 @@ export const getHistoryReward = async () => {
   return data;
 };
 
+export const getHistoryWithdraw = async () => {
+  const token = Cookies.get("token");
+  let data = [];
+
+  const config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("withdraw/get-data"),
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch(() => {
+      return null;
+    });
+  return data;
+};
+
+export const getHistoryInputPenjualan = async () => {
+  const token = Cookies.get("token");
+  let data = [];
+
+  const config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("penjualan/get_data"),
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch(() => {
+      return null;
+    });
+  return data;
+};
+
 export const getBankUser = async () => {
   const header = Cookies.get("token");
   let data = [];

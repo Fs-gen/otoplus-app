@@ -65,32 +65,20 @@ const InputJual = () => {
   const [showSTNK, setShowSTNK] = useState(false);
   const [showDokumen, setShowDokumen] = useState(false);
   const [invalidIdentitas, setInvalidIdentitas] = useState(false);
-  const [invalidPekerjaan, setInvalidPekerjaan] = useState(false);
   const [invalidKendaraan, setInvalidKendaraan] = useState(false);
   const [invalidPembayaran, setInvalidPembayaran] = useState(false);
-  const [invalidAsuransi, setInvalidAsuransi] = useState(false);
-  const [invalidSTNK, setInvalidSTNK] = useState(false);
   const [invalidDokumen, setInvalidDokumen] = useState(false);
 
   const indetitasRef = useRef(null);
-  const pekerjaanRef = useRef();
-  const kendaraanRef = useRef();
-  const pembayaranRef = useRef();
-  const asuransiRef = useRef();
-  const STNKRef = useRef();
-  const dokumenRef = useRef();
+  const kendaraanRef = useRef(null);
+  const pembayaranRef = useRef(null);
+  const dokumenRef = useRef(null);
 
   const [showNotif, setShowNotif] = useState(false);
   const [success, setSuccess] = useState(false);
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
-  const [image, setImage] = useState({
-    url: null,
-    previewURL: null,
-  });
   const token = Cookies.get("token");
-
-  console.log(form);
 
   const imageResizer = (file) =>
     new Promise((resolve) => {
@@ -104,10 +92,6 @@ const InputJual = () => {
     const { name } = e.target;
     const file = e.target.files[0];
     const result = await imageResizer(file);
-    // setImage({
-    //   url: result,
-    //   previewURL: result
-    // })
     setForm({
       ...form,
       [name]: result,
@@ -146,92 +130,28 @@ const InputJual = () => {
     });
   };
 
-  const HideInvalid = ({
-    identitas,
-    pekerjaan,
-    kendaraan,
-    pembayaran,
-    stnk,
-    dokumen,
-  }) => {
-    {
-      identitas ? null : setInvalidIdentitas(false);
-    }
-    {
-      pekerjaan ? null : setInvalidPekerjaan(false);
-    }
-    {
-      kendaraan ? null : setInvalidKendaraan(false);
-    }
-    {
-      pembayaran ? null : setInvalidPembayaran(false);
-    }
-    {
-      stnk ? null : setInvalidSTNK(false);
-    }
-    {
-      dokumen ? null : setInvalidDokumen(false);
-    }
-  };
-
   const postUploadForm = async (e) => {
     e.preventDefault();
     if (
       form.nama_lengkap.trim() == "" ||
       form.nik.trim() == "" ||
-      form.tempat_lahir.trim() == "" ||
-      form.tanggal_lahir.trim() == "" ||
-      form.alamat_ktp.trim() == "" ||
-      form.no_hp.trim() == "" ||
-      form.email.trim() == "" ||
-      form.status_perkawinan.trim() == ""
+      form.no_hp.trim() == ""
     ) {
-      // HideInvalid();
       indetitasRef.current.scrollIntoView({ behavior: "smooth" });
       setInvalidIdentitas(true);
       setShowIdentitas(true);
-    } else if (
-      form.jenis_pekerjaan.trim() == "" ||
-      form.nama_perusahaan.trim() == "" ||
-      form.jabatan.trim() == "" ||
-      form.lama_bekerja.trim() == "" ||
-      form.alamat_kantor.trim() == "" ||
-      form.penghasilan_bulanan.trim() == ""
-    ) {
-      pekerjaanRef.current.scrollIntoView({ behavior: "smooth" });
-      setInvalidPekerjaan(true);
-      setShowPekerjaan(true);
-    } else if (
-      form.merek_tipe_mobil.trim() == "" ||
-      form.varian.trim() == "" ||
-      form.warna.trim() == "" ||
-      form.tahun_produksi.trim() == "" ||
-      form.harga_otr.trim() == ""
-    ) {
+    } else if (form.merek_tipe_mobil.trim() == "") {
       kendaraanRef.current.scrollIntoView({ behavior: "smooth" });
-      setShowKendaraan(true);
       setInvalidKendaraan(true);
+      setShowKendaraan(true);
     } else if (form.jenis_pembayaran == "") {
       pembayaranRef.current.scrollIntoView({ behavior: "smooth" });
       setShowPembayaran(true);
       setInvalidPembayaran(true);
-    } else if (
-      form.jenis_asuransi.trim() == "" ||
-      form.periode_asuransi.trim() == ""
-      // form.nama_tertanggung
-    ) {
-      alert("Ok")
-    } else if (
-      form.tipe_pemilik.trim() == "" ||
-      form.alamat_stnk.trim() == ""
-    ) {
-      STNKRef.current.scrollIntoView({ behavior: "smooth" });
-      setShowSTNK(true);
-      setInvalidSTNK(true);
     } else if (form.dok_kk == null) {
       dokumenRef.current.scrollIntoView({ behavior: "smooth" });
-      setShowDokumen(true)
-      setInvalidDokumen(true)
+      setInvalidDokumen(true);
+      setShowDokumen(true);
     } else {
       setLoading(true);
       let data = JSON.stringify(form);
@@ -263,14 +183,14 @@ const InputJual = () => {
             }, 3000);
           } else {
             setShowNotif(true);
-            setText("Oops! sepertinya ada kolom wajib yang belum terisi");
+            setText(response?.data?.data?.message);
             setTimeout(() => {
               setShowNotif(false);
             }, 3000);
           }
         })
         .catch((e) => {
-          console.log(e);
+          return null;
         });
     }
     return setLoading(false);
@@ -279,7 +199,7 @@ const InputJual = () => {
   return (
     <section className="bg-gray-100 min-h-screen">
       <NotificationBar showNotif={showNotif} text={text} success={success} />
-      <HeaderBack text="Input Penjualan" />
+      <HeaderBack text="Input Penjualan" link="Histori" href={"/History/input-jual"}/>
       <div className="p-4">
         <div className="p-4 bg-blue-semi rounded-lg text-white">
           <h1 className="font-semibold">Form Pembelian Mobil</h1>
@@ -290,7 +210,10 @@ const InputJual = () => {
         <form className="mt-6 flex flex-col gap-4">
           <div ref={indetitasRef}>
             <DataPembeli
-              click={() => setShowIdentitas(!showIdentitas)}
+              click={() => {
+                setShowIdentitas(!showIdentitas);
+                setInvalidIdentitas(false);
+              }}
               show={showIdentitas}
               change={handlerForm}
               invalid={invalidIdentitas}
@@ -305,12 +228,11 @@ const InputJual = () => {
               status_perkawinan={form.status_perkawinan}
             />
           </div>
-          <div ref={pekerjaanRef}>
+          <div>
             <DataPekerjaan
               click={() => setShowPekerjaan(!showPekerjaan)}
               show={showPekerjaan}
               change={handlerForm}
-              invalid={invalidPekerjaan}
               jenis_pekerjaan={form.jenis_pekerjaan}
               nama_perusahaan={form.nama_perusahaan}
               jabatan={form.jabatan}
@@ -322,7 +244,10 @@ const InputJual = () => {
           </div>
           <div ref={kendaraanRef}>
             <DataKendaraan
-              click={() => setShowKendaraan(!showKendaraan)}
+              click={() => {
+                setShowKendaraan(!showKendaraan);
+                setInvalidKendaraan(false);
+              }}
               show={showKendaraan}
               change={handlerForm}
               invalid={invalidKendaraan}
@@ -339,13 +264,16 @@ const InputJual = () => {
           <div ref={pembayaranRef}>
             <DataPembayaran
               show={showPembayaran}
-              click={() => setShowPembayaran(!showPembayaran)}
+              click={() => {
+                setShowPembayaran(!showPembayaran);
+                setInvalidPembayaran(false);
+              }}
               change={handlerForm}
               invalid={invalidPembayaran}
               jenis_pembayaran={form.jenis_pembayaran}
             />
           </div>
-          <div ref={asuransiRef}>
+          <div>
             <DataAsuransi
               change={handlerPerluasanAsuransi}
               changeOption={handlerForm}
@@ -359,19 +287,21 @@ const InputJual = () => {
               gempabumi={perluasanAsuransi.includes("Gempa Bumi")}
             />
           </div>
-          <div ref={STNKRef}>
+          <div>
             <DataSTNK
               click={() => setShowSTNK(!showSTNK)}
               change={handlerForm}
               show={showSTNK}
-              invalid={invalidSTNK}
             />
           </div>
           <div ref={dokumenRef}>
             <DataDokumen
               change={handlerImage}
               show={showDokumen}
-              click={() => setShowDokumen(!showDokumen)}
+              click={() => {
+                setShowDokumen(!showDokumen);
+                setInvalidDokumen(false);
+              }}
               invalid={invalidDokumen}
               ktp={
                 form.dok_ktp == null
@@ -381,7 +311,7 @@ const InputJual = () => {
               dok_ktp={form.dok_ktp}
               kk={
                 form.dok_kk == null
-                  ? "Silahkan Masukkan File Dokumen KK disini"
+                  ? "Silahkan Masukkan File Dokumen KK disini (Wajib)"
                   : "Dokumen KK Sudah Dimasukkan"
               }
               dok_kk={form.dok_kk}

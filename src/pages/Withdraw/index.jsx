@@ -109,10 +109,13 @@ const Withdraw = () => {
     await axios
       .request(config)
       .then((response) => {
-        if (response?.data?.status_code == "00") {
-          TopMessage(response?.data?.data?.message, setSuccess(true));
+        if (response?.data?.status_code != "00") {
+          TopMessage(
+            "Anda sudah melakukan request Kode OTP, silahkan cek WhatsApp Anda",
+            setSuccess(false)
+          );
         } else {
-          TopMessage(response?.data?.data?.message, setSuccess(false));
+          TopMessage(response?.data?.data?.message, setSuccess(true));
         }
       })
       .catch((e) => {
@@ -129,7 +132,7 @@ const Withdraw = () => {
   return (
     <section>
       <NotificationBar showNotif={showNotif} success={success} text={text} />
-      <HeaderBack text="Withdraw" />
+      <HeaderBack text="Withdraw" link="Histori" href={"/History/withdraw"} />
       <div className="section-box">
         <div className="flex items-center gap-2 mt-6.5 mb-7.5">
           <div className="rounded-full bg-gray-light p-3.5">
@@ -147,9 +150,7 @@ const Withdraw = () => {
               title="Jumlah Withdraw"
               small
               value={jumlah}
-              change={(e) =>
-                setJumlah(new Intl.NumberFormat("de-DE").format(e.target.value))
-              }
+              change={(e) => setJumlah(e.target.value)}
             />
             <p className="text-[10px] text-text-gray font-semibold mt-1">
               Minimal Withdraw Rp{" "}

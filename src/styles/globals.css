@@ -12,7 +12,7 @@
   --color-gray-semi: #98a2bb;
   --color-gray-dark: #565353;
   --color-text-gray: #727272;
-  --shadow-box-primary: 0 0 10px 10px rgb(0, 0, 0, 0.025);
+  --shadow-box-primary: 0 0 10px 10px rgba(0, 0, 0, 0.025);
   /* Heading 14 */
   --text-heading-14: var(--text-sm);
   --text-heading-14--line-height: var(--text-sm--line-height);
@@ -67,7 +67,6 @@ button {
   background-repeat: no-repeat;
   animation: spinner-kh173p 1s infinite;
 }
-
 
 @keyframes spinner-kh173p {
   to {
