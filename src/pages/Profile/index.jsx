@@ -99,10 +99,10 @@ const Profile = () => {
 
     await axios
       .request(config)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
+        return null;
       })
-      .catch((e) => {
+      .catch(() => {
         return null;
       });
 

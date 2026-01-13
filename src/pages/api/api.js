@@ -6,11 +6,6 @@ export const mainURL = (resource) => {
   return res;
 };
 
-export const secondaryURL = (resource) => {
-  const res = `${process.env.NEXT_PUBLIC_API_SECONDARY_URL}/${resource}`;
-  return res;
-};
-
 export const getUserProfile = async () => {
   const header = Cookies.get("token");
   let datas = [];
@@ -76,8 +71,8 @@ export const getNews = async () => {
     .then((response) => {
       data = response?.data?.data;
     })
-    .catch((error) => {
-      console.log(error);
+    .catch(() => {
+      return null;
     });
   return data;
 };
@@ -149,10 +144,9 @@ export const getListReferral = async () => {
   await axios
     .request(config)
     .then((response) => {
-      console.log(JSON.stringify(response.data.data));
       data = response.data.data;
     })
-    .catch((error) => {
+    .catch(() => {
       return null;
     });
   return data;
@@ -352,8 +346,8 @@ export const getDetailTransaksi = async (id) => {
     .then((response) => {
       data = response?.data?.data;
     })
-    .catch((e) => {
-      console.log(e);
+    .catch(() => {
+      return null;
     });
   return data;
 };
@@ -425,10 +419,10 @@ export const postBatalTransaksi = async (id) => {
 
   await axios
     .request(config)
-    .then((response) => {
-      console.log(response);
+    .then(() => {
+      return null;
     })
-    .catch((e) => {
-      console.log(e);
+    .catch(() => {
+      return null;
     });
 };

@@ -25,8 +25,6 @@ const Login = () => {
 
   const router = useRouter();
 
-  console.log(no_tlp);
-
   let data = JSON.stringify({
     no_tlp,
     password,

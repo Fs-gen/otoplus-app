@@ -66,8 +66,6 @@ const Id = ({ id }) => {
   });
   const router = useRouter();
 
-  console.log(image.file);
-
   // FecthData
 
   const fetchData = async () => {
@@ -101,7 +99,7 @@ const Id = ({ id }) => {
         previewURL: result,
       });
     } catch (e) {
-      console.log(e);
+      return null;
     }
   };
 
@@ -138,8 +136,8 @@ const Id = ({ id }) => {
         }, 3000);
         fetchData();
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
+        return null;
       });
     return setLoading(false);
   };

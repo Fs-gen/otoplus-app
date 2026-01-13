@@ -35,8 +35,6 @@ const BankSaya = () => {
     }, 3000);
   };
 
-  console.log(user);
-
   const fetchBank = async () => {
     const res = await getBankUser();
     setUser(res);

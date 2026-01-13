@@ -11,8 +11,6 @@ const Referral = () => {
     setData(res);
   };
 
-  console.log(data);
-
   useEffect(() => {
     fetchData();
   }, []);

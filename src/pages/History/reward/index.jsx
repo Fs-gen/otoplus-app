@@ -19,8 +19,6 @@ const HistoryReward = () => {
     setReward(res);
   };
 
-  console.log(reward);
-
   useEffect(() => {
     fetchData();
   }, []);

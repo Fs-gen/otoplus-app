@@ -55,7 +55,6 @@ const Forgot = () => {
           response.data.data.message ==
           "Anda sudah melakukan request Kode OTP, silahkan cek WhatsApp Anda"
         ) {
-          console.log(response);
           TopMessage(
             `${response.data.data.message}! Mengalihkan Otomatis`,
             setSuccess(true)

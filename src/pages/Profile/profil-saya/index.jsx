@@ -76,8 +76,8 @@ const ProfilSaya = () => {
       .then((response) => {
         setKota(response?.data?.data);
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
+        return null;
       });
   };
 

@@ -6,8 +6,6 @@ import { useEffect, useState } from "react";
 const HistoryInputJual = () => {
   const [data, setData] = useState([]);
 
-  console.log(data);
-
   const fetchData = async () => {
     const res = await getHistoryInputPenjualan();
     setData(res);

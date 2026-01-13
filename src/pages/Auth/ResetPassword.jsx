@@ -50,7 +50,6 @@ const ResetPassword = () => {
     await axios
       .request(config)
       .then((response) => {
-        console.log(response.data);
         if (otp.trim() == "" || password.trim() == "") {
           TopMessage("Harap isi semua kolom yang ada!");
         } else if (response.data.status_code == "00") {
@@ -67,8 +66,7 @@ const ResetPassword = () => {
           );
         }
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
         TopMessage("Oops! sepertinya jaringan anda bermasalah");
       });
     return setLoading(false);

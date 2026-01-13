@@ -27,8 +27,6 @@ const Withdraw = () => {
   const token = Cookies.get("token");
   const router = useRouter();
 
-  console.log(minimal);
-
   const TopMessage = (text, success) => {
     setShowNotif(true);
     setText(text);
@@ -69,8 +67,8 @@ const Withdraw = () => {
       .then((response) => {
         setMinimal(response?.data?.data?.min_withdraw);
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
+        return null;
       });
   };
 

@@ -69,7 +69,6 @@ const Register = () => {
     await axios
       .request(config)
       .then((response) => {
-        console.log(response);
         if (no_tlp.trim() == "" || password.trim() == "") {
           TopMessage("Harap Isi Kolom dibawah ini!");
         } else if (response.data.status_code == "00") {
@@ -82,7 +81,9 @@ const Register = () => {
             router.push("/Auth/otp/otp-register");
           }, 2000);
         } else {
-          TopMessage("Anda harus memasukkan kode referral dari agen plus untuk mendaftar!");
+          TopMessage(
+            "Anda harus memasukkan kode referral dari agen plus untuk mendaftar!"
+          );
         }
       })
       .catch(() => {

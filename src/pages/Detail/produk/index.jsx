@@ -31,8 +31,6 @@ const DetailProduk = () => {
     router.push("/Detail/order");
   };
 
-  console.log(produk);
-
   useEffect(() => {
     fetchData();
   }, []);

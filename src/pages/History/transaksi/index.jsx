@@ -17,8 +17,6 @@ const HistoryTransaction = () => {
     setTransaksi(res);
   };
 
-  console.log(transaksi);
-
   useEffect(() => {
     fetchData();
   }, []);

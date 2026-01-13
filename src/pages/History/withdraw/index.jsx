@@ -1,14 +1,10 @@
 import HeaderBack from "@/components/Header/HeaderBack";
 import { getHistoryWithdraw } from "@/pages/api/api";
-import Withdraw from "@/pages/Withdraw";
-import { BanknoteArrowDown } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const HistoryWithdraw = () => {
   const [data, setData] = useState([]);
-
-  console.log(data);
 
   const fetchData = async () => {
     const res = await getHistoryWithdraw();
