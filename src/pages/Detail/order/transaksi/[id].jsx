@@ -55,11 +55,23 @@ const Id = ({ id }) => {
   const [text, setText] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingCancel, setLoadingCancel] = useState(false);
   const [image, setImage] = useState({
     file: null,
     previewURL: null,
   });
   const router = useRouter();
+
+  const TopMessage = (text, success) => {
+    setShowNotif(true);
+    setText(text);
+    {
+      success;
+    }
+    setTimeout(() => {
+      setShowNotif(false);
+    }, 3000);
+  };
 
   // FecthData
 
@@ -70,7 +82,17 @@ const Id = ({ id }) => {
 
   const batalTransaksi = async (e) => {
     e.preventDefault();
-    await postBatalTransaksi(dataid);
+    setLoadingCancel(true);
+    const res = await postBatalTransaksi(dataid);
+    if (res.status_code == "00") {
+      TopMessage(res?.data?.message, setSuccess(true));
+      setTimeout(() => {
+        router.replace("/");
+      }, 3000);
+    } else {
+      TopMessage("Oops! Sepertinya terjadi kesalahan!");
+    }
+    setLoadingCancel(false);
   };
 
   // FecthData
@@ -120,19 +142,11 @@ const Id = ({ id }) => {
     await axios
       .request(config)
       .then((response) => {
-        setShowNotif(true);
-        setSuccess(true);
-        setText(response?.data?.message);
-        setTimeout(() => {
-          setShowNotif(false);
-          setTimeout(() => {
-            setSuccess(false);
-          }, 3200);
-        }, 3000);
+        TopMessage(response?.data?.message, setSuccess(true));
         fetchData();
       })
       .catch(() => {
-        return null;
+        TopMessage(response?.data?.message, setSuccess(false));
       });
     return setLoading(false);
   };
@@ -179,7 +193,11 @@ const Id = ({ id }) => {
                   onClick={batalTransaksi}
                   className="text-red-semi text-xs font-bold"
                 >
-                  Batalkan Transaksi
+                  {loadingCancel ? (
+                    <div className="spinner-red"></div>
+                  ) : (
+                    "Batalkan Transaksi"
+                  )}
                 </button>
               </div>
             ) : null}

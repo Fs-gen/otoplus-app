@@ -406,6 +406,8 @@ export const postBatalTransaksi = async (id) => {
     id_transaksi: id,
   });
 
+  let datas = [];
+
   let config = {
     method: "post",
     maxBodyLength: Infinity,
@@ -419,12 +421,13 @@ export const postBatalTransaksi = async (id) => {
 
   await axios
     .request(config)
-    .then(() => {
-      return null;
+    .then((response) => {
+      datas = response?.data;
     })
     .catch(() => {
-      return null;
+      datas = response?.data;
     });
+  return datas;
 };
 
 export const postBatalWithdraw = async (id) => {
