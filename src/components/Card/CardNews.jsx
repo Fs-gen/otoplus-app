@@ -9,24 +9,25 @@ const CardNews = ({ props }) => {
       {props.map((item, index) => {
         return (
           <SwiperSlide key={index} className="flex flex-col gap-2.5 max-w-2/3">
-            <Image
-              src={item.urlToImage}
-              width={300}
-              height={200}
-              alt="News Image"
-              className="object-fit max-h-50"
-              priority
-            />
-            <div className="flex flex-col gap-2.5 mt-2.5">
-              <h1 className="text-sm font-semibold line-clamp-2">{item.title}</h1>
-              <p className={`line-clamp-3 ${lightFont}`}>{item.description}</p>
-              <div className="flex justify-between items-center">
-                <p className={lightFont}>{item.publishedAt}</p>
-                <Link href={item.url} target="_blank" className="text-xs md:text-sm font-bold">
-                  Read More...
-                </Link>
+            <Link href={item.slug} target="_blank">
+              <Image
+                src={item.image}
+                width={300}
+                height={200}
+                alt="News Image"
+                className="object-fit max-h-50"
+                priority
+              />
+              <div className="flex flex-col gap-2.5 mt-2.5">
+                <h1 className="text-sm font-semibold line-clamp-2">
+                  {item.title}
+                </h1>
+                <p className={`line-clamp-3 ${lightFont}`}>{item.spoiler}</p>
+                <div className="flex justify-between items-center">
+                  <p className={lightFont}>{item.publishedAt}</p>
+                </div>
               </div>
-            </div>
+            </Link>
           </SwiperSlide>
         );
       })}

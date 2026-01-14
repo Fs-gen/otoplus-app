@@ -14,7 +14,8 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import NotificationBar from "@/components/NotificationBar";
 import { useRouter } from "next/router";
-import { LoadingPadding } from "@/styles/style";
+import { highlightSkeleton, LoadingPadding } from "@/styles/style";
+import Skeleton from "react-loading-skeleton";
 const FormData = require("form-data");
 
 const Transfer = ({ props }) => {
@@ -27,11 +28,11 @@ const Transfer = ({ props }) => {
       <div className="py-5 px-2.5">
         <div className="flex gap-1.5 mb-3.5">
           <Image
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLS8vCZ_lodKBB4_C6joK1BKotERMS27GPUg&s"
-            width={50}
-            height={50}
+            src={props?.logo_bank}
+            width={65}
+            height={65}
             alt=""
-            className="bg-gray-light p-1 rounded-sm w-max"
+            className="bg-gray-light p-1 rounded-sm "
           />
           <div>
             <h1 className={textGray}>{props?.metode_bayar}</h1>
@@ -65,6 +66,8 @@ const Id = ({ id }) => {
     previewURL: null,
   });
   const router = useRouter();
+
+  console.log(data);
 
   // FecthData
 
@@ -155,64 +158,72 @@ const Id = ({ id }) => {
       />
       <NotificationBar showNotif={showNotif} success={success} text={text} />
       <div className="section-box">
-        {data?.status == "belum dibayar" ? <Transfer props={data} /> : null}
-        <h1 className="my-3 text-sm font-medium">Detail Transaksi</h1>
-        <CardOrder
-          props={data}
-          status={data?.status}
-          colorStatus={`${
-            data?.status == "belum dibayar"
-              ? "text-red-semi"
-              : data?.status == "menunggu konfirmasi"
-              ? "text-blue-semi"
-              : "text-green-semi"
-          }`}
-        />
-        {(data?.status == "belum dibayar") == true ? (
-          <div className="text-xs text-center mt-10 mb-24">
-            <h1 className="font-medium">Transfer Sebelum</h1>
-            <h1 className="font-semibold mb-3.75">{data.batas_akhir} WITA</h1>
-            <button
-              onClick={batalTransaksi}
-              className="text-red-semi text-xs font-bold"
-            >
-              Batalkan Transaksi
-            </button>
-          </div>
-        ) : null}
-        <div className="text-center">
-          {data?.status != "belum dibayar" ? null : (
-            <div className="bg-[#F7F7F7] rounded-lg p-2 mb-12">
-              <label
-                htmlFor="buktiFile"
-                className="flex justify-center border-2 border-dashed border-gray-semi items-center m-2 p-10 text-gray-semi font-semibold"
-              >
-                {image.file == null
-                  ? "Silahkan Masukkan file disini"
-                  : "File bukti transfer sudah dimasukkan!"}
-              </label>
-              <input
-                type="file"
-                id="buktiFile"
-                className="hidden"
-                onChange={getImage}
-              />
-            </div>
-          )}
-          {(data?.status == "belum dibayar") == true ? (
-            <ButtonForm
-              text="Upload Bukti Transfer"
-              click={postUploadImage}
-              padding={loading ? LoadingPadding : null}
-              loading={loading}
+        {data.length == 0 ? (
+          <Skeleton count={1} height={150} highlightColor={highlightSkeleton} />
+        ) : (
+          <div>
+            {data?.status == "belum dibayar" ? <Transfer props={data} /> : null}
+            <h1 className="my-3 text-sm font-medium">Detail Transaksi</h1>
+            <CardOrder
+              props={data}
+              status={data?.status}
+              colorStatus={`${
+                data?.status == "belum dibayar"
+                  ? "text-red-semi"
+                  : data?.status == "menunggu konfirmasi"
+                  ? "text-blue-semi"
+                  : "text-green-semi"
+              }`}
             />
-          ) : data?.status == "belum dibayar" ||
-            data?.status == "menunggu konfirmasi" ? null : (
-            <div className="mt-12">
-              <ButtonLink text="Lihat Virtual Card ID" href={"/"} />
+            {(data?.status == "belum dibayar") == true ? (
+              <div className="text-xs text-center mt-10 mb-24">
+                <h1 className="font-medium">Transfer Sebelum</h1>
+                <h1 className="font-semibold mb-3.75">
+                  {data.batas_akhir} WITA
+                </h1>
+                <button
+                  onClick={batalTransaksi}
+                  className="text-red-semi text-xs font-bold"
+                >
+                  Batalkan Transaksi
+                </button>
+              </div>
+            ) : null}
+            <div className="text-center">
+              {data?.status != "belum dibayar" ? null : (
+                <div className="bg-[#F7F7F7] rounded-lg p-2 mb-12">
+                  <label
+                    htmlFor="buktiFile"
+                    className="flex justify-center border-2 border-dashed border-gray-semi items-center m-2 p-10 text-gray-semi font-semibold"
+                  >
+                    {image.file == null
+                      ? "Silahkan Masukkan file disini"
+                      : "File bukti transfer sudah dimasukkan!"}
+                  </label>
+                  <input
+                    type="file"
+                    id="buktiFile"
+                    className="hidden"
+                    onChange={getImage}
+                  />
+                </div>
+              )}
+              {(data?.status == "belum dibayar") == true ? (
+                <ButtonForm
+                  text="Upload Bukti Transfer"
+                  click={postUploadImage}
+                  padding={loading ? LoadingPadding : null}
+                  loading={loading}
+                />
+              ) : data?.status == "belum dibayar" ||
+                data?.status == "menunggu konfirmasi" ? null : (
+                <div className="mt-12">
+                  <ButtonLink text="Lihat Virtual Card ID" href={"/"} />
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </section>
   );

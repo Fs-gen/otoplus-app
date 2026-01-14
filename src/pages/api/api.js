@@ -59,7 +59,7 @@ export const getNews = async () => {
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: mainURL("home/get-news"),
+    url: mainURL("home/get-newsv2"),
     headers: {
       Authorization: "Bearer " + token,
     },

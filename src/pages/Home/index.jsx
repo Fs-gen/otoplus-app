@@ -115,7 +115,7 @@ const Home = () => {
               <input
                 disabled
                 className="text-sm font-medium placeholder:text-black py-1.5 px-3 border border-gray-semi rounded-lg w-full"
-                value={`https://test-otoplus.vercel.app/ref/${user.kode_referral}`}
+                value={`https://otoplus-app.vercel.app/ref/${user.kode_referral}`}
               />
             )}
             <button type="button">
