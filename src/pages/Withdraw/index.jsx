@@ -105,11 +105,9 @@ const Withdraw = () => {
     await axios
       .request(config)
       .then((response) => {
+        console.log(response);
         if (response?.data?.status_code != "00") {
-          TopMessage(
-            "Anda sudah melakukan request Kode OTP, silahkan cek WhatsApp Anda",
-            setSuccess(false)
-          );
+          TopMessage(response?.data?.data?.message, setSuccess(false));
         } else {
           TopMessage(response?.data?.data?.message, setSuccess(true));
         }
