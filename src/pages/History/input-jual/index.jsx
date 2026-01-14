@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 
 const Skeletons = () => {
-  return(
+  return (
     <Skeleton
       count={1}
       height={120}
@@ -18,6 +18,8 @@ const Skeletons = () => {
 
 const HistoryInputJual = () => {
   const [data, setData] = useState([]);
+
+  console.log(data);
 
   const fetchData = async () => {
     const res = await getHistoryInputPenjualan();
@@ -40,6 +42,8 @@ const HistoryInputJual = () => {
             <Skeletons />
             <Skeletons />
           </div>
+        ) : data && data.message == "Data Tidak Ditemukan" ? (
+          <h1 className="text-center">Tidak Ada Histori Penjualan</h1>
         ) : (
           <div className="flex flex-col gap-4">
             {data?.map((item, index) => {

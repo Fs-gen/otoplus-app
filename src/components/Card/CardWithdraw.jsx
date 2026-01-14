@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { useState } from "react";
 
-const CardWithdraw = ({ props }) => {
+const CardWithdraw = ({ click, id, loading, props }) => {
   const [confirm, setConfirm] = useState(false);
+  id(props?.id_withdraw);
   return (
     <Link
       href={`/Withdraw/Detail/${props.id_withdraw}`}
@@ -58,10 +59,14 @@ const CardWithdraw = ({ props }) => {
                   e.preventDefault();
                   setConfirm(true);
                 }
-              : null
+              : click
           }
         >
-          {confirm ? "Konfirmasi Pembatalan" : "Batalkan Penarikan"}
+          {loading ? (
+            <div className="spinner-small"></div>
+          ) : (
+            <h1>{confirm ? "Konfirmasi Pembatalan" : "Batalkan Penarikan"}</h1>
+          )}
         </button>
       )}
     </Link>

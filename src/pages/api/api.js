@@ -1,5 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+import { Result } from "postcss/lib/postcss";
 
 export const mainURL = (resource) => {
   const res = `${process.env.NEXT_PUBLIC_API_MAIN_URL}/${resource}`;
@@ -425,4 +426,34 @@ export const postBatalTransaksi = async (id) => {
     .catch(() => {
       return null;
     });
+};
+
+export const postBatalWithdraw = async (id) => {
+  const token = Cookies.get("token");
+  let data = JSON.stringify({
+    id,
+  });
+
+  let result = [];
+
+  let config = {
+    method: "post",
+    maxBodyLength: Infinity,
+    url: mainURL("withdraw/cancel"),
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+    data: data,
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      console.log(response)
+      result = response?.data;
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+  return result;
 };
