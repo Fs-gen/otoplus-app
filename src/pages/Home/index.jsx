@@ -54,28 +54,20 @@ const Home = () => {
     }, 3000);
   };
 
-  const cekToken = () => {
-    if (!token) {
+  const fetchDataUser = async () => {
+    const res = await getUserHome();
+    setUser(res);
+    if (res?.message == "Unauthorized" || !token) {
       TopMessage(
         "Silahkan Login Terlebih Dahulu. Mengalihkan ke halaman login!"
-      );
-      setTimeout(() => {
-        router.replace("/");
-      }, 3000);
-    } else if (user.message == "Unauthorized") {
-      TopMessage(
-        "Akun telah digunakan pada device berbeda! Mengalihkan otomatis"
       );
       Cookies.remove("token");
       setTimeout(() => {
         router.replace("/");
       }, 3000);
+    } else {
+      return;
     }
-  };
-
-  const fetchDataUser = async () => {
-    const res = await getUserHome();
-    setUser(res);
   };
 
   const fetchDataNews = async () => {
@@ -84,7 +76,6 @@ const Home = () => {
   };
 
   useEffect(() => {
-    cekToken();
     fetchDataUser();
     fetchDataNews();
   }, []);
@@ -94,7 +85,7 @@ const Home = () => {
       <NotificationBar showNotif={showNotif} text={text} />
       <Header props={user} />
       <Amount props={user} />
-      {user.type_akun == "freelance" ? (
+      {user && user?.type_akun == "freelance" ? (
         <span className="my-8.5"></span>
       ) : (
         <div className="mx-4 my-8.5">
@@ -115,7 +106,7 @@ const Home = () => {
               <input
                 disabled
                 className="text-sm font-medium placeholder:text-black py-1.5 px-3 border border-gray-semi rounded-lg w-full"
-                value={`https://otoplus-app.vercel.app/ref/${user.kode_referral}`}
+                value={`https://otoplus-app.vercel.app/ref/${user?.kode_referral}`}
               />
             )}
             <button type="button">

@@ -55,6 +55,7 @@ button {
   background-size: 13.4px 13.4px;
   background-repeat: no-repeat;
   animation: spinner-kh173p 1s infinite;
+  margin-inline: auto;
 }
 
 .spinner-small {
@@ -66,6 +67,7 @@ button {
   background-size: 7px 7px;
   background-repeat: no-repeat;
   animation: spinner-kh173p 1s infinite;
+  margin-inline: auto;
 }
 
 @keyframes spinner-kh173p {

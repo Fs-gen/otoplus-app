@@ -1,6 +1,5 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { Result } from "postcss/lib/postcss";
 
 export const mainURL = (resource) => {
   const res = `${process.env.NEXT_PUBLIC_API_MAIN_URL}/${resource}`;
@@ -393,7 +392,7 @@ export const postOTPBank = async () => {
   await axios
     .request(config)
     .then((response) => {
-      otp = response.data;
+      otp = response?.data;
     })
     .catch((e) => {
       return null;
@@ -449,7 +448,7 @@ export const postBatalWithdraw = async (id) => {
   await axios
     .request(config)
     .then((response) => {
-      console.log(response)
+      console.log(response);
       result = response?.data;
     })
     .catch((e) => {

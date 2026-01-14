@@ -58,28 +58,20 @@ const Profile = () => {
     }, 3000);
   };
 
-  const cekToken = () => {
-    if (!token) {
+  const getData = async () => {
+    const res = await getUserProfile();
+    setUser(res);
+    if (res?.message == "Unauthorized" || !token) {
       TopMessage(
         "Silahkan Login Terlebih Dahulu. Mengalihkan ke halaman login!"
-      );
-      setTimeout(() => {
-        router.replace("/");
-      }, 3000);
-    } else if (user.message == "Unauthorized") {
-      TopMessage(
-        "Akun telah digunakan pada device berbeda! Mengalihkan otomatis"
       );
       Cookies.remove("token");
       setTimeout(() => {
         router.replace("/");
       }, 3000);
+    } else {
+      return;
     }
-  };
-
-  const getData = async () => {
-    const res = await getUserProfile();
-    setUser(res);
   };
 
   const postLogOut = async (e) => {
@@ -112,7 +104,6 @@ const Profile = () => {
 
   useEffect(() => {
     getData();
-    cekToken();
   }, []);
 
   return (

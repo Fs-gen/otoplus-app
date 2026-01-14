@@ -6,7 +6,7 @@ const CardNews = ({ props }) => {
   const lightFont = "text-xs md:text-sm font-light";
   return (
     <Swiper slidesPerView={"auto"} spaceBetween={20} className="swiper">
-      {props.map((item, index) => {
+      {props && props?.map((item, index) => {
         return (
           <SwiperSlide key={index} className="flex flex-col gap-2.5 max-w-2/3">
             <Link href={item.slug} target="_blank">

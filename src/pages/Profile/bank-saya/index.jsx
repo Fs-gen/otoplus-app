@@ -21,7 +21,6 @@ const BankSaya = () => {
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingOTP, setLoadingOTP] = useState(false);
-  const [messageOTP, setMessageOTP] = useState("");
   const [text, setText] = useState("");
 
   const TopMessage = (text, success) => {
@@ -47,11 +46,10 @@ const BankSaya = () => {
     e.preventDefault();
     setLoadingOTP(true);
     const res = await postOTPBank();
-    setMessageOTP(res);
-    if (messageOTP == "00") {
-      TopMessage(messageOTP?.data?.message, setSuccess(true));
+    if (res.status_code == "00") {
+      TopMessage(res?.data?.message, setSuccess(true));
     } else {
-      TopMessage(messageOTP?.data?.message, setSuccess(false));
+      TopMessage(res?.data?.message, setSuccess(false));
     }
     setLoadingOTP(false);
   };

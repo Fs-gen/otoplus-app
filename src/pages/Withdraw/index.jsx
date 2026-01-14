@@ -22,7 +22,6 @@ const Withdraw = () => {
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingOTP, setLoadingOTP] = useState(false);
-  const [messageOTP, setMessageOTP] = useState("");
   const [text, setText] = useState("");
   const token = Cookies.get("token");
   const router = useRouter();
@@ -76,11 +75,10 @@ const Withdraw = () => {
     e.preventDefault();
     setLoadingOTP(true);
     const res = await postOTPWithdraw();
-    setMessageOTP(res);
-    if (messageOTP?.status_code == "00") {
-      TopMessage(messageOTP?.data?.message, setSuccess(true));
+    if (res?.status_code == "00") {
+      TopMessage(res?.data?.message, setSuccess(true));
     } else {
-      TopMessage(messageOTP?.data?.message, setSuccess(false));
+      TopMessage(res?.data?.message, setSuccess(false));
     }
     setLoadingOTP(false);
   };
