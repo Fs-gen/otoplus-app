@@ -14,6 +14,7 @@ import axios from "axios";
 import FileResizer from "react-image-file-resizer";
 import { LoadingPadding } from "@/styles/style";
 import NotificationBar from "@/components/NotificationBar";
+import { useRouter } from "next/router";
 
 const InputJual = () => {
   const [perluasanAsuransi, setPerluasanAsuransi] = useState([]);
@@ -79,6 +80,18 @@ const InputJual = () => {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const token = Cookies.get("token");
+  const router = useRouter();
+
+  const TopMessage = (text, success) => {
+    setShowNotif(true);
+    setText(text);
+    {
+      success;
+    }
+    setTimeout(() => {
+      setShowNotif(false);
+    }, 3000);
+  };
 
   const imageResizer = (file) =>
     new Promise((resolve) => {
@@ -171,21 +184,12 @@ const InputJual = () => {
         .request(config)
         .then((response) => {
           if (response?.data?.status_code == "00") {
-            setShowNotif(true);
-            setSuccess(true);
-            setText("Data anda telah berhasil di kirim!");
+            TopMessage("Data anda telah berhasil di kirim!", setSuccess(true));
             setTimeout(() => {
-              setShowNotif(false);
-              setTimeout(() => {
-                setSuccess(false);
-              }, 3200);
+              router.replace("/History/input-jual");
             }, 3000);
           } else {
-            setShowNotif(true);
-            setText(response?.data?.data?.message);
-            setTimeout(() => {
-              setShowNotif(false);
-            }, 3000);
+            TopMessage(response?.data?.data?.message, setSuccess(false));
           }
         })
         .catch((e) => {
