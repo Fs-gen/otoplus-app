@@ -118,19 +118,27 @@ const HistoryWithdraw = () => {
     setData(res);
   };
 
+  console.log(data);
+
   useEffect(() => {
     fetchData();
   }, []);
 
   return (
     <section>
-      <HeaderBack />
+      <HeaderBack text="Histori Withdraw" />
       <div className="section-box">
-        <div className="flex flex-col gap-4">
-          {data?.map((item, index) => {
-            return <CardWithdraw key={index} props={item} />;
-          })}
-        </div>
+        {
+          (data.message = "Withdraw Tidak Ditemukan" ? (
+            <h1 className="text-center">Tidak Ada Penarikan</h1>
+          ) : (
+            <div className="flex flex-col gap-4">
+              {data?.map((item, index) => {
+                return <CardWithdraw key={index} props={item} />;
+              })}
+            </div>
+          ))
+        }
       </div>
     </section>
   );
