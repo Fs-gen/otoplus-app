@@ -27,13 +27,7 @@ const Transfer = ({ props }) => {
       <h1 className="text-sm font-medium mb-2.5">Silahkan Transfer Ke</h1>
       <div className="py-5 px-2.5">
         <div className="flex gap-1.5 mb-3.5">
-          <Image
-            src={props?.logo_bank}
-            width={65}
-            height={65}
-            alt=""
-            className="bg-gray-light p-1 rounded-sm "
-          />
+          <Image src={props?.logo_bank} width={65} height={65} alt="" />
           <div>
             <h1 className={textGray}>{props?.metode_bayar}</h1>
             <p className={textGray}>{props?.atas_nama}</p>
@@ -66,8 +60,6 @@ const Id = ({ id }) => {
     previewURL: null,
   });
   const router = useRouter();
-
-  console.log(data);
 
   // FecthData
 
@@ -158,11 +150,13 @@ const Id = ({ id }) => {
       />
       <NotificationBar showNotif={showNotif} success={success} text={text} />
       <div className="section-box">
-        {data.length == 0 ? (
+        {data && data?.length == 0 ? (
           <Skeleton count={1} height={150} highlightColor={highlightSkeleton} />
         ) : (
           <div>
-            {data?.status == "belum dibayar" ? <Transfer props={data} /> : null}
+            {data && data?.status == "belum dibayar" ? (
+              <Transfer props={data} />
+            ) : null}
             <h1 className="my-3 text-sm font-medium">Detail Transaksi</h1>
             <CardOrder
               props={data}
@@ -175,7 +169,7 @@ const Id = ({ id }) => {
                   : "text-green-semi"
               }`}
             />
-            {(data?.status == "belum dibayar") == true ? (
+            {(data && data?.status == "belum dibayar") == true ? (
               <div className="text-xs text-center mt-10 mb-24">
                 <h1 className="font-medium">Transfer Sebelum</h1>
                 <h1 className="font-semibold mb-3.75">
@@ -190,7 +184,7 @@ const Id = ({ id }) => {
               </div>
             ) : null}
             <div className="text-center">
-              {data?.status != "belum dibayar" ? null : (
+              {data && data?.status != "belum dibayar" ? null : (
                 <div className="bg-[#F7F7F7] rounded-lg p-2 mb-12">
                   <label
                     htmlFor="buktiFile"

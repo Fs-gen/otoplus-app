@@ -86,7 +86,7 @@ const Home = () => {
       <Header props={user} />
       <Amount props={user} />
       {user && user?.type_akun == "freelance" ? (
-        <span className="my-8.5"></span>
+        <div className="my-8.5"></div>
       ) : (
         <div className="mx-4 my-8.5">
           <h1 className="font-semibold mb-4">
