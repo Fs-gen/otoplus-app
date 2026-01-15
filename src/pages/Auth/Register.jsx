@@ -22,6 +22,7 @@ const Register = () => {
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [notification, setNotification] = useState("");
+  const [isReadOnly, setIsReadOnly] = useState(false);
   const referral = Cookies.get("referral");
 
   const router = useRouter();
@@ -39,6 +40,7 @@ const Register = () => {
 
   const notifReferral = () => {
     if (referral) {
+      setIsReadOnly(true);
       TopMessage("Kode Referral Berhasil Digunakan!", setSuccess(true));
       setTimeout(() => {
         setSuccess(false);
@@ -165,7 +167,7 @@ const Register = () => {
             title="Kode Referral"
             value={referral ?? ""}
             readOnly={
-              referral && referral != null && kode_referral == "" ? true : false
+              isReadOnly
             }
             change={(e) => setKodeReferral(e.target.value)}
           />
