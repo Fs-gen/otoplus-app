@@ -14,7 +14,7 @@ import { highlightSkeleton, LoadingPadding } from "@/styles/style";
 import Image from "next/image";
 import Skeleton from "react-loading-skeleton";
 
-const Withdraw = ({ reward }) => {
+const Withdraw = () => {
   const [user, setUser] = useState([]);
   const [minimal, setMinimal] = useState("");
   const [jumlah, setJumlah] = useState("");
@@ -146,14 +146,16 @@ const Withdraw = ({ reward }) => {
           <div>
             <h1 className="text-sm font-semibold">Jumlah Reward</h1>
             <div className="text-sm font-medium">
-              {reward == undefined ? (
+              {user && user?.length == 0 ? (
                 <Skeleton
                   count={1}
                   height={20}
                   highlightColor={highlightSkeleton}
                 />
               ) : (
-                <h1>Rp. {new Intl.NumberFormat("de-DE").format(reward)}</h1>
+                <h1>
+                  Rp. {new Intl.NumberFormat("de-DE").format(user?.reward)}
+                </h1>
               )}
             </div>
           </div>
@@ -222,13 +224,3 @@ const Withdraw = ({ reward }) => {
 };
 
 export default Withdraw;
-
-export const getServerSideProps = (context) => {
-  const { req } = context;
-  const result = req.cookies.reward || null;
-  return {
-    props: {
-      reward: result,
-    },
-  };
-};
