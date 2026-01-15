@@ -87,37 +87,41 @@ const Withdraw = () => {
   const postWithdrawl = async (e) => {
     e.preventDefault();
     setLoading(true);
-    let data = JSON.stringify({
-      jumlah,
-      otp,
-    });
-
-    let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: mainURL("withdraw/request"),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-      data: data,
-    };
-
-    await axios
-      .request(config)
-      .then((response) => {
-        if (response?.data?.status_code == "00") {
-          TopMessage(response?.data?.data?.message, setSuccess(true));
-          setTimeout(() => {
-            router.push("/History/withdraw");
-          }, 2000);
-        } else {
-          TopMessage(response?.data?.data?.message, setSuccess(false));
-        }
-      })
-      .catch((e) => {
-        TopMessage(e?.data?.data?.message);
+    if (jumlah.trim() == "") {
+      TopMessage("Harap masukkan jumlah withdraw");
+    } else {
+      let data = JSON.stringify({
+        jumlah,
+        otp,
       });
+
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: mainURL("withdraw/request"),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        data: data,
+      };
+
+      await axios
+        .request(config)
+        .then((response) => {
+          if (response?.data?.status_code == "00") {
+            TopMessage(response?.data?.data?.message, setSuccess(true));
+            setTimeout(() => {
+              router.push("/History/withdraw");
+            }, 2000);
+          } else {
+            TopMessage(response?.data?.data?.message, setSuccess(false));
+          }
+        })
+        .catch((e) => {
+          TopMessage(e?.data?.data?.message);
+        });
+    }
     setLoading(false);
   };
 
