@@ -53,7 +53,7 @@ const Forgot = () => {
           TopMessage("Harap isi nomor whatsapp anda!");
         } else if (
           response.data.data.message ==
-          "Anda sudah melakukan request Kode OTP, silahkan cek WhatsApp Anda"
+          "Anda sudah melakukan request Kode OTP, silahkan cek WhatsApp Anda!"
         ) {
           TopMessage(
             `${response.data.data.message}! Mengalihkan Otomatis`,
@@ -105,6 +105,7 @@ const Forgot = () => {
               text="Request OTP"
               click={postOTP}
               loading={loading}
+              disabled={success}
               padding={loading ? LoadingPadding : null}
             />
           </div>

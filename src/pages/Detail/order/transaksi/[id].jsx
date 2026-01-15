@@ -109,12 +109,14 @@ const Id = ({ id }) => {
 
   const getImage = async (event) => {
     try {
+      const reader = new FileReader();
       const file = event.target.files[0];
       const result = await resizeFile(file);
       setImage({
         file: result,
         previewURL: result,
       });
+      reader.readAsDataURL(file);
     } catch (e) {
       return null;
     }
@@ -208,9 +210,20 @@ const Id = ({ id }) => {
                     htmlFor="buktiFile"
                     className="flex justify-center border-2 border-dashed border-gray-semi items-center m-2 p-10 text-gray-semi font-semibold"
                   >
-                    {image.file == null
-                      ? "Silahkan Masukkan file disini"
-                      : "File bukti transfer sudah dimasukkan!"}
+                    {image.file == null ? (
+                      <h1>Silahkan Masukkan file disini</h1>
+                    ) : (
+                      <div>
+                        <h1 className="mb-2">File Berhasil dimasukkan</h1>
+                        <Image
+                          src={image.file}
+                          width={100}
+                          height={100}
+                          alt=""
+                          className="w-auto"
+                        />
+                      </div>
+                    )}
                   </label>
                   <input
                     type="file"

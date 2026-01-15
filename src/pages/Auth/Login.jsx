@@ -146,6 +146,7 @@ const Login = () => {
             text="Login"
             click={onLogin}
             loading={loading}
+            disabled={success}
             padding={loading ? LoadingPadding : null}
           />
         </form>

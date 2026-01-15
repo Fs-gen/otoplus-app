@@ -176,6 +176,7 @@ const Register = () => {
             click={onSubmit}
             text="Daftar"
             loading={loading}
+            disabled={success}
             padding={loading ? LoadingPadding : null}
           />
         </form>

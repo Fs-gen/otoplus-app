@@ -134,6 +134,7 @@ const OrderMetode = () => {
             click={postTransaksi}
             text="Proses Transaksi"
             loading={loading}
+            disabled={success}
             padding={loading ? LoadingPadding : null}
           />
         </form>

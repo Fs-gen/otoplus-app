@@ -15,6 +15,7 @@ import FileResizer from "react-image-file-resizer";
 import { LoadingPadding } from "@/styles/style";
 import NotificationBar from "@/components/NotificationBar";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 const InputJual = () => {
   const [perluasanAsuransi, setPerluasanAsuransi] = useState([]);
@@ -82,6 +83,15 @@ const InputJual = () => {
   const token = Cookies.get("token");
   const router = useRouter();
 
+  const MessageImage = ({ src, title }) => {
+    return (
+      <div>
+        <h1 className="mb-2">Dokumen {title} Telah Dimasukkan</h1>
+        <Image src={src} width={100} height={100} alt="" className="w-auto" />
+      </div>
+    );
+  };
+
   const TopMessage = (text, success) => {
     setShowNotif(true);
     setText(text);
@@ -102,6 +112,7 @@ const InputJual = () => {
     });
 
   const handlerImage = async (e) => {
+    const reader = new FileReader();
     const { name } = e.target;
     const file = e.target.files[0];
     const result = await imageResizer(file);
@@ -109,6 +120,7 @@ const InputJual = () => {
       ...form,
       [name]: result,
     });
+    reader.readAsDataURL(file);
   };
 
   const handlerForm = (e) => {
@@ -192,7 +204,7 @@ const InputJual = () => {
             TopMessage(response?.data?.data?.message, setSuccess(false));
           }
         })
-        .catch((e) => {
+        .catch(() => {
           return null;
         });
     }
@@ -311,33 +323,46 @@ const InputJual = () => {
               }}
               invalid={invalidDokumen}
               ktp={
-                form.dok_ktp == null
-                  ? "Silahkan Masukkan File Dokumen KTP disini"
-                  : "Dokumen KTP Sudah Dimasukkan"
+                form.dok_ktp == null ? (
+                  "Silahkan Masukkan File Dokumen KTP disini"
+                ) : (
+                  <MessageImage src={form.dok_ktp} title="KTP" />
+                )
               }
               dok_ktp={form.dok_ktp}
               kk={
-                form.dok_kk == null
-                  ? "Silahkan Masukkan File Dokumen KK disini (Wajib)"
-                  : "Dokumen KK Sudah Dimasukkan"
+                form.dok_kk == null ? (
+                  "Silahkan Masukkan File Dokumen KK disini (Wajib)"
+                ) : (
+                  <MessageImage src={form.dok_kk} title="KK" />
+                )
               }
               dok_kk={form.dok_kk}
               npwp={
-                form.dok_npwp == null
-                  ? "Silahkan Masukkan File Dokumen NPWP disini"
-                  : "Dokumen NPWP Sudah Dimasukkan"
+                form.dok_npwp == null ? (
+                  "Silahkan Masukkan File Dokumen NPWP disini"
+                ) : (
+                  <MessageImage src={form.dok_npwp} title="NPWP" />
+                )
               }
               dok_npwp={form.dok_npwp}
               slipGaji={
-                form.dok_slip_gaji == null
-                  ? "Silahkan Masukkan File Dokumen Slip Gaji disini"
-                  : "Dokumen Slip Gaji Sudah Dimasukkan"
+                form.dok_slip_gaji == null ? (
+                  "Silahkan Masukkan File Dokumen Slip Gaji disini"
+                ) : (
+                  <MessageImage src={form.dok_slip_gaji} title="Slip Gaji" />
+                )
               }
               dok_slip_gaji={form.dok_slip_gaji}
               suratKerja={
-                form.dok_surat_kerja == null
-                  ? "Silahkan Masukkan File Dokumen Surat Kerja disini"
-                  : "Dokumen Surat Kerja Sudah Dimasukkan"
+                form.dok_surat_kerja == null ? (
+                  "Silahkan Masukkan File Dokumen Surat Kerja disini"
+                ) : (
+                  <MessageImage
+                    src={form.dok_surat_kerja}
+                    title="Surat Kerja"
+                  />
+                )
               }
               dok_surat_kerja={form.dok_surat_kerja}
             />

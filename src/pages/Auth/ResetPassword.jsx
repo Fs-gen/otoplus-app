@@ -104,6 +104,7 @@ const ResetPassword = () => {
               text="Ganti Password"
               click={postUpdate}
               loading={loading}
+              disabled={success}
               padding={loading ? LoadingPadding : null}
             />
           </div>
