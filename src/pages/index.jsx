@@ -1,5 +1,4 @@
 import Login from "./Auth/Login";
-import Cookies from "js-cookie";
 import Home from "./Home";
 
 const App = ({ tokenn }) => {

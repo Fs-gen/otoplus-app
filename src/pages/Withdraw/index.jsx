@@ -10,10 +10,11 @@ import NotificationBar from "@/components/NotificationBar";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import axios from "axios";
-import { LoadingPadding } from "@/styles/style";
+import { highlightSkeleton, LoadingPadding } from "@/styles/style";
 import Image from "next/image";
+import Skeleton from "react-loading-skeleton";
 
-const Withdraw = () => {
+const Withdraw = ({ reward }) => {
   const [user, setUser] = useState([]);
   const [minimal, setMinimal] = useState("");
   const [jumlah, setJumlah] = useState("");
@@ -105,15 +106,17 @@ const Withdraw = () => {
     await axios
       .request(config)
       .then((response) => {
-        console.log(response);
-        if (response?.data?.status_code != "00") {
-          TopMessage(response?.data?.data?.message, setSuccess(false));
-        } else {
+        if (response?.data?.status_code == "00") {
           TopMessage(response?.data?.data?.message, setSuccess(true));
+          setTimeout(() => {
+            router.push("/History/withdraw");
+          }, 2000);
+        } else {
+          TopMessage(response?.data?.data?.message, setSuccess(false));
         }
       })
       .catch((e) => {
-        TopMessage(response?.data?.data?.message);
+        TopMessage(e?.data?.data?.message);
       });
     setLoading(false);
   };
@@ -126,7 +129,15 @@ const Withdraw = () => {
   return (
     <section>
       <NotificationBar showNotif={showNotif} success={success} text={text} />
-      <HeaderBack text="Withdraw" link="Histori" href={"/History/withdraw"} />
+      <HeaderBack
+        text="Withdraw"
+        click={() => {
+          router.back();
+          Cookies.remove("reward");
+        }}
+        link="Histori"
+        href={"/History/withdraw"}
+      />
       <div className="section-box">
         <div className="flex items-center gap-2 mt-6.5 mb-7.5">
           <div className="rounded-full bg-gray-light p-3.5">
@@ -134,7 +145,17 @@ const Withdraw = () => {
           </div>
           <div>
             <h1 className="text-sm font-semibold">Jumlah Reward</h1>
-            <p className="text-sm font-medium">Rp. 3.000.000</p>
+            <div className="text-sm font-medium">
+              {reward == undefined ? (
+                <Skeleton
+                  count={1}
+                  height={20}
+                  highlightColor={highlightSkeleton}
+                />
+              ) : (
+                <h1>Rp. {new Intl.NumberFormat("de-DE").format(reward)}</h1>
+              )}
+            </div>
           </div>
         </div>
         <form action="" method="post" className="flex flex-col gap-3.75">
@@ -201,3 +222,13 @@ const Withdraw = () => {
 };
 
 export default Withdraw;
+
+export const getServerSideProps = (context) => {
+  const { req } = context;
+  const result = req.cookies.reward || null;
+  return {
+    props: {
+      reward: result,
+    },
+  };
+};

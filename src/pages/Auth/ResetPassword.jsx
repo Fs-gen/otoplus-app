@@ -101,7 +101,7 @@ const ResetPassword = () => {
           />
           <div className="text-center mt-8">
             <ButtonForm
-              text="Request OTP"
+              text="Ganti Password"
               click={postUpdate}
               loading={loading}
               padding={loading ? LoadingPadding : null}

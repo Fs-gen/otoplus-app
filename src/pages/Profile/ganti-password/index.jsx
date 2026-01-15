@@ -37,7 +37,7 @@ const GantiPassword = () => {
       data: data,
     };
 
-    if (password.length <= 6) {
+    if (password.length < 6) {
       setText("Harap masukkan password minimal 6 karakter");
       setShowNotif(true);
       setTimeout(() => {
@@ -49,7 +49,9 @@ const GantiPassword = () => {
         .then((response) => {
           if (response.data.status_code == "07") {
             setShowNotif(true);
-            setText(`${response.data.data.message} Atau Kolom Konfirmasi Kosong`);
+            setText(
+              `${response.data.data.message} Atau Kolom Konfirmasi Kosong`
+            );
             setTimeout(() => {
               setShowNotif(false);
             }, 3000);
