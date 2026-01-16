@@ -138,7 +138,7 @@ const Home = () => {
       <BoxItem
         text="News"
         isMore
-        href={"/Home"}
+        href={"/News"}
         components={
           news && news.length == 0 ? (
             <div className="flex overflow-x-hidden gap-6 items-center">

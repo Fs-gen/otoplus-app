@@ -5,6 +5,7 @@ import CardHistory from "@/components/Card/CardHistory";
 import Navbar from "@/components/Navbar";
 import { getHistoryReward } from "@/pages/api/api";
 import { highlightSkeleton } from "@/styles/style";
+import { Coins } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
@@ -62,7 +63,7 @@ const HistoryReward = () => {
                       props={item}
                       href={""}
                       key={index}
-                      icon={<Image src={Coin} alt="" width={20} height={20} />}
+                      icon={<Coins size={25} color="white" />}
                     />
                   );
                 })

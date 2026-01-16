@@ -5,9 +5,9 @@ import { getHistoryTransaction } from "@/pages/api/api";
 import { highlightSkeleton } from "@/styles/style";
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
-import CartBlue from "@/assets/images/icons/shopping/cart-blue.svg";
-import ArrowDown from "@/assets/images/icons/arrow/arrow-circle-blue-down.svg";
-import Image from "next/image";
+import { BanknoteArrowDown } from "lucide-react";
+import { Car } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 
 const HistoryTransaction = () => {
   const [transaksi, setTransaksi] = useState([]);
@@ -16,6 +16,8 @@ const HistoryTransaction = () => {
     const res = await getHistoryTransaction();
     setTransaksi(res);
   };
+
+  console.log(transaksi);
 
   useEffect(() => {
     fetchData();
@@ -57,32 +59,30 @@ const HistoryTransaction = () => {
                     return (
                       <CardHistory
                         status={
-                          item?.status == "belum dibayar"
+                          item?.status_type == "pending"
                             ? "text-yellow-semi"
-                            : item?.status == "menunggu konfirmasi"
+                            : item?.status_type == "menunggu konfirmasi"
                             ? "text-blue-semi"
                             : "text-green-semi"
                         }
                         icon={
                           item.nama_transaksi == "Upgrade ke Agen Plus" ? (
-                            <Image
-                              src={CartBlue}
-                              width={20}
-                              height={20}
-                              alt="icon"
-                            />
+                            <ShoppingCart size={25} color="white" />
+                          ) : item.nama_transaksi == "Withdraw" ? (
+                            <BanknoteArrowDown size={25} color="white" />
                           ) : (
-                            <Image
-                              src={ArrowDown}
-                              width={20}
-                              height={20}
-                              alt="icon"
-                            />
+                            <Car size={25} color="white" />
                           )
                         }
                         props={item}
                         key={index}
-                        href={`/Detail/order/transaksi/${item.kode_aktivasi}`}
+                        href={
+                          item && item?.type == "upgrade_akun"
+                            ? `/Detail/order/transaksi/${item.id}`
+                            : item && item?.type == "withdraw"
+                            ? `/Withdraw/${item.id}`
+                            : `/InputJual/${item.id}`
+                        }
                       />
                     );
                   })}

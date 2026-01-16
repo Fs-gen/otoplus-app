@@ -52,6 +52,144 @@ export const getUserHome = async () => {
   return datas;
 };
 
+export const getNotification = async () => {
+  const token = Cookies.get("token");
+  let data = [];
+
+  const config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("notifikasi/get-data"),
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch(() => {
+      return null;
+    });
+  return data;
+};
+
+export const getDetailNotification = async (id) => {
+  const token = Cookies.get("token");
+  let data = JSON.stringify({
+    id: id,
+  });
+  let datas = [];
+
+  let config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("notifikasi/get-data-by-id"),
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+    data: data,
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      console.log(response);
+      datas = response?.data?.data;
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+  return datas;
+};
+
+export const getDetailWithdraw = async (id) => {
+  const token = Cookies.get("token");
+  let data = JSON.stringify({ id });
+  let datas = [];
+
+  const config = {
+    method: "post",
+    maxBodyLength: Infinity,
+    url: mainURL("withdraw/get-data-by-id"),
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+    data: data,
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      console.log(response);
+      datas = response?.data?.data;
+    })
+    .catch(() => {
+      return null;
+    });
+  return datas;
+};
+
+export const getDetailTransaksi = async (id) => {
+  const token = Cookies.get("token");
+  let data = JSON.stringify({
+    id_transaksi: id,
+  });
+
+  let config = {
+    method: "post",
+    maxBodyLength: Infinity,
+    url: mainURL("produk/get-transaksi-produk"),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+    data: data,
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch(() => {
+      return null;
+    });
+  return data;
+};
+
+export const getDetailInputJual = async (id) => {
+  const token = Cookies.get("token");
+  let data = JSON.stringify({
+    id_penjualan: id,
+  });
+
+  let datas = [];
+
+  const config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("penjualan/get_by_id"),
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+    data: data,
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      console.log(response);
+      datas = response?.data?.data;
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+  return datas;
+};
+
 export const getNews = async () => {
   const token = Cookies.get("token");
   let data = null;
@@ -225,30 +363,6 @@ export const getHistoryReward = async () => {
   return data;
 };
 
-export const getHistoryWithdraw = async () => {
-  const token = Cookies.get("token");
-  let data = [];
-
-  const config = {
-    method: "get",
-    maxBodyLength: Infinity,
-    url: mainURL("withdraw/get-data"),
-    headers: {
-      Authorization: "Bearer " + token,
-    },
-  };
-
-  await axios
-    .request(config)
-    .then((response) => {
-      data = response?.data?.data;
-    })
-    .catch(() => {
-      return null;
-    });
-  return data;
-};
-
 export const getHistoryInputPenjualan = async () => {
   const token = Cookies.get("token");
   let data = [];
@@ -319,34 +433,6 @@ export const getRekCompany = async () => {
       data = response?.data?.data;
     })
     .catch((e) => {
-      return null;
-    });
-  return data;
-};
-
-export const getDetailTransaksi = async (id) => {
-  const token = Cookies.get("token");
-  let data = JSON.stringify({
-    id_transaksi: id,
-  });
-
-  let config = {
-    method: "post",
-    maxBodyLength: Infinity,
-    url: mainURL("produk/get-transaksi-produk"),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
-    },
-    data: data,
-  };
-
-  await axios
-    .request(config)
-    .then((response) => {
-      data = response?.data?.data;
-    })
-    .catch(() => {
       return null;
     });
   return data;

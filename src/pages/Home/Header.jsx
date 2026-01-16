@@ -28,7 +28,7 @@ const Header = ({ props }) => {
           )}
         </div>
       </div>
-      <Link href={"/"}>
+      <Link href={"/Notification"}>
         <Image
           src={NotificationBadge}
           width={25}

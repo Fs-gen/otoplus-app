@@ -110,9 +110,10 @@ const Withdraw = () => {
         .request(config)
         .then((response) => {
           if (response?.data?.status_code == "00") {
+            console.log(response)
             TopMessage(response?.data?.data?.message, setSuccess(true));
             setTimeout(() => {
-              router.push("/History/withdraw");
+              router.push("/History/transaksi");
             }, 2000);
           } else {
             TopMessage(response?.data?.data?.message, setSuccess(false));

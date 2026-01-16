@@ -36,14 +36,14 @@ const Amount = ({ props }) => {
             </p>
           </div>
           <div>
-            {/* <p className="text-[7px] font-medium">Penjualan</p>
+            <p className="text-[10px] font-medium">Penjualan</p>
             <p className="text-sm font-semibold text-yellow-semi">
-              {props && props?.reward == null ? (
+              {props && props?.total_penjualan == null ? (
                 <Skeleton count={1} highlightColor={highlightSkeleton} />
               ) : (
-                "0"
+                props?.total_penjualan
               )}
-            </p> */}
+            </p>
           </div>
         </div>
         <Link
