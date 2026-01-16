@@ -30,29 +30,18 @@ const News = () => {
   };
 
   const handlerPrev = () => {
-    setData([]);
-    let currentPage = page;
-    if(page == 1)
-    {
-      return;
-    }
-    currentPage -= 1;
     setPage((e) => e - 1);
-    fetchData(currentPage);
   };
 
   const handlerNext = () => {
-    setData([]);
-    let currentPage = page;
-    currentPage += 1;
     setPage((e) => e + 1);
-    fetchData(currentPage);
   };
 
   const fetchData = async (currentPage = 1) => {
+    setData([]);
     const data = JSON.stringify({
       sort: "-created_at",
-      page: page == 1 ? page : currentPage,
+      page: page,
       limit: 10,
     });
 
@@ -69,7 +58,7 @@ const News = () => {
     await axios
       .request(config)
       .then((response) => {
-        setData(response?.data?.data);
+         setData(res?.data?.data || []);
       })
       .catch((e) => {
         console.log(e);
@@ -78,7 +67,7 @@ const News = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [page]);
 
   return (
     <section>
