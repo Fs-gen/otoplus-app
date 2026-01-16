@@ -4,7 +4,7 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: "api.otoplusid.com",
+        hostname: "cms-2023.daihatsu.co.id",
       },
       {
         hostname: "api.otoplusid.com",
