@@ -33,6 +33,7 @@ const Notification = () => {
                 <p className="text-text-gray text-xs mt-2">
                   {item.description}
                 </p>
+                <p className="text-text-gray text-xs mt-2">{item.created_at}</p>
               </Link>
             );
           })}

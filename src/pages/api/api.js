@@ -84,11 +84,12 @@ export const getDetailNotification = async (id) => {
   let datas = [];
 
   let config = {
-    method: "get",
+    method: "post",
     maxBodyLength: Infinity,
     url: mainURL("notifikasi/get-data-by-id"),
     headers: {
       Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
     },
     data: data,
   };
@@ -169,7 +170,7 @@ export const getDetailInputJual = async (id) => {
   let datas = [];
 
   const config = {
-    method: "get",
+    method: "post",
     maxBodyLength: Infinity,
     url: mainURL("penjualan/get_by_id"),
     headers: {
@@ -544,4 +545,30 @@ export const postBatalWithdraw = async (id) => {
       console.log(e);
     });
   return result;
+};
+
+export const postMarkReadNotif = async (id) => {
+  const token = Cookies.get("token");
+  let data = JSON.stringify({
+    id: id,
+  });
+
+  const config = {
+    method: "post",
+    maxBodyLength: Infinity,
+    url: mainURL("notifikasi/mark_as_read"),
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+    data: data,
+  };
+
+  await axios
+    .request(config)
+    .then(() => {
+      return null;
+    })
+    .catch((e) => {
+      return null;
+    });
 };
