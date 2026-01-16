@@ -74,25 +74,37 @@ const News = () => {
       <HeaderBack text="News" />
       <div className="section-box">
         {data && data.length == 0 ? (
-          <div>
+          <div className="grid grid-cols-2 gap-4">
+            <Skeletons />
+            <Skeletons />
             <Skeletons />
             <Skeletons />
           </div>
         ) : (
-          <div className="flex flex-col gap-8">
+          <div className="grid grid-cols-2 gap-4 md:gap-6">
             {data?.map((item, index) => {
               return (
-                <Link href={item.slug} key={index} target="_blank">
-                  <Image
-                    src={item.image}
-                    width={1000}
-                    height={100}
-                    className="w-auto h-auto"
-                    alt=""
-                  />
-                  <div className="rounded-b-lg shadow-lg p-4">
-                    <h1 className="line-clamp-2 font-semibold">{item.title}</h1>
-                    <p className="text-text-gray text-sm line-clamp-3 mt-2">
+                <Link 
+                  href={item.slug} 
+                  key={index} 
+                  target="_blank"
+                  className="group overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 bg-white"
+                >
+                  <div className="relative overflow-hidden aspect-video">
+                    <Image
+                      src={item.image}
+                      width={500}
+                      height={300}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      alt={item.title}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </div>
+                  <div className="p-3 md:p-4">
+                    <h1 className="text-sm md:text-base font-bold line-clamp-2 text-gray-800 group-hover:text-blue-600 transition-colors duration-200 mb-2">
+                      {item.title}
+                    </h1>
+                    <p className="text-gray-600 text-xs md:text-sm line-clamp-2">
                       {item.spoiler}
                     </p>
                   </div>
@@ -101,19 +113,21 @@ const News = () => {
             })}
           </div>
         )}
-        <div className="flex items-center justify-center gap-4 mt-6">
+        <div className="flex items-center justify-center gap-6 mt-8">
           {page == 1 ? null : (
             <button
               onClick={handlerPrev}
               disabled={data && data.length == 0 ? true : false}
+              className="p-2 rounded-full hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
             >
               <ArrowLeft size={25} color="black" />
             </button>
           )}
-          <p></p>
+          <span className="text-sm font-medium text-gray-600">Halaman {page}</span>
           <button
             onClick={handlerNext}
             disabled={data && data.length == 0 ? true : false}
+            className="p-2 rounded-full hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
           >
             <ArrowRight size={25} color="black" />
           </button>
