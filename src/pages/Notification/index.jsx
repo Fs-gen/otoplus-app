@@ -8,7 +8,15 @@ const Notification = () => {
 
   const fetchData = async () => {
     const res = await getNotification();
-    setData(res);
+   
+    if (res.status_code == "00") { 
+      setData(res || []);
+      return;
+    }
+
+    if (res.status_code == "02") {
+   //redirect to logout
+    }
   };
 
   console.log(data)
