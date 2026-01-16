@@ -31,20 +31,28 @@ const News = () => {
 
   const handlerPrev = () => {
     setData([]);
+    let currentPage = page;
+    if(page == 1)
+    {
+      return;
+    }
+    currentPage -= 1;
     setPage((e) => e - 1);
-    fetchData();
+    fetchData(currentPage);
   };
 
   const handlerNext = () => {
     setData([]);
+    let currentPage = page;
+    currentPage += 1;
     setPage((e) => e + 1);
-    fetchData();
+    fetchData(currentPage);
   };
 
-  const fetchData = async () => {
+  const fetchData = async (currentPage = 1) => {
     const data = JSON.stringify({
       sort: "-created_at",
-      page: page,
+      page: page == 1 ? page : currentPage,
       limit: 10,
     });
 
