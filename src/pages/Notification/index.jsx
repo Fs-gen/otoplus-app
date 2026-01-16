@@ -22,7 +22,7 @@ const Notification = () => {
       <HeaderBack text="Notifikasi" />
       <div className="section-box">
         <div className="flex flex-col gap-4">
-          {data?.map((item, index) => {
+          {data && data?.map((item, index) => {
             return (
               <Link
                 href={`/Notification/${item.id}`}
