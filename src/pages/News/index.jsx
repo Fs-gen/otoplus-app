@@ -57,7 +57,7 @@ const News = () => {
 
     await axios
       .request(config)
-      .then((response) => {
+      .then((res) => {
          setData(res?.data?.data || []);
       })
       .catch((e) => {
