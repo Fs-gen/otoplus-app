@@ -68,7 +68,7 @@ export const getNotification = async () => {
   await axios
     .request(config)
     .then((response) => {
-      data = response?.data?.data;
+      data = response?.data;
     })
     .catch(() => {
       return null;
@@ -519,7 +519,7 @@ export const postBatalTransaksi = async (id) => {
 export const postBatalWithdraw = async (id) => {
   const token = Cookies.get("token");
   let data = JSON.stringify({
-    id: id
+    id: id,
   });
 
   let result = [];
