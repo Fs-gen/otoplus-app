@@ -1,12 +1,8 @@
-// Image
-import Coin from "@/assets/images/icons/shopping/coin-blue.svg";
-
 import CardHistory from "@/components/Card/CardHistory";
 import Navbar from "@/components/Navbar";
 import { getHistoryReward } from "@/pages/api/api";
 import { highlightSkeleton } from "@/styles/style";
 import { Coins } from "lucide-react";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 
