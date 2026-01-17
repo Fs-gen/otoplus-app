@@ -60,7 +60,7 @@ const Home = () => {
   const fetchDataUser = async () => {
     const res = await getUserHome();
     setUser(res);
-    setReferral(`https://otoplus-app.vercel.app/ref/${res?.kode_referral}`);
+    setReferral(`${window.location.origin}/ref/${res?.kode_referral}`);
     if (res?.message == "Unauthorized" || !token) {
       TopMessage(
         "Silahkan Login Terlebih Dahulu. Mengalihkan ke halaman login!",
