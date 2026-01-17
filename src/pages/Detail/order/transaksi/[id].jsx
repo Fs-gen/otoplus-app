@@ -297,7 +297,7 @@ const Id = ({ id }) => {
               ) : data?.status == "belum dibayar" ||
                 data?.status == "menunggu konfirmasi" ? null : (
                 <div className="mt-12">
-                  <ButtonLink text="Lihat Virtual Card ID" href={"/"} />
+                  <ButtonLink text="Lihat Virtual Card ID" href={"/Profile"} />
                 </div>
               )}
             </div>
