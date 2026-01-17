@@ -214,11 +214,7 @@ const InputJual = () => {
   return (
     <section className="bg-gray-100 min-h-screen">
       <NotificationBar showNotif={showNotif} text={text} success={success} />
-      <HeaderBack
-        text="Input Penjualan"
-        link="Histori"
-        href={"/History/input-jual"}
-      />
+      <HeaderBack text="Input Penjualan" />
       <div className="p-4">
         <div className="p-4 bg-blue-semi rounded-lg text-white">
           <h1 className="font-semibold">Form Pembelian Mobil</h1>

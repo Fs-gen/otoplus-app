@@ -1,11 +1,12 @@
 const { default: ButtonInput } = require("./ButtonInput");
-import Card from "@/assets/images/icons/shopping/card-bank.svg";
+import { BoxIconStyle } from "@/styles/style";
+import { CreditCard } from "lucide-react";
 
 const DataPembayaran = ({ change, click, invalid, jenis_pembayaran, show }) => {
   return (
     <div>
       <ButtonInput
-        icon={Card}
+        icon={<CreditCard size={40} color="white" className={BoxIconStyle} />}
         title="Skema Pembayaran"
         text="Plih metode pembayaran Anda"
         click={click}

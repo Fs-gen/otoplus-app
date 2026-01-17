@@ -9,6 +9,9 @@ const nextConfig = {
       {
         hostname: "api.otoplusid.com",
       },
+      {
+        hostname: "min.otoplusid.com",
+      },
     ],
   },
 };

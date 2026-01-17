@@ -1,12 +1,12 @@
 const { default: ButtonInput } = require("./ButtonInput");
-import Document from "@/assets/images/icons/other/document.svg";
 import FormArea from "@/components/Form/FormArea";
 import FormLine from "@/components/Form/FormLine";
+import { BoxIconStyle } from "@/styles/style";
+import { FileText } from "lucide-react";
 
 const DataSTNK = ({
   click,
   change,
-  invalid,
   show,
   tipe_pemilik,
   alamat_stnk,
@@ -16,7 +16,7 @@ const DataSTNK = ({
   return (
     <div>
       <ButtonInput
-        icon={Document}
+      icon={<FileText size={40} color="white" className={BoxIconStyle} />}
         title="Data Untuk STNK & BPKB"
         text="Informasi Registrasi Kendaraan"
         click={click}

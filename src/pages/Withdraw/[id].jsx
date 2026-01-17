@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import HeaderBack from "@/components/Header/HeaderBack";
 import Skeleton from "react-loading-skeleton";
 import { highlightSkeleton } from "@/styles/style";
+import CardConfirm from "@/components/PopUp/CardConfirm";
+import { X } from "lucide-react";
 
 const DetailWithdraw = ({ id }) => {
   const [data, setData] = useState([]);
@@ -34,11 +36,13 @@ const DetailWithdraw = ({ id }) => {
 
   const CancelWithdraw = async (e) => {
     e.preventDefault();
+    console.log(e);
     setLoading(true);
-    const res = await postBatalWithdraw(data?.id_withdraw);
+    const res = await postBatalWithdraw(id);
     console.log(res);
     if (res?.status_code == "00") {
       TopMessage(res?.data?.message, setSuccess(true));
+      setConfirm(false);
       setTimeout(() => {
         router.replace("/History/transaksi");
       }, 2000);
@@ -53,9 +57,24 @@ const DetailWithdraw = ({ id }) => {
   }, []);
 
   return (
-    <div>
+    <div className={`${confirm ? "overflow-hidden max-h-dvh" : ""}`}>
       <HeaderBack text="Detail Withdraw" />
       <NotificationBar showNotif={showNotif} text={text} success={success} />
+      <CardConfirm
+        show={confirm}
+        icon={
+          <X
+            size={75}
+            color="white"
+            className="p-2 bg-red-semi rounded-full mx-auto"
+          />
+        }
+        color="bg-red-semi"
+        text="Apakah anda yakin untuk membatalkan penarikan?"
+        cancel={() => setConfirm(false)}
+        click={CancelWithdraw}
+        loading={loading}
+      />
       <div className="section-box">
         {data && data.length == 0 ? (
           <Skeleton
@@ -121,13 +140,7 @@ const DetailWithdraw = ({ id }) => {
                     : CancelWithdraw
                 }
               >
-                {loading ? (
-                  <div className="spinner-small"></div>
-                ) : (
-                  <h1>
-                    {confirm ? "Konfirmasi Pembatalan" : "Batalkan Penarikan"}
-                  </h1>
-                )}
+                Betalkan Penarikan
               </button>
             )}
           </div>

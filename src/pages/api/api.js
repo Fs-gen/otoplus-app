@@ -124,7 +124,6 @@ export const getDetailWithdraw = async (id) => {
   await axios
     .request(config)
     .then((response) => {
-      console.log(response);
       datas = response?.data?.data;
     })
     .catch(() => {
@@ -520,7 +519,7 @@ export const postBatalTransaksi = async (id) => {
 export const postBatalWithdraw = async (id) => {
   const token = Cookies.get("token");
   let data = JSON.stringify({
-    id,
+    id: id
   });
 
   let result = [];

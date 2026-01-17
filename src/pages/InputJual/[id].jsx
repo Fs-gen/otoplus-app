@@ -3,6 +3,15 @@ import { getDetailInputJual } from "../api/api";
 import HeaderBack from "@/components/Header/HeaderBack";
 import { Clock } from "lucide-react";
 import Image from "next/image";
+import ButtonInput from "./ButtonInput";
+import { User } from "lucide-react";
+import { BoxIconStyle } from "@/styles/style";
+import { Briefcase } from "lucide-react";
+import { Car } from "lucide-react";
+import { CreditCard } from "lucide-react";
+import { Shield } from "lucide-react";
+import { FileText } from "lucide-react";
+import { Upload } from "lucide-react";
 
 const CardDetail = ({ image, text, title }) => {
   return (
@@ -26,9 +35,12 @@ const CardDetail = ({ image, text, title }) => {
 const DetailInputJual = ({ id }) => {
   const [data, setData] = useState([]);
   const [showIdentitas, setShowIdentitas] = useState(false);
-
-  console.log(data);
-  console.log(id);
+  const [showPekerjaan, setShowPekerjaan] = useState(false);
+  const [showKendaraan, setShowKendaraan] = useState(false);
+  const [showPembayaran, setShowPembayaran] = useState(false);
+  const [showAsuransi, setShowAsuransi] = useState(false);
+  const [showSTNK, setShowSTNK] = useState(false);
+  const [showDokumen, setShowDokumne] = useState(false);
 
   const fetchData = async () => {
     const res = await getDetailInputJual(16);
@@ -42,7 +54,7 @@ const DetailInputJual = ({ id }) => {
   return (
     <section>
       <HeaderBack text="Detail Penjualan" />
-      <div className="section-box">
+      <div className="section-box bg-gray-100">
         <div className="bg-white p-4 rounded-lg shadow-md">
           <div className="text-center mt-2 mb-8">
             <Clock
@@ -55,11 +67,19 @@ const DetailInputJual = ({ id }) => {
           </div>
           <div className="flex flex-col gap-4">
             <div id="identitas">
-              <div className="p-4 shadow-lg rounded-md">Data Identitas</div>
+              <div className="shadow-box-primary">
+                <ButtonInput
+                  icon={
+                    <User size={40} color="white" className={BoxIconStyle} />
+                  }
+                  text="Data Identitas"
+                  click={() => setShowIdentitas(!showIdentitas)}
+                />
+              </div>
               <div
                 className={`${
-                  !showIdentitas ? "flex" : "hidden"
-                } p-4 flex-col gap-4 bg-white mt-2 border-2 border-gray-200`}
+                  showIdentitas ? "flex" : "hidden"
+                } p-4 flex-col gap-4 bg-white mt-2 border-2 border-gray-200 rounded-xl`}
               >
                 <CardDetail title="Nama Lengkap" text={data.nama_lengkap} />
                 <CardDetail title="NIK" text={data.nik} />
@@ -90,10 +110,22 @@ const DetailInputJual = ({ id }) => {
               </div>
             </div>
             <div id="pekerjaan">
-              <div className="p-4 shadow-lg rounded-md">Data Pekerjaan</div>
+              <div className="shadow-box-primary">
+                <ButtonInput
+                  icon={
+                    <Briefcase
+                      size={40}
+                      color="white"
+                      className={BoxIconStyle}
+                    />
+                  }
+                  text="Data Pekerjaan"
+                  click={() => setShowPekerjaan(!showPekerjaan)}
+                />
+              </div>
               <div
                 className={`${
-                  !showIdentitas ? "flex" : "hidden"
+                  showPekerjaan ? "flex" : "hidden"
                 } p-4 flex-col gap-4 bg-white mt-2 border-2 border-gray-200`}
               >
                 <CardDetail
@@ -126,10 +158,18 @@ const DetailInputJual = ({ id }) => {
               </div>
             </div>
             <div id="kendaraan">
-              <div className="p-4 shadow-lg rounded-md">Data Kendaraan</div>
+              <div className="shadow-box-primary">
+                <ButtonInput
+                  icon={
+                    <Car size={40} color="white" className={BoxIconStyle} />
+                  }
+                  text="Data Kendaraan"
+                  click={() => setShowKendaraan(!showKendaraan)}
+                />
+              </div>
               <div
                 className={`${
-                  !showIdentitas ? "flex" : "hidden"
+                  showKendaraan ? "flex" : "hidden"
                 } p-4 flex-col gap-4 bg-white mt-2 border-2 border-gray-200`}
               >
                 <CardDetail
@@ -164,10 +204,22 @@ const DetailInputJual = ({ id }) => {
               </div>
             </div>
             <div id="metode">
-              <div className="p-4 shadow-lg rounded-md">Metode Pembayaran</div>
+              <div className="shadow-box-primary">
+                <ButtonInput
+                  icon={
+                    <CreditCard
+                      size={40}
+                      color="white"
+                      className={BoxIconStyle}
+                    />
+                  }
+                  text="Metode Pembayaran"
+                  click={() => setShowPembayaran(!showPembayaran)}
+                />
+              </div>
               <div
                 className={`${
-                  !showIdentitas ? "flex" : "hidden"
+                  showPembayaran ? "flex" : "hidden"
                 } p-4 flex-col gap-4 bg-white mt-2 border-2 border-gray-200`}
               >
                 <CardDetail
@@ -177,10 +229,18 @@ const DetailInputJual = ({ id }) => {
               </div>
             </div>
             <div id="asuransi">
-              <div className="p-4 shadow-lg rounded-md">Data Asuransi</div>
+              <div className="shadow-box-primary">
+                <ButtonInput
+                  icon={
+                    <Shield size={40} color="white" className={BoxIconStyle} />
+                  }
+                  text="Data Asuransi"
+                  click={() => setShowAsuransi(!showAsuransi)}
+                />
+              </div>
               <div
                 className={`${
-                  !showIdentitas ? "flex" : "hidden"
+                  showAsuransi ? "flex" : "hidden"
                 } p-4 flex-col gap-4 bg-white mt-2 border-2 border-gray-200`}
               >
                 <CardDetail
@@ -198,10 +258,22 @@ const DetailInputJual = ({ id }) => {
               </div>
             </div>
             <div id="stnk">
-              <div className="p-4 shadow-lg rounded-md">Data STNK & BPKB</div>
+              <div className="shadow-box-primary">
+                <ButtonInput
+                  icon={
+                    <FileText
+                      size={40}
+                      color="white"
+                      className={BoxIconStyle}
+                    />
+                  }
+                  text="Data STNK & BPKB"
+                  click={() => setShowSTNK(!showSTNK)}
+                />
+              </div>
               <div
                 className={`${
-                  !showIdentitas ? "flex" : "hidden"
+                  showSTNK ? "flex" : "hidden"
                 } p-4 flex-col gap-4 bg-white mt-2 border-2 border-gray-200`}
               >
                 <CardDetail
@@ -220,10 +292,18 @@ const DetailInputJual = ({ id }) => {
               </div>
             </div>
             <div id="dokumen">
-              <div className="p-4 shadow-lg rounded-md">Dokumen Pendukung</div>
+              <div className="shadow-box-primary">
+                <ButtonInput
+                  icon={
+                    <Upload size={40} color="white" className={BoxIconStyle} />
+                  }
+                  text="Data Dokumen"
+                  click={() => setShowDokumne(!showDokumen)}
+                />
+              </div>
               <div
                 className={`${
-                  !showIdentitas ? "flex" : "hidden"
+                  showDokumen ? "flex" : "hidden"
                 } p-4 flex-col gap-4 bg-white mt-2 border-2 border-gray-200`}
               >
                 <CardDetail title="Dokumen KTP" text={data.dok_ktp || "-"} />

@@ -1,7 +1,8 @@
 const { default: ButtonInput } = require("./ButtonInput");
-import User from "@/assets/images/icons/system/user.svg";
 import FormArea from "@/components/Form/FormArea";
 import FormLine from "@/components/Form/FormLine";
+import { BoxIconStyle } from "@/styles/style";
+import { User } from "lucide-react";
 
 const DataPembeli = ({
   change,
@@ -21,7 +22,8 @@ const DataPembeli = ({
   return (
     <div>
       <ButtonInput
-        icon={User}
+        // icon={User}
+        icon={<User size={40} color="white" className={BoxIconStyle} />}
         title="Data Identitas Pembeli"
         text="Untuk STNK, BPKB, dan Kontrak"
         click={click}

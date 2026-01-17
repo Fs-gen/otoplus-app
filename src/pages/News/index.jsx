@@ -14,14 +14,11 @@ const News = () => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
 
-  console.log(page);
-  console.log(data)
-
   const Skeletons = () => {
     return (
       <Skeleton
         count={1}
-        height={350}
+        height={200}
         borderRadius={10}
         highlightColor={highlightSkeleton}
         className="mb-4"
@@ -58,10 +55,10 @@ const News = () => {
     await axios
       .request(config)
       .then((res) => {
-         setData(res?.data?.data || []);
+        setData(res?.data?.data || []);
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
+        return null;
       });
   };
 
@@ -79,14 +76,18 @@ const News = () => {
             <Skeletons />
             <Skeletons />
             <Skeletons />
+            <Skeletons />
+            <Skeletons />
+            <Skeletons />
+            <Skeletons />
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-4 md:gap-6">
             {data?.map((item, index) => {
               return (
-                <Link 
-                  href={item.slug} 
-                  key={index} 
+                <Link
+                  href={item.slug}
+                  key={index}
                   target="_blank"
                   className="group overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 bg-white"
                 >
@@ -123,7 +124,9 @@ const News = () => {
               <ArrowLeft size={25} color="black" />
             </button>
           )}
-          <span className="text-sm font-medium text-gray-600">Halaman {page}</span>
+          <span className="text-sm font-medium text-gray-600">
+            Halaman {page}
+          </span>
           <button
             onClick={handlerNext}
             disabled={data && data.length == 0 ? true : false}

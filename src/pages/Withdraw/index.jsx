@@ -110,7 +110,7 @@ const Withdraw = () => {
         .request(config)
         .then((response) => {
           if (response?.data?.status_code == "00") {
-            console.log(response)
+            console.log(response);
             TopMessage(response?.data?.data?.message, setSuccess(true));
             setTimeout(() => {
               router.push("/History/transaksi");
@@ -134,15 +134,7 @@ const Withdraw = () => {
   return (
     <section>
       <NotificationBar showNotif={showNotif} success={success} text={text} />
-      <HeaderBack
-        text="Withdraw"
-        click={() => {
-          router.back();
-          Cookies.remove("reward");
-        }}
-        link="Histori"
-        href={"/History/withdraw"}
-      />
+      <HeaderBack text="Withdraw" />
       <div className="section-box">
         <div className="flex items-center gap-2 mt-6.5 mb-7.5">
           <div className="rounded-full bg-gray-light p-3.5">

@@ -25,7 +25,7 @@ const Amount = ({ props }) => {
       </h1>
       <div className="flex justify-between items-center mt-3.75">
         <div className="flex gap-8">
-          <div>
+          <Link href={"/Profile/referral"}>
             <p className="text-[10px] font-medium">Referrals</p>
             <p className="text-sm font-semibold text-yellow-semi">
               {props && props?.total_referral == null ? (
@@ -34,8 +34,8 @@ const Amount = ({ props }) => {
                 props?.total_referral
               )}
             </p>
-          </div>
-          <div>
+          </Link>
+          <Link href={"/History/input-jual"}>
             <p className="text-[10px] font-medium">Penjualan</p>
             <p className="text-sm font-semibold text-yellow-semi">
               {props && props?.total_penjualan == null ? (
@@ -44,7 +44,7 @@ const Amount = ({ props }) => {
                 props?.total_penjualan
               )}
             </p>
-          </div>
+          </Link>
         </div>
         <Link
           href={"/Withdraw"}

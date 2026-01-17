@@ -1,6 +1,7 @@
 const { default: ButtonInput } = require("./ButtonInput");
-import Shield from "@/assets/images/icons/system/shield.svg";
+import { Shield } from "lucide-react";
 import FormLine from "@/components/Form/FormLine";
+import { BoxIconStyle } from "@/styles/style";
 
 const DataAsuransi = ({
   click,
@@ -17,7 +18,7 @@ const DataAsuransi = ({
   return (
     <div>
       <ButtonInput
-        icon={Shield}
+        icon={<Shield size={40} color="white" className={BoxIconStyle} />}
         title="Data Asuransi"
         text="Pilih asuransi kendaraan Anda"
         click={click}

@@ -1,7 +1,8 @@
 const { default: ButtonInput } = require("./ButtonInput");
-import SuitCase from "@/assets/images/icons/other/suitcase.svg";
 import FormArea from "@/components/Form/FormArea";
 import FormLine from "@/components/Form/FormLine";
+import { BoxIconStyle } from "@/styles/style";
+import { Briefcase } from "lucide-react";
 
 const DataPekerjaan = ({
   change,
@@ -18,7 +19,7 @@ const DataPekerjaan = ({
   return (
     <div>
       <ButtonInput
-        icon={SuitCase}
+        icon={<Briefcase size={40} color="white" className={BoxIconStyle} />}
         title="Data Pekerjaan & Penghasilan"
         text="Terutama jika pembeli kredit"
         click={click}

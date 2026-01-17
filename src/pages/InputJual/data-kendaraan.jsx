@@ -1,6 +1,7 @@
 const { default: ButtonInput } = require("./ButtonInput");
-import Car from "@/assets/images/icons/other/car.svg";
 import FormLine from "@/components/Form/FormLine";
+import { BoxIconStyle } from "@/styles/style";
+import { Car } from "lucide-react";
 
 const DataKendaraan = ({
   change,
@@ -20,7 +21,7 @@ const DataKendaraan = ({
   return (
     <div>
       <ButtonInput
-        icon={Car}
+      icon={<Car size={40} color="white" className={BoxIconStyle} />}
         title="Data Kendaraan yang Dibeli"
         text="Spesifikasi mobile pilihan Anda"
         click={click}

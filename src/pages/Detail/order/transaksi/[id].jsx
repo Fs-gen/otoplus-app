@@ -16,6 +16,8 @@ import NotificationBar from "@/components/NotificationBar";
 import { useRouter } from "next/router";
 import { highlightSkeleton, LoadingPadding } from "@/styles/style";
 import Skeleton from "react-loading-skeleton";
+import CardConfirm from "@/components/PopUp/CardConfirm";
+import { X } from "lucide-react";
 const FormData = require("form-data");
 
 const Transfer = ({ props }) => {
@@ -55,7 +57,9 @@ const Id = ({ id }) => {
   const [text, setText] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  // Batal Transaksi
   const [loadingCancel, setLoadingCancel] = useState(false);
+  const [confirm, setConfirm] = useState(false);
   const [image, setImage] = useState({
     file: null,
     previewURL: null,
@@ -92,6 +96,7 @@ const Id = ({ id }) => {
     } else {
       TopMessage("Oops! Sepertinya terjadi kesalahan!");
     }
+    setConfirm(false);
     setLoadingCancel(false);
   };
 
@@ -165,6 +170,20 @@ const Id = ({ id }) => {
         click={() => router.replace("/History/transaksi")}
       />
       <NotificationBar showNotif={showNotif} success={success} text={text} />
+      <CardConfirm
+        cancel={() => setConfirm(false)}
+        click={batalTransaksi}
+        loading={loadingCancel}
+        text="Apakah anda ingin membatalkan transaksi!"
+        icon={
+          <X
+            size={75}
+            color="white"
+            className="p-2 rounded-full bg-red-semi mx-auto"
+          />
+        }
+        show={confirm}
+      />
       <div className="section-box">
         {data && data?.length == 0 ? (
           <Skeleton count={1} height={150} highlightColor={highlightSkeleton} />
@@ -192,14 +211,10 @@ const Id = ({ id }) => {
                   {data.batas_akhir} WITA
                 </h1>
                 <button
-                  onClick={batalTransaksi}
+                  onClick={() => setConfirm(true)}
                   className="text-red-semi text-xs font-bold"
                 >
-                  {loadingCancel ? (
-                    <div className="spinner-red"></div>
-                  ) : (
-                    "Batalkan Transaksi"
-                  )}
+                  Batalkan Transaksi
                 </button>
               </div>
             ) : null}

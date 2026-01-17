@@ -1,5 +1,7 @@
+import { BoxIconStyle } from "@/styles/style";
+import { Upload } from "lucide-react";
+
 const { default: ButtonInput } = require("./ButtonInput");
-import Upload from "@/assets/images/icons/system/upload.svg";
 
 const InputFile = ({ change, component, id }) => {
   return (
@@ -35,7 +37,7 @@ const DataDokumen = ({
   return (
     <div>
       <ButtonInput
-        icon={Upload}
+        icon={<Upload size={40} color="white" className={BoxIconStyle} />}
         title="Dokumen Pendukung"
         text="Upload dokumen yang diperlukan"
         click={click}
