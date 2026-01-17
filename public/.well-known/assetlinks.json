@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.otoplusid.app",
+        "sha256_cert_fingerprints": ["56:2A:10:A0:46:71:4A:29:23:F2:DF:11:A5:6D:89:34:79:21:87:8E:17:69:64:36:BB:C3:BE:29:14:BB:A2:4D"]
+      }
+    }]
