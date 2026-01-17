@@ -49,7 +49,7 @@ const HistoryInputJual = () => {
             {data?.map((item, index) => {
               return (
                 <Link
-                  href={"/"}
+                  href={`/InputJual/${item.id}`}
                   key={index}
                   className="bg-white shadow-lg p-4 rounded-xl flex justify-between"
                 >
@@ -69,8 +69,8 @@ const HistoryInputJual = () => {
                         item.status == "pending"
                           ? "bg-yellow-semi"
                           : item.status == "rejected"
-                          ? "bg-red-semi"
-                          : "bg-blue-semi"
+                            ? "bg-red-semi"
+                            : "bg-blue-semi"
                       }`}
                     >
                       {item.status}
