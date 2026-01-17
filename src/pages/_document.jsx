@@ -30,14 +30,14 @@ export default function Document({ origin }) {
 <meta name="twitter:url" content={origin} />
 <meta name="twitter:title" content="OtoplusID" />
 <meta name="twitter:description" content="Jual Mobil Daihatsu Dan Dapatkan Reward!" />
-<meta name="twitter:image" content={'/icons/logo-152.png'} />
+<meta name="twitter:image" content={origin+'/icons/logo-152.png'} />
 <meta name="twitter:creator" content="@DavidWShadow" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="OtoplusID" />
 <meta property="og:description" content="Jual Mobil Daihatsu Dan Dapatkan Reward!" />
 <meta property="og:site_name" content="OtoplusID" />
 <meta property="og:url" content={origin} />
-<meta property="og:image" content={'/icons/logo-152.png'} />
+<meta property="og:image" content={origin+'/icons/logo-152.png'} />
 
         </Head>
       <body>
