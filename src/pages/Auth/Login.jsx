@@ -64,22 +64,19 @@ const Login = () => {
           if (dataUser.profile_lengkap != true) {
             TopMessage(
               "Selamat Datang! Silahkan Isi data diri terlebih dahulu.Mengalihkan otomatis",
-              setSuccess(true)
+              setSuccess(true),
             );
             Cookies.set("token", response.data.data.token);
             setTimeout(() => {
               router.push("/Profile/profil-saya");
             }, 2000);
           } else {
-            TopMessage("Proses Login Telah Berhasil", setSuccess(true));
             Cookies.set("token", response.data.data.token);
-            setTimeout(() => {
-              router.push("/Home");
-            }, 2000);
+            router.push("/Home");
           }
         } else if (response.data.data.message == "Akun Tidak Ditemukan") {
           TopMessage(
-            `${response.data.data.message}! Jika sudah registrasi namun tidak melakukan verifikasi OTP maka anda harus registrasi ulang`
+            `${response.data.data.message}! Jika sudah registrasi namun tidak melakukan verifikasi OTP maka anda harus registrasi ulang`,
           );
         } else {
           TopMessage("Oops! sepertinya data dimasukkan salah");

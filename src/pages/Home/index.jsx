@@ -16,6 +16,7 @@ import Cookies from "js-cookie";
 import Skeleton from "react-loading-skeleton";
 import { highlightSkeleton } from "@/styles/style";
 import { useRouter } from "next/router";
+import { ClipboardText } from "@/utils/utils";
 
 const SkeletonNews = () => {
   return (
@@ -37,8 +38,10 @@ const SkeletonNews = () => {
 
 const Home = () => {
   const [user, setUser] = useState([]);
+  const [referral, setReferral] = useState("");
   const [news, setNews] = useState([]);
   const [showNotif, setShowNotif] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [text, setText] = useState("");
   const router = useRouter();
   const token = Cookies.get("token");
@@ -57,9 +60,10 @@ const Home = () => {
   const fetchDataUser = async () => {
     const res = await getUserHome();
     setUser(res);
+    setReferral(`https://otoplus-app.vercel.app/ref/${res?.kode_referral}`);
     if (res?.message == "Unauthorized" || !token) {
       TopMessage(
-        "Silahkan Login Terlebih Dahulu. Mengalihkan ke halaman login!"
+        "Silahkan Login Terlebih Dahulu. Mengalihkan ke halaman login!",
       );
       Cookies.remove("token");
       setTimeout(() => {
@@ -82,7 +86,7 @@ const Home = () => {
 
   return (
     <section className="section-box">
-      <NotificationBar showNotif={showNotif} text={text} />
+      <NotificationBar showNotif={showNotif} text={text} success={success} />
       <Header props={user} />
       <Amount props={user} />
       {user && user?.type_akun == "freelance" ? (
@@ -104,12 +108,20 @@ const Home = () => {
               />
             ) : (
               <input
+                id="referral"
                 disabled
                 className="text-sm font-medium placeholder:text-black py-1.5 px-3 border border-gray-semi rounded-lg w-full"
-                value={`https://otoplus-app.vercel.app/ref/${user?.kode_referral}`}
+                value={referral}
               />
             )}
-            <button type="button">
+            <button
+              onClick={() => {
+                ClipboardText(
+                  referral,
+                  TopMessage("berhasil salin!", setSuccess(true)),
+                );
+              }}
+            >
               <Copy size={25} />
             </button>
           </div>

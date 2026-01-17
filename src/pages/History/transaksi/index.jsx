@@ -61,8 +61,8 @@ const HistoryTransaction = () => {
                         status={
                           item?.status_type == "pending"
                             ? "text-yellow-semi"
-                            : item?.status_type == "menunggu konfirmasi"
-                            ? "text-blue-semi"
+                            : item?.status_type == "reject"
+                            ? "text-red-semi"
                             : "text-green-semi"
                         }
                         icon={

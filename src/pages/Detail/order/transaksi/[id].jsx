@@ -18,12 +18,14 @@ import { highlightSkeleton, LoadingPadding } from "@/styles/style";
 import Skeleton from "react-loading-skeleton";
 import CardConfirm from "@/components/PopUp/CardConfirm";
 import { X } from "lucide-react";
+import { Copy } from "lucide-react";
+import { ClipboardText } from "@/utils/utils";
 const FormData = require("form-data");
 
-const Transfer = ({ props }) => {
+const Transfer = ({ copyRek, copyJumlah, hasil, props }) => {
   const textGray = "text-xs";
-  const harga = parseInt(props?.harga) || parseInt(props?.jumlah);
-  const hasil = harga + parseInt(props?.kode_unik);
+  const rekening = props?.rekening;
+
   return (
     <div className="shadow-lg shadow-gray-200 rounded-lg mb-8">
       <h1 className="text-sm font-medium mb-2.5">Silahkan Transfer Ke</h1>
@@ -35,13 +37,23 @@ const Transfer = ({ props }) => {
             <p className={textGray}>{props?.atas_nama}</p>
           </div>
         </div>
-        <FormLine readOnly value={props?.rekening} white />
+        <div className="flex items-center gap-4">
+          <div className="w-full">
+            <FormLine readOnly value={rekening} white />
+          </div>
+          <button onClick={copyRek}>
+            <Copy size={25} color="black" />
+          </button>
+        </div>
         <h1 className="text-xs mt-4.5 mb-2.5">Jumlah Transfer</h1>
-        <FormLine
-          readOnly
-          value={`Rp ${new Intl.NumberFormat("de-DE").format(hasil)}`}
-          white
-        />
+        <div className="flex gap-4 items-center">
+          <div className="w-full ">
+            <FormLine readOnly value={`Rp ${hasil}`} white />
+          </div>
+          <button onClick={copyJumlah}>
+            <Copy size={25} color="black" />
+          </button>
+        </div>
         <p className="text-[10px] font-medium mt-1 ml-2">
           Pastikan jumlahnya sama dengan 3 digit terakhir
         </p>
@@ -57,6 +69,10 @@ const Id = ({ id }) => {
   const [text, setText] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const harga = parseInt(data?.jumlah);
+  const hasil = new Intl.NumberFormat("de-DE").format(
+    harga + parseInt(data?.kode_unik),
+  );
   // Batal Transaksi
   const [loadingCancel, setLoadingCancel] = useState(false);
   const [confirm, setConfirm] = useState(false);
@@ -65,6 +81,8 @@ const Id = ({ id }) => {
     previewURL: null,
   });
   const router = useRouter();
+
+  console.log(data);
 
   const TopMessage = (text, success) => {
     setShowNotif(true);
@@ -106,10 +124,10 @@ const Id = ({ id }) => {
 
   const resizeFile = (file) =>
     new Promise((resolve) => {
-      Resizer.imageFileResizer(file, 500, 500, "JPEG", 70, 0, (uri) => {
+      (Resizer.imageFileResizer(file, 500, 500, "JPEG", 70, 0, (uri) => {
         resolve(uri);
       }),
-        "base64";
+        "base64");
     });
 
   const getImage = async (event) => {
@@ -190,7 +208,28 @@ const Id = ({ id }) => {
         ) : (
           <div>
             {data && data?.status == "belum dibayar" ? (
-              <Transfer props={data} />
+              <Transfer
+                hasil={hasil}
+                props={data}
+                copyRek={() =>
+                  ClipboardText(
+                    data?.rekening,
+                    TopMessage(
+                      "Berhasil Menyalin No. Rekening",
+                      setSuccess(true),
+                    ),
+                  )
+                }
+                copyJumlah={() =>
+                  ClipboardText(
+                    new Intl.NumberFormat("de-DE").format(hasil),
+                    TopMessage(
+                      "Berhasil Menyalin Jumlah Transfer",
+                      setSuccess(true),
+                    ),
+                  )
+                }
+              />
             ) : null}
             <h1 className="my-3 text-sm font-medium">Detail Transaksi</h1>
             <CardOrder
@@ -200,8 +239,8 @@ const Id = ({ id }) => {
                 data?.status == "belum dibayar"
                   ? "text-red-semi"
                   : data?.status == "menunggu konfirmasi"
-                  ? "text-blue-semi"
-                  : "text-green-semi"
+                    ? "text-blue-semi"
+                    : "text-green-semi"
               }`}
             />
             {(data && data?.status == "belum dibayar") == true ? (
