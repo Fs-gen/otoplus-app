@@ -43,7 +43,7 @@ const DetailInputJual = ({ id }) => {
   const [showDokumen, setShowDokumne] = useState(false);
 
   const fetchData = async () => {
-    const res = await getDetailInputJual(16);
+    const res = await getDetailInputJual(id);
     setData(res);
   };
 
