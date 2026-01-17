@@ -1,6 +1,6 @@
 import { Html, Head, Main, NextScript } from "next/document";
 
-export default function Document() {
+export default function Document({ origin }) {
   return (
     <Html lang="en">
       <Head>
@@ -27,17 +27,17 @@ export default function Document() {
 <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#5bbad5" />
 <link rel="shortcut icon" href="/favicon.ico" />
 <meta name="twitter:card" content="summary" />
-<meta name="twitter:url" content={window.location.origin} />
+<meta name="twitter:url" content={origin} />
 <meta name="twitter:title" content="OtoplusID" />
 <meta name="twitter:description" content="Jual Mobil Daihatsu Dan Dapatkan Reward!" />
-<meta name="twitter:image" content={window.location.origin+'/icons/logo-152.png'} />
+<meta name="twitter:image" content={'/icons/logo-152.png'} />
 <meta name="twitter:creator" content="@DavidWShadow" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="OtoplusID" />
 <meta property="og:description" content="Jual Mobil Daihatsu Dan Dapatkan Reward!" />
 <meta property="og:site_name" content="OtoplusID" />
-<meta property="og:url" content={window.location.origin} />
-<meta property="og:image" content={window.location.origin+'/icons/logo-152.png'} />
+<meta property="og:url" content={origin} />
+<meta property="og:image" content={'/icons/logo-152.png'} />
 
         </Head>
       <body>
@@ -47,3 +47,14 @@ export default function Document() {
     </Html>
   );
 }
+
+Document.getInitialProps = async (ctx) => {
+  const initialProps = await ctx.defaultGetInitialProps(ctx);
+  
+  // Mendapatkan origin secara dinamis
+  const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+  const host = ctx.req?.headers?.host || 'localhost:3000';
+  const origin = `${protocol}://${host}`;
+  
+  return { ...initialProps, origin };
+};
