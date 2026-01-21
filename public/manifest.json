@@ -1,6 +1,13 @@
 {
     "name": "OTOPLUSID",
     "short_name": "OTOPLUSID",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "orientation": "portrait",
+    "scope": "/",
+    "start_url": "/",
+    "description": "OTOPLUSID adalah aplikasi agen penjualan kendaraan untuk mengelola penjualan, fee, referral, dan voucher reward secara praktis dan transparan.",
     "icons": [
         {
             "src": "/icons/logo-72.png",
