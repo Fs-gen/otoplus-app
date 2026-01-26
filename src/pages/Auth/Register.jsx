@@ -165,7 +165,7 @@ const Register = () => {
           </div>
           <FormLine
             title="Kode Referral"
-            value={referral ?? ""}
+            value={referral}
             readOnly={
               isReadOnly
             }
