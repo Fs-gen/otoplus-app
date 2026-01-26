@@ -40,7 +40,7 @@ const DataKendaraan = ({
           bold
           change={change}
           name="merek_tipe_mobil"
-          placeholder="Contoh: Toyota Avanza"
+          placeholder="Contoh: All New Xenia"
           required={true}
           title="Merek & Tipe Mobil"
           value={merek_tipe_mobil}
@@ -50,7 +50,7 @@ const DataKendaraan = ({
             bold
             change={change}
             name="varian"
-            placeholder="Contoh: 1.3 G MT"
+            placeholder="Contoh: 1.3 M MT"
             title="Varian"
             value={varian}
           />
@@ -68,7 +68,7 @@ const DataKendaraan = ({
             bold
             change={change}
             name="tahun_produksi"
-            placeholder="2024"
+            placeholder="2026"
             title="Tahun Produksi"
             type="number"
             value={tahun_produksi}
