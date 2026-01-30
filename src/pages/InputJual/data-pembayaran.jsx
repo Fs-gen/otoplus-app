@@ -2,7 +2,7 @@ const { default: ButtonInput } = require("./ButtonInput");
 import { BoxIconStyle } from "@/styles/style";
 import { CreditCard } from "lucide-react";
 
-const DataPembayaran = ({ change, click, invalid, jenis_pembayaran, show }) => {
+const DataPembayaran = ({ change, click, invalid, area, jenis_pembayaran, show }) => {
   return (
     <div>
       <ButtonInput
@@ -22,24 +22,43 @@ const DataPembayaran = ({ change, click, invalid, jenis_pembayaran, show }) => {
               Harap kolom wajib diisi dengan benar
             </h1>
           ) : null}
-          <label
-            htmlForfor="jenis_pembayaran"
-            className="text-xs mb-1.25 font-bold"
-          >
-            Metode Pembayaran <span>(Wajib)</span>
-          </label>
-          <select
-            name="jenis_pembayaran"
-            id="jenis_pembayaran"
-            className="p-3 placeholder:text-gray-light focus:outline-blue-light font-semibold w-full text-sm rounded-xl border border-gray-light"
-            onChange={change}
-            required
-            value={jenis_pembayaran}
-          >
-            <option value="">Pilih Metode Pembayaran</option>
-            <option value="Cash">Cash</option>
-            <option value="Kredit">Kredit</option>
-          </select>
+          <div>
+            <label htmlForfor="area" className="text-xs mb-1.25 font-bold">
+              Area <span>(Wajib)</span>
+            </label>
+            <select
+              name="area"
+              id="area"
+              className="p-3 placeholder:text-gray-light focus:outline-blue-light font-semibold w-full text-sm rounded-xl border border-gray-light"
+              onChange={change}
+              required
+              value={area}
+            >
+              <option value="">Pilih Area</option>
+              <option value="jakarta">Jakarta</option>
+              <option value="makassar">Makassar</option>
+            </select>
+          </div>
+          <div>
+            <label
+              htmlForfor="jenis_pembayaran"
+              className="text-xs mb-1.25 font-bold"
+            >
+              Metode Pembayaran <span>(Wajib)</span>
+            </label>
+            <select
+              name="jenis_pembayaran"
+              id="jenis_pembayaran"
+              className="p-3 placeholder:text-gray-light focus:outline-blue-light font-semibold w-full text-sm rounded-xl border border-gray-light"
+              onChange={change}
+              required
+              value={jenis_pembayaran}
+            >
+              <option value="">Pilih Metode Pembayaran</option>
+              <option value="Cash">Cash</option>
+              <option value="Kredit">Kredit</option>
+            </select>
+          </div>
         </div>
       </div>
     </div>

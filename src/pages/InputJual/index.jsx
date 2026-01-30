@@ -29,13 +29,13 @@ const InputJual = () => {
     no_hp: "",
     email: "",
     status_perkawinan: "",
-    jenis_pekerjaan: "",
-    nama_perusahaan: "",
-    jabatan: "",
-    lama_bekerja: "",
-    alamat_kantor: "",
-    telp_kantor: "",
-    penghasilan_bulanan: "",
+    // jenis_pekerjaan: "",
+    // nama_perusahaan: "",
+    // jabatan: "",
+    // lama_bekerja: "",
+    // alamat_kantor: "",
+    // telp_kantor: "",
+    // penghasilan_bulanan: "",
     merek_tipe_mobil: "",
     varian: "",
     warna: "",
@@ -44,6 +44,7 @@ const InputJual = () => {
     nomor_rangka: "",
     nomor_mesin: "",
     aksesoris_tambahan: "",
+    area: "",
     jenis_pembayaran: "",
     jenis_asuransi: "",
     periode_asuransi: "",
@@ -286,6 +287,7 @@ const InputJual = () => {
               change={handlerForm}
               invalid={invalidPembayaran}
               jenis_pembayaran={form.jenis_pembayaran}
+              area={form.area}
             />
           </div>
           <div>
