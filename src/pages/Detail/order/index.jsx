@@ -70,7 +70,7 @@ const OrderMetode = () => {
         setText(`${response?.data?.data?.message}. Mengalihkan Otomatis`);
         setTimeout(() => {
           router.replace(
-            `/Detail/order/transaksi/${response?.data?.data?.data?.kode_aktivasi}`
+            `/Detail/order/transaksi/${response?.data?.data?.data?.kode_aktivasi}`,
           );
         }, 3000);
       })

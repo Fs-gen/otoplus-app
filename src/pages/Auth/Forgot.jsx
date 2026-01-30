@@ -57,7 +57,7 @@ const Forgot = () => {
         ) {
           TopMessage(
             `${response.data.data.message}! Mengalihkan Otomatis`,
-            setSuccess(true)
+            setSuccess(true),
           );
           setTimeout(() => {
             router.replace("/Auth/ResetPassword");
@@ -65,7 +65,7 @@ const Forgot = () => {
         } else {
           TopMessage(
             `${response.data.data.message}! Mengalihkan otomatis`,
-            setSuccess(true)
+            setSuccess(true),
           );
           setTimeout(() => {
             router.replace("/Auth/ResetPassword");

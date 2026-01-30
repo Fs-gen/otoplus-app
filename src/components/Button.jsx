@@ -3,7 +3,15 @@ import Link from "next/link";
 const buttonStyle =
   "bg-blue-dark rounded-[10px] text-xs font-medium mx-auto text-white transition-all duration-500";
 
-export const ButtonForm = ({ click, disabled, padding, loading, target, type, text }) => {
+export const ButtonForm = ({
+  click,
+  disabled,
+  padding,
+  loading,
+  target,
+  type,
+  text,
+}) => {
   return (
     <button
       type={type}

@@ -1,7 +1,9 @@
+import Success from "@/assets/images/animation/Success.lottie";
+import Failed from "@/assets/images/animation/Failed.lottie";
+import Waiting from "@/assets/images/animation/Waiting.lottie";
 import { useEffect, useState } from "react";
 import { getDetailInputJual } from "../api/api";
 import HeaderBack from "@/components/Header/HeaderBack";
-import { Clock } from "lucide-react";
 import Image from "next/image";
 import ButtonInput from "./ButtonInput";
 import { User } from "lucide-react";
@@ -12,8 +14,7 @@ import { CreditCard } from "lucide-react";
 import { Shield } from "lucide-react";
 import { FileText } from "lucide-react";
 import { Upload } from "lucide-react";
-import { X } from "lucide-react";
-import { Check } from "lucide-react";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const CardDetail = ({ image, text, title }) => {
   return (
@@ -43,7 +44,6 @@ const DetailInputJual = ({ id }) => {
   const [showAsuransi, setShowAsuransi] = useState(false);
   const [showSTNK, setShowSTNK] = useState(false);
   const [showDokumen, setShowDokumne] = useState(false);
-  const BoxIcon = "p-2 rounded-full mx-auto";
 
   const fetchData = async () => {
     const res = await getDetailInputJual(id);
@@ -66,25 +66,26 @@ const DetailInputJual = ({ id }) => {
           <div className="bg-white p-4 rounded-lg shadow-md">
             <div className="text-center mt-2 mb-8">
               {data && data?.status == "pending" ? (
-                <Clock
-                  size={75}
-                  color="white"
-                  className={`bg-yellow-semi ${BoxIcon}`}
+                <DotLottieReact
+                  src={Waiting}
+                  loop
+                  autoplay
+                  className="w-2/3 mx-auto"
                 />
               ) : data && data?.status == "rejected" ? (
-                <X
-                  size={75}
-                  color="white"
-                  className={`bg-red-semi ${BoxIcon}`}
+                <DotLottieReact
+                  src={Failed}
+                  autoplay
+                  className="w-1/2 mx-auto mb-2"
                 />
               ) : (
-                <Check
-                  size={75}
-                  color="white"
-                  className={`bg-green-semi ${BoxIcon}`}
+                <DotLottieReact
+                  src={Success}
+                  autoplay
+                  className="w-2/3 mx-auto"
                 />
               )}
-              <h1 className="font-semibold mt-4 capitalize">{data.status}</h1>
+              <h1 className="font-semibold capitalize">{data.status}</h1>
               <p className="text-text-gray text-sm">{data.created_at}</p>
             </div>
             <div className="flex flex-col gap-4">
@@ -251,10 +252,7 @@ const DetailInputJual = ({ id }) => {
                     title="Metode Pembayaran"
                     text={data.jenis_pembayaran || "-"}
                   />
-                  <CardDetail
-                    title="Area"
-                    text={data.area || "-"}
-                  />
+                  <CardDetail title="Area" text={data.area || "-"} />
                 </div>
               </div>
               <div id="asuransi">

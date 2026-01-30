@@ -55,14 +55,14 @@ const ResetPassword = () => {
         } else if (response.data.status_code == "00") {
           TopMessage(
             `${response.data.data.message}! Mengalihkan otomatis halaman login`,
-            setSuccess(true)
+            setSuccess(true),
           );
           setTimeout(() => {
             router.replace("/Auth/Login");
           }, 3000);
         } else {
           TopMessage(
-            `${response.data.data.message}! Pastikan kode OTP sudah benar atau tidak memasukkan password yang sama`
+            `${response.data.data.message}! Pastikan kode OTP sudah benar atau tidak memasukkan password yang sama`,
           );
         }
       })

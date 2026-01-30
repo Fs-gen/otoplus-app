@@ -10,13 +10,14 @@ import CardBig from "@/components/Card/CardBig";
 import Amount from "./Amount";
 import Header from "./Header";
 import { useEffect, useState } from "react";
-import { getNews, getUserHome } from "../api/api";
+import { getNews, getUserHome, getKatalog } from "../api/api";
 import Cookies from "js-cookie";
 import Skeleton from "react-loading-skeleton";
 import { highlightSkeleton } from "@/styles/style";
 import { useRouter } from "next/router";
 import { ClipboardText } from "@/utils/utils";
 import { CardNewsSwiper } from "@/components/Card/CardNews";
+import CardCar from "@/components/Card/CardCar";
 
 const SkeletonNews = () => {
   return (
@@ -36,8 +37,27 @@ const SkeletonNews = () => {
   );
 };
 
+const CardSkeleton = () => {
+  return (
+    <div className="rounded-xl shadow-sm">
+      <Skeleton count={1} height={120} highlightColor={highlightSkeleton} />
+      <div className="p-4">
+        <Skeleton count={1} height={15} highlightColor={highlightSkeleton} />
+        <Skeleton count={1} height={15} highlightColor={highlightSkeleton} />
+        <Skeleton
+          count={1}
+          height={30}
+          className="mt-6"
+          highlightColor={highlightSkeleton}
+        />
+      </div>
+    </div>
+  );
+};
+
 const Home = () => {
   const [user, setUser] = useState([]);
+  const [katalog, setKatalog] = useState([]);
   const [referral, setReferral] = useState("");
   const [news, setNews] = useState([]);
   const [showNotif, setShowNotif] = useState(false);
@@ -45,6 +65,11 @@ const Home = () => {
   const [text, setText] = useState("");
   const router = useRouter();
   const token = Cookies.get("token");
+  const Loading = [];
+
+  for (let i = 0; i <= 6; i++) {
+    Loading.push(<CardSkeleton />);
+  }
 
   const TopMessage = (text, success) => {
     setShowNotif(true);
@@ -59,7 +84,9 @@ const Home = () => {
 
   const fetchDataUser = async () => {
     const res = await getUserHome();
+    const resKatalog = await getKatalog();
     setUser(res);
+    setKatalog(resKatalog);
     setReferral(`${window.location.origin}/ref/${res?.kode_referral}`);
     if (res?.message == "Unauthorized" || !token) {
       TopMessage(
@@ -146,6 +173,27 @@ const Home = () => {
       {/* Button Big */}
 
       {/* BoxItem */}
+      {/* Katalog */}
+      <BoxItem
+        text="Katalog Mobil"
+        subtext="Temukan mobil impian anda dari koleksi terbaik kami!"
+        isMore
+        href={"https://daihatsu.co.id/"}
+        direct
+        components={
+          katalog && katalog.length == 0 ? (
+            <div className="grid grid-cols-2 gap-4">{Loading}</div>
+          ) : (
+            <div className="grid grid-cols-2 gap-4">
+              {katalog.map((item, index) => {
+                return <CardCar props={item} key={index} />;
+              })}
+            </div>
+          )
+        }
+      />
+      {/* Katalog */}
+
       {/* News */}
       <BoxItem
         text="News"

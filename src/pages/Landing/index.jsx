@@ -7,6 +7,7 @@ import Header from "./Header";
 import Skeleton from "react-loading-skeleton";
 import { highlightSkeleton } from "@/styles/style";
 import { CardNewsBasic } from "@/components/Card/CardNews";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const CardSkeleton = () => {
   return (

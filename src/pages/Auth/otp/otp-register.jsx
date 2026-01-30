@@ -23,7 +23,9 @@ const OTPRegister = () => {
   const TopMessage = (text, success) => {
     setShowNotif(true);
     setNotification(text);
-    {success}
+    {
+      success;
+    }
     setTimeout(() => {
       setShowNotif(false);
     }, 3000);
@@ -52,12 +54,12 @@ const OTPRegister = () => {
       .then((response) => {
         if (otp.trim() == "") {
           TopMessage(
-            "Harap masukkan Kode OTP anda yang telah dikirimkan melalui whatsapp!"
+            "Harap masukkan Kode OTP anda yang telah dikirimkan melalui whatsapp!",
           );
         } else if (response.data.status_code == "00") {
           TopMessage(
             "Registrasi Selesai, Mengalihkan ke halaman login",
-            setSuccess(true)
+            setSuccess(true),
           );
           Cookies.remove("no_tlp");
           Cookies.remove("referral");

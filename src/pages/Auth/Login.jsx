@@ -71,6 +71,7 @@ const Login = () => {
               router.push("/Profile/profil-saya");
             }, 2000);
           } else {
+            setSuccess(true);
             Cookies.set("token", response.data.data.token);
             router.push("/Home");
           }

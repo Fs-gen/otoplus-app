@@ -4,6 +4,13 @@ const withPWA = require("next-pwa")({
 });
 
 module.exports = withPWA({
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.lottie$/,
+      type: "asset/resource",
+    });
+    return config;
+  },
   reactStrictMode: false,
   images: {
     remotePatterns: [
