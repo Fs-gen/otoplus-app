@@ -290,7 +290,7 @@ const InputJual = () => {
               area={form.area}
             />
           </div>
-          <div>
+          {/* <div>
             <DataAsuransi
               change={handlerPerluasanAsuransi}
               changeOption={handlerForm}
@@ -303,7 +303,7 @@ const InputJual = () => {
               huruhara={perluasanAsuransi.includes("Huru-Hara")}
               gempabumi={perluasanAsuransi.includes("Gempa Bumi")}
             />
-          </div>
+          </div> */}
           <div>
             <DataSTNK
               click={() => setShowSTNK(!showSTNK)}
