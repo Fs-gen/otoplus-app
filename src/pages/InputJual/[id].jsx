@@ -251,6 +251,10 @@ const DetailInputJual = ({ id }) => {
                     title="Metode Pembayaran"
                     text={data.jenis_pembayaran || "-"}
                   />
+                  <CardDetail
+                    title="Area"
+                    text={data.area || "-"}
+                  />
                 </div>
               </div>
               <div id="asuransi">

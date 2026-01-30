@@ -2,7 +2,14 @@ const { default: ButtonInput } = require("./ButtonInput");
 import { BoxIconStyle } from "@/styles/style";
 import { CreditCard } from "lucide-react";
 
-const DataPembayaran = ({ change, click, invalid, area, jenis_pembayaran, show }) => {
+const DataPembayaran = ({
+  change,
+  click,
+  invalid,
+  area,
+  jenis_pembayaran,
+  show,
+}) => {
   return (
     <div>
       <ButtonInput
@@ -35,8 +42,8 @@ const DataPembayaran = ({ change, click, invalid, area, jenis_pembayaran, show }
               value={area}
             >
               <option value="">Pilih Area</option>
-              <option value="jakarta">Jakarta</option>
-              <option value="makassar">Makassar</option>
+              <option value="Jakarta">Jakarta</option>
+              <option value="Makassar">Makassar</option>
             </select>
           </div>
           <div>
