@@ -105,10 +105,10 @@ const InputJual = () => {
 
   const imageResizer = (file) =>
     new Promise((resolve) => {
-      FileResizer.imageFileResizer(file, 1000, 1000, "JPEG", 90, 0, (uri) => {
+      (FileResizer.imageFileResizer(file, 1000, 1000, "JPEG", 90, 0, (uri) => {
         resolve(uri);
       }),
-        "base64";
+        "base64");
     });
 
   const handlerImage = async (e) => {
@@ -243,7 +243,7 @@ const InputJual = () => {
               status_perkawinan={form.status_perkawinan}
             />
           </div>
-          <div>
+          {/* <div>
             <DataPekerjaan
               click={() => setShowPekerjaan(!showPekerjaan)}
               show={showPekerjaan}
@@ -256,7 +256,7 @@ const InputJual = () => {
               telp_kantor={form.telp_kantor}
               penghasilan_bulanan={form.penghasilan_bulanan}
             />
-          </div>
+          </div> */}
           <div ref={kendaraanRef}>
             <DataKendaraan
               click={() => {
@@ -320,7 +320,7 @@ const InputJual = () => {
               invalid={invalidDokumen}
               ktp={
                 form.dok_ktp == null ? (
-                  "Silahkan Masukkan File Dokumen KTP disini"
+                  "Silahkan Masukkan File Dokumen KTP disini (wajib)"
                 ) : (
                   <MessageImage src={form.dok_ktp} title="KTP" />
                 )
@@ -336,7 +336,7 @@ const InputJual = () => {
               dok_kk={form.dok_kk}
               npwp={
                 form.dok_npwp == null ? (
-                  "Silahkan Masukkan File Dokumen NPWP disini"
+                  "Silahkan Masukkan File Dokumen NPWP disini (Wajib)"
                 ) : (
                   <MessageImage src={form.dok_npwp} title="NPWP" />
                 )

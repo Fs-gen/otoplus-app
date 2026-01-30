@@ -7,7 +7,6 @@ import { Copy } from "lucide-react";
 
 import BoxItem from "@/components/Box";
 import CardBig from "@/components/Card/CardBig";
-import CardNews from "@/components/Card/CardNews";
 import Amount from "./Amount";
 import Header from "./Header";
 import { useEffect, useState } from "react";
@@ -17,6 +16,7 @@ import Skeleton from "react-loading-skeleton";
 import { highlightSkeleton } from "@/styles/style";
 import { useRouter } from "next/router";
 import { ClipboardText } from "@/utils/utils";
+import { CardNewsSwiper } from "@/components/Card/CardNews";
 
 const SkeletonNews = () => {
   return (
@@ -158,7 +158,7 @@ const Home = () => {
               <SkeletonNews />
             </div>
           ) : (
-            <CardNews props={news} />
+            <CardNewsSwiper props={news} />
           )
         }
       />

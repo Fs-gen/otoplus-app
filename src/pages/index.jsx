@@ -1,10 +1,10 @@
-import Login from "./Auth/Login";
 import Home from "./Home";
+import Landing from "./Landing";
 
 const App = ({ tokenn }) => {
   const token = tokenn;
   if (!token) {
-    return <Login />;
+    return <Landing />;
   } else {
     return <Home />;
   }

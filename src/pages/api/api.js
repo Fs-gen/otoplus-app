@@ -6,6 +6,26 @@ export const mainURL = (resource) => {
   return res;
 };
 
+export const getKatalog = async () => {
+  let data = [];
+
+  const config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("home/get-produk-list"),
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch(() => {
+      return null;
+    });
+  return data;
+};
+
 export const getUserProfile = async () => {
   const header = Cookies.get("token");
   let datas = [];
@@ -191,16 +211,12 @@ export const getDetailInputJual = async (id) => {
 };
 
 export const getNews = async () => {
-  const token = Cookies.get("token");
   let data = null;
 
   let config = {
     method: "get",
     maxBodyLength: Infinity,
     url: mainURL("home/get-newsv2"),
-    headers: {
-      Authorization: "Bearer " + token,
-    },
     data: data,
   };
 

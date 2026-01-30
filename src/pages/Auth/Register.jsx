@@ -143,7 +143,7 @@ const Register = () => {
               {showPassword ? <Eye size={25} /> : <EyeOff size={25} />}
             </button>
           </div>
-          <div>
+          {/* <div>
             <label for="area" className="text-xs mb-1.25">
               Pilih Wilayah
             </label>
@@ -162,7 +162,7 @@ const Register = () => {
                 Jakarta
               </option>
             </select>
-          </div>
+          </div> */}
           <FormLine
             title="Kode Referral"
             value={referral}

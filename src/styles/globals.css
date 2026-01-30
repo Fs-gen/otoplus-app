@@ -19,6 +19,10 @@
   --text-heading-14--font-weight: 600;
 }
 
+.container {
+  margin-inline: auto;
+}
+
 .section-box {
   padding: 25px 20px;
   width: 100%;
