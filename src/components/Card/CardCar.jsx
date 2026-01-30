@@ -12,7 +12,7 @@ const CardCar = ({ props }) => {
         <div className="">
           <h1 className="font-semibold">{props.nama}</h1>
           <div className="text-[11px] font-semibold">
-            <h1>Mulai Dari</h1>
+            <h1>Harga Mulai Dari</h1>
             <h1>{props.harga_mulai}</h1>
           </div>
         </div>
