@@ -1,6 +1,7 @@
 import Logo from "@/assets/images/icons/logo.png";
 import { X } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const CardInstall = ({ navbar }) => {
@@ -28,9 +29,15 @@ const CardInstall = ({ navbar }) => {
           </p>
         </div>
       </div>
-      <button className="px-3 py-1 bg-blue-semi text-sm text-white rounded-sm font-medium">
+      <Link
+        href={
+          "https://play.google.com/store/apps/details?id=com.otoplusid.app&pcampaignid=web_share"
+        }
+        target="_blank"
+        className="px-3 py-1 flex items-center bg-blue-semi text-sm text-white rounded-sm font-medium"
+      >
         Install
-      </button>
+      </Link>
     </div>
   );
 };

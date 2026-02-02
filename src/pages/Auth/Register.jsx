@@ -57,6 +57,19 @@ const Register = () => {
     }
   };
 
+  const onRegister = (e) => {
+    e.preventDefault();
+    if (no_tlp.trim() == "" || password.trim() == "") {
+      TopMessage("Harap Isi Kolom dibawah ini!");
+    } else if (no_tlp.length < 8) {
+      TopMessage("Harap masukkan nomor telepon minial 8 digit!");
+    } else if (password.length < 6) {
+      TopMessage("Harap masukkan password minial 6 karakter!");
+    } else {
+      setShowPop(!showPop);
+    }
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -157,11 +170,16 @@ const Register = () => {
         </h1>
         <form action="" method="post" className="flex flex-col gap-5">
           <FormLine
-            title="No. Whatsapp"
+            title="No Whatsapp"
+            type="text"
+            inputmode="numeric"
+            keyDown={(e) => {
+              if (["e", "E", "+", "-", "."].includes(e.key)) {
+                e.preventDefault();
+              }
+            }}
             value={no_tlp}
             change={(e) => setNoTlp(e.target.value.replace(/[^0-9]/g, ""))}
-            required={true}
-            type="text"
           />
           <div className="flex items-center">
             <div className="flex-1">
@@ -207,13 +225,7 @@ const Register = () => {
             change={(e) => setKodeReferral(e.target.value)}
           />
           <ButtonForm
-            type="submit"
-            click={(e) => {
-              e.preventDefault();
-              no_tlp.trim() == "" || password.trim() == ""
-                ? TopMessage("Harap Isi Kolom dibawah ini!")
-                : setShowPop(!showPop);
-            }}
+            click={onRegister}
             text="Daftar"
             loading={loading}
             disabled={success}

@@ -5,7 +5,7 @@ import { ChevronRight } from "lucide-react";
 
 const Hero = () => {
   return (
-    <div className="bg-linear-to-br from-gray-50 via-white to-blue-50 pb-6.25">
+    <div className="bg-linear-to-br from-gray-50 via-white to-blue-50 pb-6.25 px-5">
       <div className="flex flex-col gap-8 justify-center items-center mt-22">
         <div className="flex bg-white border-2 border-gray-light gap-2 itesm-center px-3 py-2 rounded-full shdow-sm">
           <Image src={Logo} alt="Logo" width={24} height={24} />

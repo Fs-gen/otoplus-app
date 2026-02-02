@@ -98,7 +98,6 @@ const Login = () => {
         showNotif={showNotif}
         success={success}
       />
-      <span></span>
       <div className="section-box">
         <Image
           fetchPriority="high"
@@ -117,6 +116,11 @@ const Login = () => {
             placeholder="No Whatsapp"
             type="text"
             inputmode="numeric"
+            keyDown={(e) => {
+              if (["e", "E", "+", "-", "."].includes(e.key)) {
+                e.preventDefault();
+              }
+            }}
             value={no_tlp}
             change={(e) => setNotlp(e.target.value.replace(/[^0-9]/g, ""))}
           />

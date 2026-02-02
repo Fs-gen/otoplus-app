@@ -2,6 +2,7 @@ const FormLine = ({
   bold,
   name,
   inputmode,
+  keyDown,
   placeholder,
   readOnly,
   small,
@@ -23,6 +24,7 @@ const FormLine = ({
         name={name}
         inputMode={inputmode}
         onChange={change}
+        onKeyDown={keyDown}
         required={required}
         readOnly={readOnly}
         type={type}

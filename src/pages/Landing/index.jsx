@@ -54,44 +54,48 @@ const Landing = () => {
   }, []);
 
   return (
-    <section className="section-box">
-      {!pwa ? <CardInstall /> : null}
-      <Header />
+    <section>
       <Hero />
-      <BoxItem
-        text="Katalog Mobil"
-        subtext="Temukan mobil impian anda dari koleksi terbaik kami!"
-        isMore
-        href={"https://daihatsu.co.id/"}
-        direct
-        components={
-          katalog && katalog.length == 0 ? (
-            <div className="grid grid-cols-2 gap-4">{Loading}</div>
-          ) : (
-            <div className="grid grid-cols-2 gap-4">
-              {katalog.map((item, index) => {
-                return <CardCar props={item} key={index} />;
-              })}
-            </div>
-          )
-        }
-      />
-      <BoxItem
-        text="News"
-        isMore
-        href={"/News"}
-        components={
-          news && news.length == 0 ? (
-            <div className="grid grid-cols-2 gap-4">{Loading}</div>
-          ) : (
-            <div className="grid grid-cols-2 gap-4">
-              {news.map((item, index) => {
-                return <CardNewsBasic props={item} key={index} />;
-              })}
-            </div>
-          )
-        }
-      />
+      <div className="section-box">
+        <div className="pb-20">
+          {!pwa ? <CardInstall /> : null}
+          <Header />
+          <BoxItem
+            text="Katalog Mobil"
+            subtext="Temukan mobil impian anda dari koleksi terbaik kami!"
+            isMore
+            href={"https://daihatsu.co.id/"}
+            direct
+            components={
+              katalog && katalog.length == 0 ? (
+                <div className="grid grid-cols-2 gap-4">{Loading}</div>
+              ) : (
+                <div className="grid grid-cols-2 gap-4">
+                  {katalog.map((item, index) => {
+                    return <CardCar props={item} key={index} />;
+                  })}
+                </div>
+              )
+            }
+          />
+          <BoxItem
+            text="News"
+            isMore
+            href={"/News"}
+            components={
+              news && news.length == 0 ? (
+                <div className="grid grid-cols-2 gap-4">{Loading}</div>
+              ) : (
+                <div className="grid grid-cols-2 gap-4">
+                  {news.map((item, index) => {
+                    return <CardNewsBasic props={item} key={index} />;
+                  })}
+                </div>
+              )
+            }
+          />
+        </div>
+      </div>
     </section>
   );
 };
