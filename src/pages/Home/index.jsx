@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 import { ClipboardText } from "@/utils/utils";
 import { CardNewsSwiper } from "@/components/Card/CardNews";
 import CardCar from "@/components/Card/CardCar";
+import CardInstall from "@/components/PopUp/CardInstall";
 
 const SkeletonNews = () => {
   return (
@@ -63,6 +64,7 @@ const Home = () => {
   const [showNotif, setShowNotif] = useState(false);
   const [success, setSuccess] = useState(false);
   const [text, setText] = useState("");
+    const [pwa, setPWA] = useState(false);
   const router = useRouter();
   const token = Cookies.get("token");
   const Loading = [];
@@ -107,12 +109,17 @@ const Home = () => {
   };
 
   useEffect(() => {
+    const isMobile = window.matchMedia("(display-mode: standalone)").matches;
+    if (isMobile) {
+      setPWA(true);
+    }
     fetchDataUser();
     fetchDataNews();
   }, []);
 
   return (
     <section className="section-box">
+      {!pwa ? <CardInstall navbar/> : null}
       <NotificationBar showNotif={showNotif} text={text} success={success} />
       <Header props={user} />
       <Amount props={user} />
@@ -194,6 +201,8 @@ const Home = () => {
       />
       {/* Katalog */}
 
+      <div className="mt-8"></div>
+
       {/* News */}
       <BoxItem
         text="News"
@@ -212,7 +221,7 @@ const Home = () => {
       />
       {/* News */}
       {/* BoxItem */}
-      <div className="mt-20"></div>
+      {!pwa ? <div className="mt-32"></div> : <div className="mt-20"></div>}
       <Navbar />
     </section>
   );

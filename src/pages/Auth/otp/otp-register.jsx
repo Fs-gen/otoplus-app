@@ -104,7 +104,7 @@ const OTPRegister = () => {
               text="Verifikasi"
               click={onOTP}
               loading={loading}
-              padding={loading ? LoadingPadding : null}
+              style={loading ? LoadingPadding : null}
             />
           </div>
         </form>

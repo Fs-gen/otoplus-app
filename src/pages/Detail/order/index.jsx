@@ -135,7 +135,7 @@ const OrderMetode = () => {
             text="Proses Transaksi"
             loading={loading}
             disabled={success}
-            padding={loading ? LoadingPadding : null}
+            style={loading ? LoadingPadding : null}
           />
         </form>
       </div>

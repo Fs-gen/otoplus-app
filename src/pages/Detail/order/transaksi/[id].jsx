@@ -291,7 +291,7 @@ const Id = ({ id }) => {
                 <ButtonForm
                   text="Upload Bukti Transfer"
                   click={postUploadImage}
-                  padding={loading ? LoadingPadding : null}
+                  style={loading ? LoadingPadding : null}
                   loading={loading}
                 />
               ) : data?.status == "belum dibayar" ||

@@ -6,6 +6,25 @@ export const mainURL = (resource) => {
   return res;
 };
 
+export const getAgreement = async () => {
+  let data = [];
+  const config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("auth/agreement"),
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch((e) => {
+      data = response?.data?.data;
+    });
+  return data;
+};
+
 export const getKatalog = async () => {
   let data = [];
 

@@ -6,7 +6,7 @@ const buttonStyle =
 export const ButtonForm = ({
   click,
   disabled,
-  padding,
+  style,
   loading,
   target,
   type,
@@ -15,7 +15,7 @@ export const ButtonForm = ({
   return (
     <button
       type={type}
-      className={`${buttonStyle} ${padding ? padding : "px-20 py-3"}`}
+      className={`${buttonStyle} ${style ? style : "px-20 py-3"}`}
       onClick={click}
       formTarget={target}
       disabled={disabled}

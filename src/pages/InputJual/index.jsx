@@ -370,7 +370,7 @@ const InputJual = () => {
             text="Kirim Formulir"
             click={postUploadForm}
             loading={loading}
-            padding={loading ? LoadingPadding : null}
+            style={loading ? LoadingPadding : null}
           />
         </form>
       </div>

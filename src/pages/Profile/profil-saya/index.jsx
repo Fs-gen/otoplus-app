@@ -256,7 +256,7 @@ const ProfilSaya = () => {
           <ButtonForm
             text="Update Profile"
             click={onUpdate}
-            padding={loading ? LoadingPadding : null}
+            style={loading ? LoadingPadding : null}
             loading={loading}
           />
         </form>

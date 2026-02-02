@@ -13,6 +13,7 @@ import Cookies from "js-cookie";
 import { mainURL } from "../api/api";
 import { Eye } from "lucide-react";
 import { EyeOff } from "lucide-react";
+import HeaderBack from "@/components/Header/HeaderBack";
 
 const Login = () => {
   const [no_tlp, setNotlp] = useState("");
@@ -91,6 +92,7 @@ const Login = () => {
 
   return (
     <section className={AuthStyleBox}>
+      <HeaderBack click={() => router.replace("/")} text="Login" />
       <NotificationBar
         text={notification}
         showNotif={showNotif}
@@ -113,9 +115,10 @@ const Login = () => {
         <form action="submit" className="flex flex-col gap-4 mt-7.5 mb-8">
           <FormLine
             placeholder="No Whatsapp"
-            type="number"
+            type="text"
+            inputmode="numeric"
             value={no_tlp}
-            change={(e) => setNotlp(e.target.value)}
+            change={(e) => setNotlp(e.target.value.replace(/[^0-9]/g, ""))}
           />
           <div className="flex items-center">
             <div className="flex-1">
@@ -145,7 +148,7 @@ const Login = () => {
             click={onLogin}
             loading={loading}
             disabled={success}
-            padding={loading ? LoadingPadding : null}
+            style={loading ? LoadingPadding : null}
           />
         </form>
       </div>

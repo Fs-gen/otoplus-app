@@ -2,7 +2,7 @@ const { default: Link } = require("next/link");
 
 const BoxItem = ({ components, href, isMore, direct, text, subtext }) => {
   return (
-    <div className="section-box">
+    <div>
       <div className="flex justify-between items-center mb-3.75">
         <div>
           <h1 className="text-[16px] font-semibold">{text}</h1>

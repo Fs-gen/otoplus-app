@@ -106,7 +106,7 @@ const Forgot = () => {
               click={postOTP}
               loading={loading}
               disabled={success}
-              padding={loading ? LoadingPadding : null}
+              style={loading ? LoadingPadding : null}
             />
           </div>
         </form>

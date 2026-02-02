@@ -8,6 +8,7 @@ import Skeleton from "react-loading-skeleton";
 import { highlightSkeleton } from "@/styles/style";
 import { CardNewsBasic } from "@/components/Card/CardNews";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import CardInstall from "@/components/PopUp/CardInstall";
 
 const CardSkeleton = () => {
   return (
@@ -30,7 +31,10 @@ const CardSkeleton = () => {
 const Landing = () => {
   const [katalog, setKatalog] = useState([]);
   const [news, setNews] = useState([]);
+  const [pwa, setPWA] = useState(false);
   const Loading = [];
+
+  console.log(pwa);
 
   for (let i = 0; i <= 6; i++) {
     Loading.push(<CardSkeleton />);
@@ -44,11 +48,16 @@ const Landing = () => {
   };
 
   useEffect(() => {
+    const isMobile = window.matchMedia("(display-mode: standalone)").matches;
+    if (isMobile) {
+      setPWA(true);
+    }
     fetchData();
   }, []);
 
   return (
-    <section>
+    <section className="section-box">
+      {!pwa ? <CardInstall /> : null}
       <Header />
       <Hero />
       <BoxItem
@@ -68,7 +77,7 @@ const Landing = () => {
             </div>
           )
         }
-      />
+        />
       <BoxItem
         text="News"
         isMore

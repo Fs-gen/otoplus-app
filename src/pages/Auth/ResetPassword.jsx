@@ -105,7 +105,7 @@ const ResetPassword = () => {
               click={postUpdate}
               loading={loading}
               disabled={success}
-              padding={loading ? LoadingPadding : null}
+              style={loading ? LoadingPadding : null}
             />
           </div>
         </form>

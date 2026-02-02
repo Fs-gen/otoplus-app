@@ -96,7 +96,7 @@ const GantiPassword = () => {
               text="Update Password"
               click={postUpdate}
               loading={loading}
-              padding={loading ? LoadingPadding : null}
+              style={loading ? LoadingPadding : null}
             />
           </div>
         </form>

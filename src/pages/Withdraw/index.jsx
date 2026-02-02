@@ -203,14 +203,14 @@ const Withdraw = () => {
               text="Request OTP"
               click={sendOTP}
               loading={loadingOTP}
-              padding={loadingOTP ? `p-2 mt-5` : "py-2 px-4 mt-6"}
+              style={loadingOTP ? `p-2 mt-5` : "py-2 px-4 mt-6"}
             />
           </div>
           <div className="mt-5 mx-auto">
             <ButtonForm
               text="Withdraw"
               loading={loading}
-              padding={loading ? LoadingPadding : null}
+              style={loading ? LoadingPadding : null}
               click={postWithdrawl}
             />
           </div>

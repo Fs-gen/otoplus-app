@@ -11,9 +11,12 @@ import NotificationBar from "@/components/NotificationBar";
 import { useRouter } from "next/navigation";
 import { Eye } from "lucide-react";
 import { EyeOff } from "lucide-react";
+import { getAgreement } from "../api/api";
 
 const Register = () => {
   const [area, setArea] = useState("");
+  const [agreement, setAgreement] = useState([]);
+  const [agree, setAgree] = useState("");
   const [no_tlp, setNoTlp] = useState("");
   const [password, setPassword] = useState("");
   const [kode_referral, setKodeReferral] = useState("");
@@ -23,6 +26,7 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [notification, setNotification] = useState("");
   const [isReadOnly, setIsReadOnly] = useState(false);
+  const [showPop, setShowPop] = useState(false);
   const referral = Cookies.get("referral");
 
   const router = useRouter();
@@ -38,6 +42,11 @@ const Register = () => {
     }, 3000);
   };
 
+  const fetchAgreement = async () => {
+    const res = await getAgreement();
+    setAgreement(res);
+  };
+
   const notifReferral = () => {
     if (referral) {
       setIsReadOnly(true);
@@ -48,58 +57,86 @@ const Register = () => {
     }
   };
 
-  const data = JSON.stringify({
-    no_tlp,
-    password,
-    area,
-    kode_referral: referral || kode_referral,
-  });
-
-  let config = {
-    method: "post",
-    maxBodyLength: Infinity,
-    url: "https://api.otoplusid.com/auth/register",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    data: data,
-  };
-
   const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    const data = JSON.stringify({
+      no_tlp,
+      password,
+      area,
+      kode_referral: referral || kode_referral,
+      agreement: "Y",
+    });
+
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: "https://api.otoplusid.com/auth/register",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
     await axios
       .request(config)
       .then((response) => {
-        if (no_tlp.trim() == "" || password.trim() == "") {
-          TopMessage("Harap Isi Kolom dibawah ini!");
-        } else if (response.data.status_code == "00") {
+        console.log(response);
+        if (response.data.status_code != "00") {
+          console.log(response);
+          TopMessage(response?.data?.data?.message);
+        } else {
           TopMessage(
             "Registrasi Selesai, Silahkan Verifikasi OTP",
-            setSuccess(true)
+            setSuccess(true),
           );
           Cookies.set("no_tlp", no_tlp);
           setTimeout(() => {
             router.push("/Auth/otp/otp-register");
           }, 2000);
-        } else {
-          TopMessage(
-            "Anda harus memasukkan kode referral dari agen plus untuk mendaftar!"
-          );
         }
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e);
         TopMessage("Oops!, sepertinya jaringan anda bermasalah");
       });
+    setShowPop(false);
     setLoading(false);
   };
 
   useEffect(() => {
+    fetchAgreement();
     notifReferral();
   }, []);
 
   return (
-    <section className={AuthStyleBox}>
+    <section className={`${AuthStyleBox} relative`}>
+      <div
+        className={`min-h-dvh w-full absolute ${showPop ? "bg-black/45 block" : "hidden"}`}
+      ></div>
+      <div
+        className={`${showPop ? "bottom-0" : "-bottom-100"} transition-all duration-300 mt-0 fixed rounded-t-xl p-6 max-w-125 bg-white z-10`}
+      >
+        <h1 className="text-2xl font-semibold mb-4">Ketentuan Layanan Kami</h1>
+        <div
+          dangerouslySetInnerHTML={{ __html: agreement?.description }}
+          className="max-h-52 overflow-y-scroll p-4 bg-gray-200 rounded-xl"
+        ></div>
+        <div className="flex justify-between text-center gap-2 items-center text-sm font-medium mt-6">
+          <button
+            className={`${loading ? "invisible w-0 p-0" : "w-1/2 p-2 border-2 border-blue-dark"} rounded-full`}
+            onClick={() => setShowPop(!showPop)}
+          >
+            Tidak Setuju
+          </button>
+          <button
+            className={`${loading ? "w-full" : "w-1/2"} p-2 border-2 border-blue-dark rounded-full bg-blue-dark text-white transition-all duration-300`}
+            onClick={onSubmit}
+          >
+            {loading ? <div className="spinner-small"></div> : "Setuju"}
+          </button>
+        </div>
+      </div>
       <NotificationBar
         showNotif={showNotif}
         success={success}
@@ -122,9 +159,9 @@ const Register = () => {
           <FormLine
             title="No. Whatsapp"
             value={no_tlp}
-            change={(e) => setNoTlp(e.target.value)}
+            change={(e) => setNoTlp(e.target.value.replace(/[^0-9]/g, ""))}
             required={true}
-            type="number"
+            type="text"
           />
           <div className="flex items-center">
             <div className="flex-1">
@@ -166,18 +203,21 @@ const Register = () => {
           <FormLine
             title="Kode Referral"
             value={referral}
-            readOnly={
-              isReadOnly
-            }
+            readOnly={isReadOnly}
             change={(e) => setKodeReferral(e.target.value)}
           />
           <ButtonForm
             type="submit"
-            click={onSubmit}
+            click={(e) => {
+              e.preventDefault();
+              no_tlp.trim() == "" || password.trim() == ""
+                ? TopMessage("Harap Isi Kolom dibawah ini!")
+                : setShowPop(!showPop);
+            }}
             text="Daftar"
             loading={loading}
             disabled={success}
-            padding={loading ? LoadingPadding : null}
+            style={loading ? LoadingPadding : null}
           />
         </form>
       </div>

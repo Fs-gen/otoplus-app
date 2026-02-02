@@ -152,7 +152,7 @@ const BankSaya = () => {
               text="Request OTP"
               click={sendOTP}
               loading={loadingOTP}
-              padding={loadingOTP ? `p-2 mt-5` : "py-2 px-4 mt-6"}
+              style={loadingOTP ? `p-2 mt-5` : "py-2 px-4 mt-6"}
             />
           </div>
           <div className="mx-auto mt-12">
@@ -160,7 +160,7 @@ const BankSaya = () => {
               text="Update Bank"
               click={postUpdateBankData}
               loading={loading}
-              padding={loading ? LoadingPadding : null}
+              style={loading ? LoadingPadding : null}
             />
           </div>
         </form>

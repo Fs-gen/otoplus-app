@@ -1,7 +1,7 @@
 const FormLine = ({
   bold,
-  invalid,
   name,
+  inputmode,
   placeholder,
   readOnly,
   small,
@@ -21,6 +21,7 @@ const FormLine = ({
       ) : null}
       <input
         name={name}
+        inputMode={inputmode}
         onChange={change}
         required={required}
         readOnly={readOnly}
