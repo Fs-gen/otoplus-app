@@ -62,9 +62,9 @@ const Register = () => {
     if (no_tlp.trim() == "" || password.trim() == "") {
       TopMessage("Harap Isi Kolom dibawah ini!");
     } else if (no_tlp.length < 8) {
-      TopMessage("Harap masukkan nomor telepon minial 8 digit!");
+      TopMessage("Harap masukkan nomor telepon minimal 8 digit!");
     } else if (password.length < 6) {
-      TopMessage("Harap masukkan password minial 6 karakter!");
+      TopMessage("Harap masukkan password minimal 6 karakter!");
     } else {
       setShowPop(!showPop);
     }
