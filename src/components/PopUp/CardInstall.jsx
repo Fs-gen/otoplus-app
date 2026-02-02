@@ -1,10 +1,15 @@
 import Logo from "@/assets/images/icons/logo.png";
 import { X } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const CardInstall = ({ navbar }) => {
   const [hide, setHide] = useState(false);
+  const [size, setSIze] = useState(0);
+
+  useEffect(() => {
+    setSIze(window.innerWidth);
+  }, []);
   return (
     <div
       className={`${hide ? "hidden" : "flex"} justify-between p-4 inset-shadow-sm bg-white fixed mx-auto ${navbar ? "bottom-18" : "bottom-0"} z-10 right-0 left-0 max-w-125`}
@@ -13,7 +18,7 @@ const CardInstall = ({ navbar }) => {
         <button onClick={() => setHide(true)}>
           <X size={30} />
         </button>
-        {window.innerWidth < 360 ? null : (
+        {size < 320 ? null : (
           <Image src={Logo} width={45} height={45} alt="Logo" />
         )}
         <div>

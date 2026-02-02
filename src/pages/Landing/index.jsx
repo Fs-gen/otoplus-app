@@ -34,8 +34,6 @@ const Landing = () => {
   const [pwa, setPWA] = useState(false);
   const Loading = [];
 
-  console.log(pwa);
-
   for (let i = 0; i <= 6; i++) {
     Loading.push(<CardSkeleton />);
   }
@@ -77,7 +75,7 @@ const Landing = () => {
             </div>
           )
         }
-        />
+      />
       <BoxItem
         text="News"
         isMore
