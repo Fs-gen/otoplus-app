@@ -1,31 +1,38 @@
-import { ChevronRight } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
-const CardCar = ({ props }) => {
+const CardCar = ({ props, detailClick, offersClick }) => {
   return (
-    <Link className="rounded-xl shadow-sm" href={props.link} target="_blank">
-      <div className="min-h-35 flex justify-center items-center">
-        <Image src={props.gambar} alt={props.nama} width={320} height={320} />
+    <div className="rounded-xl shadow-lg" target="_blank">
+      <div className="min-h-30 flex justify-center">
+        <Image
+          src={props.gambar[0]}
+          alt={props.nama}
+          width={320}
+          height={320}
+          className="rounded-t-xl object-cover"
+        />
       </div>
       <div className="flex flex-col gap-2 p-4 min-h-34 md:min-h-max justify-between">
         <div className="">
-          <h1 className="font-semibold">{props.nama}</h1>
-          <div className="text-[11px] font-semibold">
-            <h1>Harga Mulai Dari</h1>
-            <h1>{props.harga_mulai}</h1>
-          </div>
+          <h1 className="font-semibold">{props.model}</h1>
+          <h1 className="text-[11px] font-semibold min-h-8">
+            {props.harga_mulai_dari}
+          </h1>
         </div>
-        <Link
-          className="bg-blue-semi w-full py-2 text-[10px] font-semibold text-white rounded-md flex gap-1 items-center justify-center"
-          href={props.link}
-          target="_blank"
+        <button
+          className="border-2 border-blue-semi w-full py-2 text-[10px] font-semibold text-blue-semi rounded-md flex gap-1 items-center justify-center"
+          onClick={detailClick}
         >
-          Lihat Lengkap
-          <ChevronRight size={15} strokeWidth={2} />
-        </Link>
+          Detail
+        </button>
+        <button
+          className="bg-blue-semi border-2 border-blue-semi w-full py-2 text-[10px] font-semibold text-white rounded-md flex gap-1 items-center justify-center"
+          onClick={offersClick}
+        >
+          Dapatkan Penawaran
+        </button>
       </div>
-    </Link>
+    </div>
   );
 };
 

@@ -31,7 +31,7 @@ export const getKatalog = async () => {
   const config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: mainURL("home/get-produk-list"),
+    url: mainURL("home/get-produk-list-v2"),
   };
 
   await axios
