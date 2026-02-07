@@ -26,7 +26,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Hide spin buttons in Firefox */
-input[type='number'] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 
@@ -59,13 +59,28 @@ button {
   cursor: pointer;
 }
 
+.swiper-pagination-bullet {
+  background-color: var(--color-gray-semi) !important;
+  opacity: 1 !important;
+  transition: 0.3s all ease-in-out;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: var(--color-blue-light) !important;
+  width: 40px !important;
+  border-radius: 10px !important;
+}
+
 /* Loader */
 
 .spinner {
   width: 56px;
   height: 56px;
   --c: radial-gradient(farthest-side, var(--color-blue-semi) 92%, #0000);
-  background: var(--c) 50% 0, var(--c) 50% 100%, var(--c) 100% 50%,
+  background:
+    var(--c) 50% 0,
+    var(--c) 50% 100%,
+    var(--c) 100% 50%,
     var(--c) 0 50%;
   background-size: 13.4px 13.4px;
   background-repeat: no-repeat;
@@ -77,7 +92,10 @@ button {
   width: 56px;
   height: 56px;
   --c: radial-gradient(farthest-side, var(--color-red-semi) 92%, #0000);
-  background: var(--c) 50% 0, var(--c) 50% 100%, var(--c) 100% 50%,
+  background:
+    var(--c) 50% 0,
+    var(--c) 50% 100%,
+    var(--c) 100% 50%,
     var(--c) 0 50%;
   background-size: 13.4px 13.4px;
   background-repeat: no-repeat;
@@ -89,7 +107,10 @@ button {
   width: 25px;
   height: 25px;
   --c: radial-gradient(farthest-side, white 92%, #0000);
-  background: var(--c) 50% 0, var(--c) 50% 100%, var(--c) 100% 50%,
+  background:
+    var(--c) 50% 0,
+    var(--c) 50% 100%,
+    var(--c) 100% 50%,
     var(--c) 0 50%;
   background-size: 7px 7px;
   background-repeat: no-repeat;

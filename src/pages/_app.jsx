@@ -3,7 +3,6 @@ import "react-loading-skeleton/dist/skeleton.css";
 import "swiper/css";
 import "swiper/css/pagination";
 import font from "@/styles/fonts.module.css";
-import Navbar from "@/components/Navbar";
 import { usePathname } from "next/navigation";
 
 export default function App({ Component, pageProps }) {

@@ -19,6 +19,9 @@ import { ClipboardText } from "@/utils/utils";
 import { CardNewsSwiper } from "@/components/Card/CardNews";
 import CardCar from "@/components/Card/CardCar";
 import CardInstall from "@/components/PopUp/CardInstall";
+import CardOffer from "@/components/Card/CardOffer";
+import CardDetailCard from "@/components/Card/CardDetailCar";
+import InputCopy from "./InputCopy";
 
 const SkeletonNews = () => {
   return (
@@ -59,12 +62,16 @@ const CardSkeleton = () => {
 const Home = () => {
   const [user, setUser] = useState([]);
   const [katalog, setKatalog] = useState([]);
+  const [showOffers, setShowOffers] = useState(false);
+  const [showDetail, setShowDetail] = useState(false);
+  const [detailIndex, setDetailIndex] = useState(0);
   const [referral, setReferral] = useState("");
+  const [referralOffers, setReferralOffers] = useState("");
   const [news, setNews] = useState([]);
   const [showNotif, setShowNotif] = useState(false);
   const [success, setSuccess] = useState(false);
   const [text, setText] = useState("");
-    const [pwa, setPWA] = useState(false);
+  const [pwa, setPWA] = useState(false);
   const router = useRouter();
   const token = Cookies.get("token");
   const Loading = [];
@@ -87,9 +94,11 @@ const Home = () => {
   const fetchDataUser = async () => {
     const res = await getUserHome();
     const resKatalog = await getKatalog();
+    Cookies.set("referralUser", res?.kode_referral);
     setUser(res);
     setKatalog(resKatalog);
     setReferral(`${window.location.origin}/ref/${res?.kode_referral}`);
+    setReferralOffers(`${window.location.origin}/offers/${res?.kode_referral}`);
     if (res?.message == "Unauthorized" || !token) {
       TopMessage(
         "Silahkan Login Terlebih Dahulu. Mengalihkan ke halaman login!",
@@ -118,111 +127,127 @@ const Home = () => {
   }, []);
 
   return (
-    <section className="section-box">
-      {!pwa ? <CardInstall navbar/> : null}
-      <NotificationBar showNotif={showNotif} text={text} success={success} />
-      <Header props={user} />
-      <Amount props={user} />
-      {user && user?.type_akun == "freelance" ? (
-        <div className="my-8.5"></div>
-      ) : (
-        <div className="mx-4 my-8.5">
-          <h1 className="font-semibold mb-4">
-            Bagikan Link kamu dan Dapatkan Reward!
-          </h1>
-          <p className="font-semibold text-xs text-text-gray">Link Undangan</p>
-          <div className="flex justify-between gap-4 items-center mt-1.5">
-            {user && user.length == 0 ? (
-              <Skeleton
-                borderRadius={10}
-                count={1}
-                containerClassName="w-full"
-                height={30}
-                highlightColor={highlightSkeleton}
-              />
-            ) : (
-              <input
-                id="referral"
-                disabled
-                className="text-sm font-medium placeholder:text-black py-1.5 px-3 border border-gray-semi rounded-lg w-full"
-                value={referral}
-              />
-            )}
-            <button
-              onClick={() => {
+    <section>
+      <div
+        className={`${showOffers || showDetail ? "block" : "hidden"} overflow-y-hidden fixed top-0 left-0 right-0 w-full min-h-dvh bg-black/50 z-20`}
+      ></div>
+      <CardDetailCard
+        props={katalog.length == 0 ? null : katalog?.katalog[detailIndex]}
+        show={showDetail}
+        close={() => setShowDetail(false)}
+        showOffers={() => {
+          setShowOffers(true);
+          setShowDetail(false);
+        }}
+      />
+      <CardOffer show={showOffers} hideClick={() => setShowOffers(false)} />
+      <div className="section-box">
+        {!pwa ? <CardInstall navbar /> : null}
+        <NotificationBar showNotif={showNotif} text={text} success={success} />
+        <Header props={user} />
+        <Amount props={user} />
+        {user && user?.type_akun == "freelance" ? (
+          <div className="my-8.5"></div>
+        ) : (
+          <div>
+            <InputCopy
+              title="Bagikan Link kamu dan Dapatkan Reward!"
+              desc="Link Undangan"
+              props={referral}
+              id="referral"
+              copy={() => {
                 ClipboardText(
                   referral,
                   TopMessage("berhasil salin!", setSuccess(true)),
                 );
               }}
-            >
-              <Copy size={25} />
-            </button>
+            />
+            <div className="border-b-2 border-gray-200 mx-4"></div>
+            <InputCopy
+              title="Dapatkan Reward dari seseorang membeli mobil!"
+              desc="Link Undangan"
+              props={referralOffers}
+              id="share"
+              copy={() => {
+                ClipboardText(
+                  referralOffers,
+                  TopMessage("berhasil salin!", setSuccess(true)),
+                );
+              }}
+            />
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Button Big */}
-      <CardBig
-        title="Input Penjualan"
-        desc="Input penjualan, Setelah disetujui dapatkan reward"
-        src={CardPerson}
-        href={"/InputJual"}
-      />
-      {user && user?.type_akun == "agen plus" ? null : (
+        {/* Button Big */}
         <CardBig
-          title="Upgrade ke Agen Plus"
-          desc="Dapatkan Fasilitas dan Voucher Lebih Banyak!"
-          src={GroupStroke}
-          href={`/Detail/produk/`}
+          title="Input Penjualan"
+          desc="Input penjualan, Setelah disetujui dapatkan reward"
+          src={CardPerson}
+          href={"/InputJual"}
         />
-      )}
-      {/* Button Big */}
+        {user && user?.type_akun == "agen plus" ? null : (
+          <CardBig
+            title="Upgrade ke Agen Plus"
+            desc="Dapatkan Fasilitas dan Voucher Lebih Banyak!"
+            src={GroupStroke}
+            href={`/Detail/produk/`}
+          />
+        )}
+        {/* Button Big */}
 
-      {/* BoxItem */}
-      {/* Katalog */}
-      <BoxItem
-        text="Katalog Mobil"
-        subtext="Temukan mobil impian anda dari koleksi terbaik kami!"
-        isMore
-        href={"https://daihatsu.co.id/"}
-        direct
-        components={
-          katalog && katalog.length == 0 ? (
-            <div className="grid grid-cols-2 gap-4">{Loading}</div>
-          ) : (
-            <div className="grid grid-cols-2 gap-4">
-              {katalog.map((item, index) => {
-                return <CardCar props={item} key={index} />;
-              })}
-            </div>
-          )
-        }
-      />
-      {/* Katalog */}
+        {/* BoxItem */}
+        {/* Katalog */}
+        <BoxItem
+          text="Katalog Mobil"
+          subtext="Temukan mobil impian anda dari koleksi terbaik kami!"
+          components={
+            katalog && katalog.length == 0 ? (
+              <div className="grid grid-cols-2 gap-4">{Loading}</div>
+            ) : (
+              <div className="grid grid-cols-2 gap-4">
+                {katalog &&
+                  katalog?.katalog.map((item, index) => {
+                    return (
+                      <CardCar
+                        props={item}
+                        key={index}
+                        offersClick={() => setShowOffers(true)}
+                        detailClick={() => {
+                          setDetailIndex(index);
+                          setShowDetail(true);
+                        }}
+                      />
+                    );
+                  })}
+              </div>
+            )
+          }
+        />
+        {/* Katalog */}
 
-      <div className="mt-8"></div>
+        <div className="mt-8"></div>
 
-      {/* News */}
-      <BoxItem
-        text="News"
-        isMore
-        href={"/News"}
-        components={
-          news && news.length == 0 ? (
-            <div className="flex overflow-x-hidden gap-6 items-center">
-              <SkeletonNews />
-              <SkeletonNews />
-            </div>
-          ) : (
-            <CardNewsSwiper props={news} />
-          )
-        }
-      />
-      {/* News */}
-      {/* BoxItem */}
-      {!pwa ? <div className="mt-32"></div> : <div className="mt-20"></div>}
-      <Navbar />
+        {/* News */}
+        <BoxItem
+          text="News"
+          isMore
+          href={"/News"}
+          components={
+            news && news.length == 0 ? (
+              <div className="flex overflow-x-hidden gap-6 items-center">
+                <SkeletonNews />
+                <SkeletonNews />
+              </div>
+            ) : (
+              <CardNewsSwiper props={news} />
+            )
+          }
+        />
+        {/* News */}
+        {/* BoxItem */}
+        {!pwa ? <div className="mt-32"></div> : <div className="mt-20"></div>}
+        <Navbar />
+      </div>
     </section>
   );
 };

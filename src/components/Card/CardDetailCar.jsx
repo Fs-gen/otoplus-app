@@ -2,41 +2,44 @@ import { X } from "lucide-react";
 import Image from "next/image";
 import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { ButtonForm } from "../Button";
 
 const TextDetail = ({ title, desc }) => {
   return (
     <div>
-      <p className="text-lg font-semibold mb-1">{title}</p>
+      <p className="font-semibold mb-1">{title}</p>
       <p className="text-sm font-medium">{desc}</p>
     </div>
   );
 };
 
-const CardDetailCard = ({ props, close, offersClick }) => {
-  const titleDesc = "w-max border-b-3 mb-3 border-blue-semi font-semibold";
+const CardDetailCard = ({ props, show, close, showOffers }) => {
+  const titleDesc =
+    "w-max border-b-3 border-blue-semi text-xl font-semibold mt-4";
+  const listDesc = "flex flex-col gap-4 mt-3";
   console.log(props);
   return (
-    <div className="py-6 px-8 bg-white max-h-150 overflow-y-scroll scrollbar-hide rounded-xl">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-blue-semi">{props?.model}</h1>
+    <div
+      className={`${show ? "bottom-0" : "-bottom-130"} fixed left-0 right-0 bg-white p-6 max-w-125 z-20 mx-auto rounded-t-xl transition-all duration-300`}
+    >
+      <div className="flex justify-between">
+        <h1 className="text-xl text-blue-semi font-semibold">{props?.model}</h1>
         <button onClick={close}>
-          <X size={25} className="ml-auto" />
+          <X size={30} />
         </button>
       </div>
-      <div>
-        <p className="text-text-gray text-sm font-medium my-2">
-          {props.tagline}
-        </p>
+      <p className="text-text-gray text-sm mt-2 font-medium">
+        {props?.tagline}
+      </p>
+      <div className="overflow-y-scroll scrollbar-hide max-h-80 mb-4 py-4">
+        {/* Gambar */}
         <Swiper
+          className="mb-4"
           slidesPerView={"auto"}
-          pagination={true}
           spaceBetween={20}
-          loop={true}
+          pagination={true}
+          autoplay={{ delay: 2000 }}
           modules={[Autoplay, Pagination]}
-          className="swiper"
-          autoplay={{
-            delay: 2000,
-          }}
         >
           {props &&
             props?.gambar.map((item, index) => {
@@ -45,101 +48,89 @@ const CardDetailCard = ({ props, close, offersClick }) => {
                   <Image
                     src={item}
                     width={1280}
-                    height={1280}
-                    alt=""
-                    className="rounded-lg object-cover"
+                    height={480}
+                    alt="Gambar"
+                    className="rounded-xl"
                   />
                 </SwiperSlide>
               );
             })}
         </Swiper>
-        <div className="flex flex-col gap-4 mt-4">
-          {/* Spesifikasi */}
-          <div>
-            <h1 className={titleDesc}>Spesifikasi</h1>
-            <div className="flex flex-col gap-2">
-              <TextDetail
-                title="Transmisi"
-                desc={props?.spesifikasi.transmisi}
-              />
-              <TextDetail title="Dimensi" desc={props?.spesifikasi.dimensi} />
-              <TextDetail
-                title="Fitur Utama"
-                desc={props?.spesifikasi.fitur_utama}
-              />
-              <TextDetail
-                title="Keselamatan"
-                desc={props?.spesifikasi.keselamatan}
-              />
-              <TextDetail title="Lainnya" desc={props?.lainnya} />
-            </div>
+        {/* Gambar */}
+        {/* Spesifikasi */}
+        <div>
+          <h1 className={titleDesc}>Spesifikasi</h1>
+          <div className={listDesc}>
+            <TextDetail
+              title="Transmisi"
+              desc={props?.spesifikasi?.transmisi}
+            />
+            <TextDetail title="Dimensi" desc={props?.spesifikasi?.dimensi} />
+            <TextDetail
+              title="Fitur Utama"
+              desc={props?.spesifikasi?.fitur_utama}
+            />
+            <TextDetail
+              title="Keselamatan"
+              desc={props?.spesifikasi?.keselamatan}
+            />
+            <TextDetail title="Lainnya" desc={props?.lainnya} />
           </div>
-          {/* Spesifikasi */}
-          {/* Warna */}
-          <div>
-            <h1 className={titleDesc}>Warna</h1>
+        </div>
+        {/* Spesifikasi */}
+        {/* Warna */}
+        <div>
+          <h1 className={titleDesc}>Warna</h1>
+          <div className={listDesc}>
+            <TextDetail desc={props?.warna_tersedia} />
+          </div>
+        </div>
+        {/* Warna */}
+        {/* Mesin */}
+        <div>
+          <h1 className={titleDesc}>Jenis Mesin</h1>
+          <div className="grid grid-cols-2 gap-4 mt-4">
             {props &&
-              props?.warna_tersedia.map((item, index) => {
+              props?.spesifikasi.mesin.map((item, index) => {
                 return (
-                  <h1 key={index} className="font-medium">
-                    {item}
-                  </h1>
+                  <div key={index} className="p-4 bg-gray-200 rounded-xl">
+                    <h1 className="text-lg font-semibold">{item.tipe}</h1>
+                    <div className={listDesc}>
+                      <TextDetail title="Kapasitas" desc={item.kapasitas} />
+                      <TextDetail title="Torsi" desc={item.torsi} />
+                      <TextDetail title="Tenaga" desc={item.tenaga} />
+                    </div>
+                  </div>
                 );
               })}
           </div>
-          {/* Warna */}
-          {/* Mesin */}
-          <div>
-            <h1 className={titleDesc}>Mesin</h1>
-            <div className="grid grid-cols-2 gap-4 mt-4">
-              {props &&
-                props?.spesifikasi.mesin.map((item, index) => {
-                  return (
-                    <div
-                      className="flex flex-col gap-2 bg-gray-100 p-4 rounded-xl"
-                      key={index}
-                    >
-                      <h1 className="text-2xl font-semibold">{item.tipe}</h1>
-                      <TextDetail
-                        wrap
-                        title="Kapasitas"
-                        desc={item.kapasitas}
-                      />
-                      <TextDetail wrap title="Torsi" desc={item.torsi} />
-                      <TextDetail wrap title="Tenaga" desc={item.tenaga} />
-                    </div>
-                  );
-                })}
-            </div>
-          </div>
-          {/* Mesin */}
-          {/* Varian */}
-          <div className="bg-gray-100 p-4 rounded-xl font-semibold mt-4">
-            <h1 className="text-lg mb-4">Varian & Estimasi Harga</h1>
-            <div className="flex flex-col gap-1">
-              {props &&
-                props?.varian.map((item, index) => {
-                  return (
-                    <div key={index}>
-                      <div className="flex justify-between items-center">
-                        <p>{item.nama}</p>
-                        <p>{item.harga}</p>
-                      </div>
-                      <div className="my-2 w-full border-b-2 border-gray-300"></div>
-                    </div>
-                  );
-                })}
-            </div>
-          </div>
-          {/* Varian */}
         </div>
+        {/* Mesin */}
+        {/* Varian */}
+        <div>
+          <h1 className={titleDesc}>Varian & Estimasi Harga</h1>
+          <div className="bg-gray-200 flex flex-col gap-4 mt-4 p-6 rounded-lg">
+            {props &&
+              props?.varian.map((item, index) => {
+                return (
+                  <div
+                    className="flex justify-between items-center border-b-2 border-gray-300 font-semibold"
+                    key={index}
+                  >
+                    <p>{item.nama}</p>
+                    <p>{item.harga}</p>
+                  </div>
+                );
+              })}
+          </div>
+        </div>
+        {/* Varian */}
       </div>
-      <button
-        className="bg-blue-semi border-2 border-blue-semi w-full py-2 text-sm font-semibold text-white rounded-md flex gap-1 items-center justify-center mt-12"
-        onClick={offersClick}
-      >
-        Dapatkan Penawaran
-      </button>
+      <ButtonForm
+        click={showOffers}
+        style="w-full p-4"
+        text="Dapatkan Penawaran"
+      />
     </div>
   );
 };
