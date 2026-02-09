@@ -12,7 +12,7 @@ const Navbar = () => {
       <Link
         href={pages}
         className={`text-sm flex flex-col items-center ${
-          router === pages ? "text-blue-semi" : "text-black"
+          router === pages  ? "text-blue-semi" : "text-black"
         }`}
       >
         {icon} {text}

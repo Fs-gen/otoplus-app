@@ -1,6 +1,7 @@
 import Image from "next/image";
+import Link from "next/link";
 
-const CardCar = ({ props, detailClick, offersClick }) => {
+const CardCar = ({ props, detail, offersClick }) => {
   return (
     <div className="rounded-xl shadow-lg" target="_blank">
       <div className="min-h-30 flex justify-center">
@@ -18,13 +19,16 @@ const CardCar = ({ props, detailClick, offersClick }) => {
           <h1 className="text-[11px] font-semibold min-h-8">
             {props.harga_mulai_dari}
           </h1>
+          <h1 className="text-[11px] font-semibold min-h-8 mt-2">
+            {props.harga_mulai_dari_makassar}
+          </h1>
         </div>
-        <button
+        <Link
           className="border-2 border-blue-semi w-full py-2 text-[10px] font-semibold text-blue-semi rounded-md flex gap-1 items-center justify-center"
-          onClick={detailClick}
+          href={detail}
         >
           Detail
-        </button>
+        </Link>
         <button
           className="bg-blue-semi border-2 border-blue-semi w-full py-2 text-[10px] font-semibold text-white rounded-md flex gap-1 items-center justify-center"
           onClick={offersClick}

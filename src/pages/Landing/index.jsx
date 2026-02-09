@@ -10,7 +10,6 @@ import { highlightSkeleton } from "@/styles/style";
 import { CardNewsBasic } from "@/components/Card/CardNews";
 import CardInstall from "@/components/PopUp/CardInstall";
 import CardOffer from "@/components/Card/CardOffer";
-import CardDetailCard from "@/components/Card/CardDetailCar";
 
 const CardSkeleton = () => {
   return (
@@ -33,8 +32,6 @@ const CardSkeleton = () => {
 const Landing = () => {
   const [katalog, setKatalog] = useState([]);
   const [showOffers, setShowOffers] = useState(false);
-  const [showDetail, setShowDetail] = useState(false);
-  const [detailIndex, setDetailIndex] = useState(0);
   const [news, setNews] = useState([]);
   const [pwa, setPWA] = useState(false);
   const referral = Cookies.get("referral");
@@ -62,17 +59,8 @@ const Landing = () => {
   return (
     <section>
       <div
-        className={`${showOffers || showDetail ? "block" : "hidden"} overflow-y-hidden fixed top-0 left-0 right-0 w-full min-h-dvh bg-black/50 z-20`}
+        className={`${showOffers ? "block" : "hidden"} overflow-y-hidden fixed top-0 left-0 right-0 w-full min-h-dvh bg-black/50 z-20`}
       ></div>
-      <CardDetailCard
-        props={katalog.length == 0 ? null : katalog?.katalog[detailIndex]}
-        show={showDetail}
-        close={() => setShowDetail(false)}
-        showOffers={() => {
-          setShowOffers(true);
-          setShowDetail(false);
-        }}
-      />
       <CardOffer
         show={showOffers}
         hideClick={() => setShowOffers(false)}
@@ -97,10 +85,7 @@ const Landing = () => {
                         props={item}
                         key={index}
                         offersClick={() => setShowOffers(true)}
-                        detailClick={() => {
-                          setDetailIndex(index);
-                          setShowDetail(true);
-                        }}
+                        detail={`/Detail/car/${item?.model}`}
                       />
                     );
                   })}
@@ -114,13 +99,14 @@ const Landing = () => {
             isMore
             href={"/News"}
             components={
-              news && news.length == 0 ? (
+              (news && news.length == 0) || news == null ? (
                 <div className="grid grid-cols-2 gap-4">{Loading}</div>
               ) : (
                 <div className="grid grid-cols-2 gap-4">
-                  {news.map((item, index) => {
-                    return <CardNewsBasic props={item} key={index} />;
-                  })}
+                  {news &&
+                    news.map((item, index) => {
+                      return <CardNewsBasic props={item} key={index} />;
+                    })}
                 </div>
               )
             }

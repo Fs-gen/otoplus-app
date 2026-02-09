@@ -20,7 +20,6 @@ import { CardNewsSwiper } from "@/components/Card/CardNews";
 import CardCar from "@/components/Card/CardCar";
 import CardInstall from "@/components/PopUp/CardInstall";
 import CardOffer from "@/components/Card/CardOffer";
-import CardDetailCard from "@/components/Card/CardDetailCar";
 import InputCopy from "./InputCopy";
 
 const SkeletonNews = () => {
@@ -63,7 +62,6 @@ const Home = () => {
   const [user, setUser] = useState([]);
   const [katalog, setKatalog] = useState([]);
   const [showOffers, setShowOffers] = useState(false);
-  const [showDetail, setShowDetail] = useState(false);
   const [detailIndex, setDetailIndex] = useState(0);
   const [referral, setReferral] = useState("");
   const [referralOffers, setReferralOffers] = useState("");
@@ -131,15 +129,6 @@ const Home = () => {
       <div
         className={`${showOffers || showDetail ? "block" : "hidden"} overflow-y-hidden fixed top-0 left-0 right-0 w-full min-h-dvh bg-black/50 z-20`}
       ></div>
-      <CardDetailCard
-        props={katalog.length == 0 ? null : katalog?.katalog[detailIndex]}
-        show={showDetail}
-        close={() => setShowDetail(false)}
-        showOffers={() => {
-          setShowOffers(true);
-          setShowDetail(false);
-        }}
-      />
       <CardOffer show={showOffers} hideClick={() => setShowOffers(false)} />
       <div className="section-box">
         {!pwa ? <CardInstall navbar /> : null}
