@@ -127,7 +127,7 @@ const Home = () => {
   return (
     <section>
       <div
-        className={`${showOffers || showDetail ? "block" : "hidden"} overflow-y-hidden fixed top-0 left-0 right-0 w-full min-h-dvh bg-black/50 z-20`}
+        className={`${showOffers ? "block" : "hidden"} overflow-y-hidden fixed top-0 left-0 right-0 w-full min-h-dvh bg-black/50 z-20`}
       ></div>
       <CardOffer show={showOffers} hideClick={() => setShowOffers(false)} />
       <div className="section-box">
