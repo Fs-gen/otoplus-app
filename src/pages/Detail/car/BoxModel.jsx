@@ -1,7 +1,8 @@
-const BoxModel = ({ title, props, model }) => {
+const BoxModel = ({ title, subtitle, props, model }) => {
   return (
     <div className="flex flex-col gap-3">
       <h1 className="font-semibold text-xl">{title}</h1>
+      <p className="text-text-gray text-sm">{subtitle}</p>
       {props &&
         props.map((item, index) => {
           const nama = model;

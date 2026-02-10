@@ -124,22 +124,26 @@ const DetailCar = ({ model }) => {
             <CardSpec
               props={data?.spesifikasi}
               show={showSpec}
+              other={data?.lainnya}
               click={() => setShowSpec(!showSpec)}
             />
             {/* Spesifikasi */}
             <BoxModel
               props={showModel ? data?.varian : data?.varian.slice(0, 3)}
               title={`Dapatkan Varian ${data?.model} Impianmu`}
+              subtitle={data?.catatan_varian}
             />
-            <button
-              className="mt-4 flex justify-center gap-2 items-center"
-              onClick={() => setShowModel(!showModel)}
-            >
-              <h1 className="font-semibold text-blue-semi">
-                {showModel ? "Lebih Sedikit" : "Lihat Semua"}
-              </h1>
-              <ChevronRight size={20} strokeWidth={2.5} color="#00529c" />
-            </button>
+            {data && data?.varian.length <= 3 ? null : (
+              <button
+                className="mt-4 flex justify-center gap-2 items-center"
+                onClick={() => setShowModel(!showModel)}
+              >
+                <h1 className="font-semibold text-blue-semi">
+                  {showModel ? "Lebih Sedikit" : "Lihat Semua"}
+                </h1>
+                <ChevronRight size={20} strokeWidth={2.5} color="#00529c" />
+              </button>
+            )}
           </div>
         </div>
       )}

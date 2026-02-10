@@ -8,18 +8,16 @@ const CardCar = ({ props, detail, offersClick }) => {
         <Image
           src={props.gambar[0]}
           alt={props.nama}
-          width={320}
+          width={1400}
           height={320}
           className="rounded-t-xl object-cover"
         />
       </div>
-      <div className="flex flex-col gap-2 p-4 min-h-34 md:min-h-max justify-between">
+      <div className="flex flex-col gap-2 p-4 justify-between">
         <div className="">
-          <h1 className="font-semibold">{props.model}</h1>
-          <h1 className="text-[11px] font-semibold min-h-8">
-            {props.harga_mulai_dari}
-          </h1>
-          <h1 className="text-[11px] font-semibold min-h-8 mt-2">
+          <h1 className="font-semibold text-xl mb-2">{props.model}</h1>
+          <h1 className="text-xs font-semibold">{props.harga_mulai_dari}</h1>
+          <h1 className="text-xs font-semibold mt-2">
             {props.harga_mulai_dari_makassar}
           </h1>
         </div>

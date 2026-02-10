@@ -76,9 +76,9 @@ const Landing = () => {
             subtext="Temukan mobil impian anda dari koleksi terbaik kami!"
             components={
               katalog && katalog.length == 0 ? (
-                <div className="grid grid-cols-2 gap-4">{Loading}</div>
+                <div className="grid grid-cols-1 gap-4">{Loading}</div>
               ) : (
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4">
                   {katalog?.katalog.map((item, index) => {
                     return (
                       <CardCar
