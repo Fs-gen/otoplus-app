@@ -59,27 +59,9 @@ const DetailCar = ({ model }) => {
       </div>
       {/* Bckground Black */}
       <div
-        className={`${showOffers || showModel ? "bg-black/25 z-10" : "-z-10"} fixed top-0 left-0 right-0 h-full w-full`}
+        className={`${showOffers ? "bg-black/25 z-10" : "-z-10"} fixed top-0 left-0 right-0 h-full w-full`}
       ></div>
       {/* Bckground Black */}
-      <div
-        className={`${showModel ? "bottom-0 z-50" : "-bottom-120 z-20"} fixed w-full px-4 py-6 max-w-125 bg-white rounded-t-xl flex flex-col gap-4 transition-all duration-300`}
-      >
-        <h1 className="font-semibold text-lg">
-          Pilih transmisi mobil{" "}
-          <span className="text-blue-semi font-bold">{data?.model}</span> sesuai
-          kebutuhanmu
-        </h1>
-        <div className="max-h-80 scrollbar-hide overflow-y-scroll ">
-          <BoxModel props={data?.varian} scroll />
-        </div>
-        <button
-          onClick={() => setShowModel(!showModel)}
-          className="bg-blue-dark rounded-xl text-white p-3 font-semibold"
-        >
-          Kembali
-        </button>
-      </div>
       <CardOffer
         show={showOffers}
         hideClick={() => setShowOffers(false)}
@@ -146,14 +128,16 @@ const DetailCar = ({ model }) => {
             />
             {/* Spesifikasi */}
             <BoxModel
-              props={data?.varian.slice(0, 3)}
+              props={showModel ? data?.varian : data?.varian.slice(0, 3)}
               title={`Dapatkan Varian ${data?.model} Impianmu`}
             />
             <button
               className="mt-4 flex justify-center gap-2 items-center"
-              onClick={() => setShowModel(true)}
+              onClick={() => setShowModel(!showModel)}
             >
-              <h1 className="font-semibold text-blue-semi">Lihat Semua</h1>
+              <h1 className="font-semibold text-blue-semi">
+                {showModel ? "Lebih Sedikit" : "Lihat Semua"}
+              </h1>
               <ChevronRight size={20} strokeWidth={2.5} color="#00529c" />
             </button>
           </div>
