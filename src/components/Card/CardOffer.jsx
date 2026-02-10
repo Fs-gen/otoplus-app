@@ -61,7 +61,7 @@ const CardOffer = ({ show, hideClick, kode_referral }) => {
 
   return (
     <div
-      className={`${show ? "bottom-0" : "-bottom-120"} bg-white p-4 w-full flex flex-col gap-4 rounded-t-xl fixed z-20 max-w-125 transition-all duration-300`}
+      className={`${show ? "bottom-0 z-50" : "-bottom-125 z-10"} bg-white p-4 w-full flex flex-col gap-4 rounded-t-xl fixed max-w-125 transition-all duration-300`}
     >
       <NotificationBar showNotif={showNotif} text={text} />
       <h1 className="text-xl font-semibold">Masukkan Data Diri Anda</h1>
