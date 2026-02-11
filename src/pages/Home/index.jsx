@@ -191,9 +191,9 @@ const Home = () => {
           subtext="Temukan mobil impian anda dari koleksi terbaik kami!"
           components={
             katalog && katalog.length == 0 ? (
-              <div className="grid grid-cols-2 gap-4">{Loading}</div>
+              <div className="grid grid-cols-1 gap-4">{Loading}</div>
             ) : (
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4">
                 {katalog &&
                   katalog?.katalog.map((item, index) => {
                     return (
@@ -201,10 +201,7 @@ const Home = () => {
                         props={item}
                         key={index}
                         offersClick={() => setShowOffers(true)}
-                        detailClick={() => {
-                          setDetailIndex(index);
-                          setShowDetail(true);
-                        }}
+                        detail={`/Detail/car/${item.model}`}
                       />
                     );
                   })}
