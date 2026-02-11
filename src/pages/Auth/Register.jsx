@@ -166,7 +166,7 @@ const Register = () => {
           className="mx-auto"
         />
         <h1 className="text-heading-14 text-center my-8">
-          Daftar Akun OtoPlus
+          Daftar Akun OtoplusID
         </h1>
         <form action="" method="post" className="flex flex-col gap-5">
           <FormLine

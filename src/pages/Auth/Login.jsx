@@ -109,7 +109,7 @@ const Login = () => {
           className="mx-auto"
         />
         <h1 className="mt-6.25 text-center text-heading-14">
-          Masuk ke Otoplus App
+          Masuk ke OtoplusID App
         </h1>
         <form action="submit" className="flex flex-col gap-4 mt-7.5 mb-8">
           <FormLine
