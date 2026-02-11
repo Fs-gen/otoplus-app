@@ -153,7 +153,7 @@ const Home = () => {
             />
             <div className="border-b-2 border-gray-200 mx-4"></div>
             <InputCopy
-              title="Bagikan katalog dan dapatkan reward dari setiap pembelian!"
+              title="Bagikan katalog dan dapatkan reward dari setiap pembelian mobil!"
               desc="Link Katalog"
               props={referralOffers}
               id="share"
