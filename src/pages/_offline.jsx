@@ -16,7 +16,7 @@ const Fallback = () => (
           width={300}
           height={300}
           quality={100}
-          alt="h-auto"
+          alt="Illustration Network Error!"
         />
         <h1 className="font-semibold">
           Oops, sepertinya jaringan anda bermasalah!
