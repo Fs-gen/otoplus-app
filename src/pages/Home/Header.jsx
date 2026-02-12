@@ -5,9 +5,11 @@ const { default: Link } = require("next/link");
 import Avatar from "@/assets/images/icons/logo.png";
 import NotificationBadge from "@/assets/images/icons/system/notification-badge.svg";
 import { highlightSkeleton } from "@/styles/style";
+import { Bell } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 
 const Header = ({ props }) => {
+  console.log(props);
   return (
     <div className="flex justify-between items-center">
       <div className="flex gap-2 items-center">
@@ -28,13 +30,17 @@ const Header = ({ props }) => {
           )}
         </div>
       </div>
-      <Link href={"/Notification"}>
-        <Image
+      <Link href={"/Notification"}className="relative">
+        <Bell size={25} strokeWidth={2} />
+        {props && props?.notifikasi != 0 ? (
+          <h1 className="min-w-4 text-xs text-center font-semibold text-white -top-1 -right-1 absolute bg-blue-semi rounded-full">{props?.notifikasi}</h1>
+        ) : null}
+        {/* <Image
           src={NotificationBadge}
           width={25}
           height={25}
           alt="Notification"
-        />
+        /> */}
       </Link>
     </div>
   );

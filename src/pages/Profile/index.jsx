@@ -63,12 +63,12 @@ const Profile = () => {
     setUser(res);
     if (res?.message == "Unauthorized" || !token) {
       TopMessage(
-        "Silahkan Login Terlebih Dahulu. Mengalihkan ke halaman login!"
+        "Silahkan Login Terlebih Dahulu. Mengalihkan ke halaman login!",
       );
       Cookies.remove("token");
       setTimeout(() => {
         router.replace("/");
-      }, 3000);
+      }, 2000);
     } else {
       return;
     }
@@ -92,14 +92,12 @@ const Profile = () => {
     await axios
       .request(config)
       .then(() => {
-        return null;
+        Cookies.remove("token");
+        router.replace("/");
       })
       .catch(() => {
         return null;
       });
-
-    Cookies.remove("token");
-    router.replace("/");
   };
 
   useEffect(() => {

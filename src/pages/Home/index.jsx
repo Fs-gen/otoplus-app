@@ -3,7 +3,6 @@ import GroupStroke from "@/assets/images/illustration/group-stroke.png";
 import CardPerson from "@/assets/images/illustration/car-person.png";
 import NotificationBar from "@/components/NotificationBar";
 import Navbar from "@/components/Navbar";
-import { Copy } from "lucide-react";
 
 import BoxItem from "@/components/Box";
 import CardBig from "@/components/Card/CardBig";
@@ -62,7 +61,6 @@ const Home = () => {
   const [user, setUser] = useState([]);
   const [katalog, setKatalog] = useState([]);
   const [showOffers, setShowOffers] = useState(false);
-  const [detailIndex, setDetailIndex] = useState(0);
   const [referral, setReferral] = useState("");
   const [referralOffers, setReferralOffers] = useState("");
   const [news, setNews] = useState([]);
@@ -104,7 +102,7 @@ const Home = () => {
       Cookies.remove("token");
       setTimeout(() => {
         router.replace("/");
-      }, 3000);
+      }, 2000);
     } else {
       return;
     }

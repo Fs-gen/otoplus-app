@@ -15,20 +15,20 @@ const CardCar = ({ props, detail, offersClick }) => {
       </div>
       <div className="flex flex-col gap-2 p-4 justify-between">
         <div className="">
-          <h1 className="font-semibold text-xl mb-2">{props.model}</h1>
-          <h1 className="text-xs font-semibold">{props.harga_mulai_dari}</h1>
-          <h1 className="text-xs font-semibold mt-2">
+          <h1 className="font-bold text-2xl mb-2">{props.model}</h1>
+          <h1 className="text-sm font-semibold">{props.harga_mulai_dari}</h1>
+          <h1 className="text-sm font-semibold mt-2">
             {props.harga_mulai_dari_makassar}
           </h1>
         </div>
         <Link
-          className="border-2 border-blue-semi w-full py-2 text-[10px] font-semibold text-blue-semi rounded-md flex gap-1 items-center justify-center"
+          className="border-2 border-blue-semi w-full py-2 text-sm font-semibold text-blue-semi rounded-md flex gap-1 items-center justify-center"
           href={detail}
         >
           Detail
         </Link>
         <button
-          className="bg-blue-semi border-2 border-blue-semi w-full py-2 text-[10px] font-semibold text-white rounded-md flex gap-1 items-center justify-center"
+          className="bg-blue-semi border-2 border-blue-semi w-full py-2 text-sm font-semibold text-white rounded-md flex gap-1 items-center justify-center"
           onClick={offersClick}
         >
           Dapatkan Penawaran

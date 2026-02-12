@@ -19,7 +19,7 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 const CardDetail = ({ image, text, title }) => {
   return (
     <div>
-      <h1 className="font-semibold text-text-gray">{title}</h1>
+      <h1 className="font-semibold text-blue-dark">{title}</h1>
       {image ? (
         <Image
           src={image}
@@ -28,8 +28,12 @@ const CardDetail = ({ image, text, title }) => {
           className="h-auto"
           alt=""
         />
+      ) : image == "" ? (
+        <p className="text-sm font-medium text-text-gray text-center mt-2">
+          Tidak ada file yang diupload
+        </p>
       ) : (
-        <p className="text-sm font-medium text-blue-dark">{text}</p>
+        <p className="text-sm font-medium text-text-gray">{text}</p>
       )}
     </div>
   );
@@ -44,6 +48,8 @@ const DetailInputJual = ({ id }) => {
   const [showAsuransi, setShowAsuransi] = useState(false);
   const [showSTNK, setShowSTNK] = useState(false);
   const [showDokumen, setShowDokumne] = useState(false);
+
+  console.log(data);
 
   const fetchData = async () => {
     const res = await getDetailInputJual(id);
@@ -341,19 +347,19 @@ const DetailInputJual = ({ id }) => {
                     showDokumen ? "flex" : "hidden"
                   } p-4 flex-col gap-4 bg-white mt-2 border-2 border-gray-200`}
                 >
-                  <CardDetail title="Dokumen KTP" text={data.dok_ktp || "-"} />
+                  <CardDetail title="Dokumen KTP" image={data.dok_ktp} />
                   <CardDetail title="Dokumen KK" image={data.dok_kk} />
                   <CardDetail
                     title="Dokumen NPWP"
-                    text={data.dok_npwp || "-"}
+                    image={data.dok_npwp}
                   />
                   <CardDetail
                     title="Dokumen Slip Gaji"
-                    text={data.dok_slip_gaji || "-"}
+                    image={data.dok_slip_gaji}
                   />
                   <CardDetail
                     title="Dokumen Surat Kerja"
-                    text={data.dok_surat_kerja || "-"}
+                    image={data.dok_surat_kerja}
                   />
                 </div>
               </div>

@@ -42,7 +42,7 @@ const Notification = () => {
         {data && data?.message == "Tidak Ada Notifikasi Baru" ? (
           <h1 className="text-center">Tidak Ada Notifikasi Baru</h1>
         ) : (
-          <div className="flex flex-col gap-4">
+          <div>
             {data && data?.length == 0 ? (
               <div>
                 <Skeletons />
@@ -51,7 +51,7 @@ const Notification = () => {
                 <Skeletons />
               </div>
             ) : (
-              <div>
+              <div className="flex flex-col gap-4">
                 {data &&
                   data?.map((item, index) => {
                     return (

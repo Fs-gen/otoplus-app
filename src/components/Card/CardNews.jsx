@@ -51,10 +51,10 @@ export const CardNewsBasic = ({ props }) => {
         className="object-fit max-h-50 rounded-t-xl"
         priority
       />
-      <div className="flex flex-col gap-2 p-4 min-h-34 md:min-h-max justify-between">
+      <div className="flex flex-col gap-2 px-3 py-4 min-h-34 md:min-h-max justify-between">
         <div className="">
           <h1 className="font-semibold line-clamp-2">{props.title}</h1>
-          <div className="text-[11px] font-semibold line-clamp-3">
+          <div className="text-[11px] text-text-gray font-semibold line-clamp-3">
             {props.spoiler}
           </div>
         </div>
