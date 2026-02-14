@@ -19,6 +19,21 @@
   --text-heading-14--font-weight: 600;
 }
 
+img {
+  height: auto;
+}
+
+html {
+  max-width: 500px;
+  margin: 0 auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+
+button {
+  cursor: pointer;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -28,6 +43,12 @@ input::-webkit-inner-spin-button {
 /* Hide spin buttons in Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+.swiper {
+  padding: 20px;
+  width: 100% !important;
+  padding-inline: 4px !important;
 }
 
 .container {
@@ -42,21 +63,6 @@ input[type="number"] {
 .swiper {
   overflow: hidden !important;
   max-width: 500px;
-}
-
-img {
-  height: auto;
-}
-
-html {
-  max-width: 500px;
-  margin: 0 auto;
-  overflow-x: hidden;
-  scrollbar-width: none;
-}
-
-button {
-  cursor: pointer;
 }
 
 .swiper-pagination-bullet {

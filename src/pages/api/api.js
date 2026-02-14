@@ -6,44 +6,7 @@ export const mainURL = (resource) => {
   return res;
 };
 
-export const getAgreement = async () => {
-  let data = [];
-  const config = {
-    method: "get",
-    maxBodyLength: Infinity,
-    url: mainURL("auth/agreement"),
-  };
-
-  await axios
-    .request(config)
-    .then((response) => {
-      data = response?.data?.data;
-    })
-    .catch((e) => {
-      data = response?.data?.data;
-    });
-  return data;
-};
-
-export const getKatalog = async () => {
-  let data = [];
-
-  const config = {
-    method: "get",
-    maxBodyLength: Infinity,
-    url: mainURL("home/get-produk-list-v2"),
-  };
-
-  await axios
-    .request(config)
-    .then((response) => {
-      data = response?.data?.data;
-    })
-    .catch(() => {
-      return null;
-    });
-  return data;
-};
+// User
 
 export const getUserProfile = async () => {
   const header = Cookies.get("token");
@@ -91,7 +54,150 @@ export const getUserHome = async () => {
   return datas;
 };
 
-export const getNotification = async () => {
+export const getCekAkun = async () => {
+  const header = Cookies.get("token");
+  let datas = [];
+  const config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("home/get-data"),
+    headers: {
+      Authorization: "Bearer " + header,
+    },
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      datas = response.data?.data;
+      if (datas.profile_lengkap != true) {
+        setTimeout(() => {
+          window.location.href = "/Profile/profil-saya";
+        }, 3000);
+      }
+    })
+    .catch((e) => {
+      return null;
+    });
+  return datas;
+};
+
+export const getProvinsi = async () => {
+  const header = Cookies.get("token");
+  let data = [];
+  let config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("master/get-provinsi"),
+    headers: {
+      Authorization: "Bearer " + header,
+    },
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch((e) => {
+      return null;
+    });
+  return data;
+};
+
+export const getBankUser = async () => {
+  const header = Cookies.get("token");
+  let data = [];
+
+  let config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("profile/get-bank"),
+    headers: {
+      Authorization: "Bearer " + header,
+    },
+    data: data,
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch((e) => {
+      return null;
+    });
+  return data;
+};
+
+// List
+
+export const getListNews = async () => {
+  let data = null;
+
+  let config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("home/get-newsv2"),
+    data: data,
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch(() => {
+      return null;
+    });
+  return data;
+};
+
+export const getListReferral = async () => {
+  const header = Cookies.get("token");
+  let data = "";
+  let config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("profile/get-list-referral"),
+    headers: {
+      Authorization: "Bearer " + header,
+    },
+    data: data,
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response.data.data;
+    })
+    .catch(() => {
+      return null;
+    });
+  return data;
+};
+
+export const getListKatalog = async () => {
+  let data = [];
+
+  const config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("home/get-produk-list-v2"),
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch(() => {
+      return null;
+    });
+  return data;
+};
+
+export const getListNotification = async () => {
   const token = Cookies.get("token");
   let data = [];
 
@@ -114,6 +220,26 @@ export const getNotification = async () => {
     });
   return data;
 };
+
+export const getListPromotion = async () => {
+  let data = [];
+
+  let config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("home/get-promo-list"),
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch(null);
+  return data;
+};
+
+// Detail
 
 export const getDetailNotification = async (id) => {
   const token = Cookies.get("token");
@@ -229,14 +355,13 @@ export const getDetailInputJual = async (id) => {
   return datas;
 };
 
-export const getNews = async () => {
-  let data = null;
+export const getDetailPromotion = async (id) => {
+  let data = [];
 
-  let config = {
+  const config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: mainURL("home/get-newsv2"),
-    data: data,
+    url: mainURL(`home/get-promo-detail?id=${id}`),
   };
 
   await axios
@@ -244,38 +369,8 @@ export const getNews = async () => {
     .then((response) => {
       data = response?.data?.data;
     })
-    .catch(() => {
-      return null;
-    });
+    .catch(null);
   return data;
-};
-
-export const getCekAkun = async () => {
-  const header = Cookies.get("token");
-  let datas = [];
-  const config = {
-    method: "get",
-    maxBodyLength: Infinity,
-    url: mainURL("home/get-data"),
-    headers: {
-      Authorization: "Bearer " + header,
-    },
-  };
-
-  await axios
-    .request(config)
-    .then((response) => {
-      datas = response.data?.data;
-      if (datas.profile_lengkap != true) {
-        setTimeout(() => {
-          window.location.href = "/Profile/profil-saya";
-        }, 3000);
-      }
-    })
-    .catch((e) => {
-      return null;
-    });
-  return datas;
 };
 
 export const getProduk = async () => {
@@ -301,52 +396,7 @@ export const getProduk = async () => {
   return datas;
 };
 
-export const getListReferral = async () => {
-  const header = Cookies.get("token");
-  let data = "";
-  let config = {
-    method: "get",
-    maxBodyLength: Infinity,
-    url: mainURL("profile/get-list-referral"),
-    headers: {
-      Authorization: "Bearer " + header,
-    },
-    data: data,
-  };
-
-  await axios
-    .request(config)
-    .then((response) => {
-      data = response.data.data;
-    })
-    .catch(() => {
-      return null;
-    });
-  return data;
-};
-
-export const getProvinsi = async () => {
-  const header = Cookies.get("token");
-  let data = [];
-  let config = {
-    method: "get",
-    maxBodyLength: Infinity,
-    url: mainURL("master/get-provinsi"),
-    headers: {
-      Authorization: "Bearer " + header,
-    },
-  };
-
-  await axios
-    .request(config)
-    .then((response) => {
-      data = response?.data?.data;
-    })
-    .catch((e) => {
-      return null;
-    });
-  return data;
-};
+// History
 
 export const getHistoryTransaction = async () => {
   const header = Cookies.get("token");
@@ -422,56 +472,7 @@ export const getHistoryInputPenjualan = async () => {
   return data;
 };
 
-export const getBankUser = async () => {
-  const header = Cookies.get("token");
-  let data = [];
-
-  let config = {
-    method: "get",
-    maxBodyLength: Infinity,
-    url: mainURL("profile/get-bank"),
-    headers: {
-      Authorization: "Bearer " + header,
-    },
-    data: data,
-  };
-
-  await axios
-    .request(config)
-    .then((response) => {
-      data = response?.data?.data;
-    })
-    .catch((e) => {
-      return null;
-    });
-  return data;
-};
-
-export const getRekCompany = async () => {
-  const token = Cookies.get("token");
-  let data = [];
-
-  let config = {
-    method: "get",
-    maxBodyLength: Infinity,
-    url: mainURL("master/get-bank-company"),
-    headers: {
-      "Content-Type": "text/plain",
-      Authorization: "Bearer " + token,
-    },
-    data: data,
-  };
-
-  await axios
-    .request(config)
-    .then((response) => {
-      data = response?.data?.data;
-    })
-    .catch((e) => {
-      return null;
-    });
-  return data;
-};
+// OTP
 
 export const postOTPWithdraw = async () => {
   const token = Cookies.get("token");
@@ -520,6 +521,8 @@ export const postOTPBank = async () => {
     });
   return otp;
 };
+
+// Batal
 
 export const postBatalTransaksi = async (id) => {
   const token = Cookies.get("token");
@@ -581,6 +584,27 @@ export const postBatalWithdraw = async (id) => {
   return result;
 };
 
+// Other
+
+export const getAgreement = async () => {
+  let data = [];
+  const config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("auth/agreement"),
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch((e) => {
+      data = response?.data?.data;
+    });
+  return data;
+};
+
 export const postMarkReadNotif = async (id) => {
   const token = Cookies.get("token");
   let data = JSON.stringify({
@@ -605,4 +629,30 @@ export const postMarkReadNotif = async (id) => {
     .catch((e) => {
       return null;
     });
+};
+
+export const getRekCompany = async () => {
+  const token = Cookies.get("token");
+  let data = [];
+
+  let config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("master/get-bank-company"),
+    headers: {
+      "Content-Type": "text/plain",
+      Authorization: "Bearer " + token,
+    },
+    data: data,
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch((e) => {
+      return null;
+    });
+  return data;
 };

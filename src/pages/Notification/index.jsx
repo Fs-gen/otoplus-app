@@ -1,6 +1,6 @@
 import HeaderBack from "@/components/Header/HeaderBack";
 import { useEffect, useState } from "react";
-import { getNotification } from "../api/api";
+import { getListNotification } from "../api/api";
 import Link from "next/link";
 import Skeleton from "react-loading-skeleton";
 import { highlightSkeleton } from "@/styles/style";
@@ -20,7 +20,7 @@ const Notification = () => {
   const [data, setData] = useState([]);
 
   const fetchData = async () => {
-    const res = await getNotification();
+    const res = await getListNotification();
 
     if (res.status_code == "00" || res.status_code == "04") {
       setData(res?.data);

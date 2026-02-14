@@ -12,6 +12,7 @@ import Cookies from "js-cookie";
 import BoxModel from "./BoxModel";
 import CardSpec from "./CardSpec";
 import { ChevronRight } from "lucide-react";
+import HeaderTransparent from "@/components/Header/HeaderTransparent";
 
 const DetailCar = ({ model }) => {
   const [data, setData] = useState([]);
@@ -49,14 +50,7 @@ const DetailCar = ({ model }) => {
   }, []);
   return (
     <section>
-      <div
-        className={`fixed max-w-125 top-0 ${scroll > 50 ? "bg-white shadow-md" : "bg-black/25 text-white"} left-0 right-0 mx-auto px-3 flex items-center gap-2 py-3 z-10 transition-all duration-100`}
-      >
-        <Link href={"/"}>
-          <ArrowLeft size={25} />
-        </Link>
-        <h1 className="text-lg font-semibold">{data?.model}</h1>
-      </div>
+      <HeaderTransparent text={data?.model} />
       {/* Bckground Black */}
       <div
         className={`${showOffers ? "bg-black/25 z-10" : "-z-10"} fixed top-0 left-0 right-0 h-full w-full`}

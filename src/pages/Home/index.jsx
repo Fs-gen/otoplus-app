@@ -9,7 +9,7 @@ import CardBig from "@/components/Card/CardBig";
 import Amount from "./Amount";
 import Header from "./Header";
 import { useEffect, useState } from "react";
-import { getNews, getUserHome, getKatalog } from "../api/api";
+import { getListNews, getUserHome, getListKatalog, getListPromotion } from "../api/api";
 import Cookies from "js-cookie";
 import Skeleton from "react-loading-skeleton";
 import { highlightSkeleton } from "@/styles/style";
@@ -20,6 +20,9 @@ import CardCar from "@/components/Card/CardCar";
 import CardInstall from "@/components/PopUp/CardInstall";
 import CardOffer from "@/components/Card/CardOffer";
 import InputCopy from "./InputCopy";
+import { Swiper, SwiperSlide } from "swiper/react";
+import CardPromotion from "@/components/Card/CardPromotion";
+import { Autoplay, Pagination } from "swiper/modules";
 
 const SkeletonNews = () => {
   return (
@@ -59,6 +62,7 @@ const CardSkeleton = () => {
 
 const Home = () => {
   const [user, setUser] = useState([]);
+  const [promotion, setPromotion] = useState([]);
   const [katalog, setKatalog] = useState([]);
   const [showOffers, setShowOffers] = useState(false);
   const [referral, setReferral] = useState("");
@@ -87,9 +91,13 @@ const Home = () => {
     }, 3000);
   };
 
-  const fetchDataUser = async () => {
+  const fetchData = async () => {
     const res = await getUserHome();
-    const resKatalog = await getKatalog();
+    const resPromotion = await getListPromotion();
+    const resKatalog = await getListKatalog();
+    const resNews = await getListNews();
+    setPromotion(resPromotion);
+    setNews(resNews);
     Cookies.set("referralUser", res?.kode_referral);
     setUser(res);
     setKatalog(resKatalog);
@@ -108,18 +116,12 @@ const Home = () => {
     }
   };
 
-  const fetchDataNews = async () => {
-    const res = await getNews();
-    setNews(res);
-  };
-
   useEffect(() => {
     const isMobile = window.matchMedia("(display-mode: standalone)").matches;
     if (isMobile) {
       setPWA(true);
     }
-    fetchDataUser();
-    fetchDataNews();
+    fetchData();
   }, []);
 
   return (
@@ -183,6 +185,39 @@ const Home = () => {
         {/* Button Big */}
 
         {/* BoxItem */}
+        {/* Promo */}
+        <BoxItem
+          text="Promo"
+          components={
+            promotion && promotion.length == 0 ? (
+              <div className="flex overflow-x-hidden gap-6">
+                <SkeletonNews />
+                <SkeletonNews />
+              </div>
+            ) : (
+              <Swiper
+                slidesPerView={"auto"}
+                spaceBetween={20}
+                autoplay={{ delay: 2000 }}
+                pagination={true}
+                loop={true}
+                modules={[Autoplay, Pagination]}
+              >
+                {promotion.map((item, index) => {
+                  return (
+                    <SwiperSlide
+                      key={index}
+                      className="shadow-md rounded-xl bg-white p-4 mb-10"
+                    >
+                      <CardPromotion props={item} />
+                    </SwiperSlide>
+                  );
+                })}
+              </Swiper>
+            )
+          }
+        />
+        {/* Promo */}
         {/* Katalog */}
         <BoxItem
           text="Katalog Mobil"

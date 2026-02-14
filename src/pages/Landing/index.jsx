@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Hero from "./Hero";
-import { getKatalog, getNews } from "../api/api";
+import { getListKatalog, getListNews, getListPromotion } from "../api/api";
 import Cookies from "js-cookie";
 import BoxItem from "@/components/Box";
 import CardCar from "@/components/Card/CardCar";
@@ -10,6 +10,28 @@ import { highlightSkeleton } from "@/styles/style";
 import { CardNewsBasic } from "@/components/Card/CardNews";
 import CardInstall from "@/components/PopUp/CardInstall";
 import CardOffer from "@/components/Card/CardOffer";
+import CardPromotion from "@/components/Card/CardPromotion";
+import { SwiperSlide } from "swiper/react";
+import { Swiper } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules";
+
+const SkeletonPromotion = () => {
+  return (
+    <div className="flex flex-col gap-2.5 max-w-75">
+      <Skeleton
+        count={1}
+        width={300}
+        height={200}
+        highlightColor={highlightSkeleton}
+      />
+      <Skeleton count={3} width={300} highlightColor={highlightSkeleton} />
+      <div className="flex justify-between">
+        <Skeleton count={1} width={100} highlightColor={highlightSkeleton} />
+        <Skeleton count={1} width={100} highlightColor={highlightSkeleton} />
+      </div>
+    </div>
+  );
+};
 
 const CardSkeleton = () => {
   return (
@@ -30,6 +52,7 @@ const CardSkeleton = () => {
 };
 
 const Landing = () => {
+  const [promotion, setPromotion] = useState([]);
   const [katalog, setKatalog] = useState([]);
   const [showOffers, setShowOffers] = useState(false);
   const [news, setNews] = useState([]);
@@ -42,8 +65,10 @@ const Landing = () => {
   }
 
   const fetchData = async () => {
-    const resKatalog = await getKatalog();
-    const resNews = await getNews();
+    const resPromotion = await getListPromotion();
+    const resKatalog = await getListKatalog();
+    const resNews = await getListNews();
+    setPromotion(resPromotion);
     setKatalog(resKatalog);
     setNews(resNews);
   };
@@ -71,6 +96,37 @@ const Landing = () => {
         <div className="pb-20">
           {!pwa ? <CardInstall /> : null}
           <Header />
+          <BoxItem
+            text="Promo"
+            components={
+              promotion && promotion.length == 0 ? (
+                <div className="flex overflow-x-hidden gap-6">
+                  <SkeletonPromotion />
+                  <SkeletonPromotion />
+                </div>
+              ) : (
+                <Swiper
+                  slidesPerView={"auto"}
+                  spaceBetween={20}
+                  autoplay={{ delay: 2000 }}
+                  pagination={true}
+                  loop={true}
+                  modules={[Autoplay, Pagination]}
+                >
+                  {promotion.map((item, index) => {
+                    return (
+                      <SwiperSlide
+                        key={index}
+                        className="shadow-md rounded-xl bg-white p-4 mb-10"
+                      >
+                        <CardPromotion props={item} />
+                      </SwiperSlide>
+                    );
+                  })}
+                </Swiper>
+              )
+            }
+          />
           <BoxItem
             text="Katalog Mobil"
             subtext="Temukan mobil impian anda dari koleksi terbaik kami!"
