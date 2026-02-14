@@ -14,6 +14,7 @@ import CardPromotion from "@/components/Card/CardPromotion";
 import { SwiperSlide } from "swiper/react";
 import { Swiper } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
+import CardCS from "@/components/Card/CardCS";
 
 const SkeletonPromotion = () => {
   return (
@@ -149,7 +150,9 @@ const Landing = () => {
               )
             }
           />
-          <div className="mt-12"></div>
+          <div className="my-12">
+            <CardCS />
+          </div>
           <BoxItem
             text="News"
             isMore

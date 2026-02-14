@@ -1,5 +1,8 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+import { resolve } from "styled-jsx/css";
+
+// API
 
 export const mainURL = (resource) => {
   const res = `${process.env.NEXT_PUBLIC_API_MAIN_URL}/${resource}`;
@@ -654,5 +657,22 @@ export const getRekCompany = async () => {
     .catch((e) => {
       return null;
     });
+  return data;
+};
+
+export const getCS = async () => {
+  let data = [];
+  const config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("contact/get-contact"),
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch(null);
   return data;
 };

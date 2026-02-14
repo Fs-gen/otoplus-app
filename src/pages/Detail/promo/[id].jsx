@@ -3,6 +3,7 @@ import { getDetailPromotion } from "@/pages/api/api";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Skeletons from "./Skeletons";
+import CardCS from "@/components/Card/CardCS";
 
 const DetailPromotion = ({ id }) => {
   const [data, setData] = useState([]);
@@ -36,6 +37,7 @@ const DetailPromotion = ({ id }) => {
             </h2>
             <div className="border-b-2 mx-2 border-gray-200 my-4"></div>
             <div dangerouslySetInnerHTML={{ __html: data?.description }}></div>
+          <CardCS />
           </div>
         </div>
       )}

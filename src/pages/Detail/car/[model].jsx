@@ -13,6 +13,7 @@ import BoxModel from "./BoxModel";
 import CardSpec from "./CardSpec";
 import { ChevronRight } from "lucide-react";
 import HeaderTransparent from "@/components/Header/HeaderTransparent";
+import CardCS from "@/components/Card/CardCS";
 
 const DetailCar = ({ model }) => {
   const [data, setData] = useState([]);
@@ -36,7 +37,6 @@ const DetailCar = ({ model }) => {
       .request(config)
       .then((response) => {
         setData(response?.data?.data);
-        console.log(response?.data?.data);
       })
       .catch((e) => {
         alert("Terjadi Kesalahan");
@@ -138,6 +138,7 @@ const DetailCar = ({ model }) => {
                 <ChevronRight size={20} strokeWidth={2.5} color="#00529c" />
               </button>
             )}
+          <CardCS />
           </div>
         </div>
       )}

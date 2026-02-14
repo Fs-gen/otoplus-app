@@ -9,7 +9,12 @@ import CardBig from "@/components/Card/CardBig";
 import Amount from "./Amount";
 import Header from "./Header";
 import { useEffect, useState } from "react";
-import { getListNews, getUserHome, getListKatalog, getListPromotion } from "../api/api";
+import {
+  getListNews,
+  getUserHome,
+  getListKatalog,
+  getListPromotion,
+} from "../api/api";
 import Cookies from "js-cookie";
 import Skeleton from "react-loading-skeleton";
 import { highlightSkeleton } from "@/styles/style";
@@ -23,6 +28,7 @@ import InputCopy from "./InputCopy";
 import { Swiper, SwiperSlide } from "swiper/react";
 import CardPromotion from "@/components/Card/CardPromotion";
 import { Autoplay, Pagination } from "swiper/modules";
+import CardCS from "@/components/Card/CardCS";
 
 const SkeletonNews = () => {
   return (
@@ -174,7 +180,10 @@ const Home = () => {
           src={CardPerson}
           href={"/InputJual"}
         />
-        {user && user?.type_akun == "agen plus" ? null : (
+        {user && user?.type_akun == "agen plus" ? null : user &&
+          user.length == 0 ? (
+          <Skeleton count={1} height={100} borderRadius={20} />
+        ) : (
           <CardBig
             title="Upgrade ke Agen Plus"
             desc="Dapatkan Fasilitas dan Voucher Lebih Banyak!"
@@ -244,7 +253,9 @@ const Home = () => {
         />
         {/* Katalog */}
 
-        <div className="mt-8"></div>
+        <div className="my-8">
+          <CardCS />
+        </div>
 
         {/* News */}
         <BoxItem
