@@ -7,7 +7,7 @@ import CardCar from "@/components/Card/CardCar";
 import Header from "./Header";
 import Skeleton from "react-loading-skeleton";
 import { highlightSkeleton } from "@/styles/style";
-import { CardNewsBasic } from "@/components/Card/CardNews";
+import { CardNewsSwiper } from "@/components/Card/CardNews";
 import CardInstall from "@/components/PopUp/CardInstall";
 import CardOffer from "@/components/Card/CardOffer";
 import CardPromotion from "@/components/Card/CardPromotion";
@@ -15,6 +15,7 @@ import { SwiperSlide } from "swiper/react";
 import { Swiper } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import CardCS from "@/components/Card/CardCS";
+import Login from "../Auth/Login";
 
 const SkeletonPromotion = () => {
   return (
@@ -56,6 +57,7 @@ const Landing = () => {
   const [promotion, setPromotion] = useState([]);
   const [katalog, setKatalog] = useState([]);
   const [showOffers, setShowOffers] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
   const [news, setNews] = useState([]);
   const [pwa, setPWA] = useState(false);
   const referral = Cookies.get("referral");
@@ -84,8 +86,9 @@ const Landing = () => {
 
   return (
     <section>
+      <Login show={showLogin} hide={() => setShowLogin(false)} />
       <div
-        className={`${showOffers ? "block" : "hidden"} overflow-y-hidden fixed top-0 left-0 right-0 w-full min-h-dvh bg-black/50 z-20`}
+        className={`${showOffers || showLogin ? "block" : "hidden"} overflow-y-hidden fixed top-0 left-0 right-0 w-full min-h-dvh bg-black/50 z-20`}
       ></div>
       <CardOffer
         show={showOffers}
@@ -96,7 +99,7 @@ const Landing = () => {
       <div className="section-box">
         <div className="pb-20">
           {!pwa ? <CardInstall /> : null}
-          <Header />
+          <Header login={() => setShowLogin(true)} />
           <BoxItem
             text="Promo"
             components={
@@ -116,10 +119,7 @@ const Landing = () => {
                 >
                   {promotion.map((item, index) => {
                     return (
-                      <SwiperSlide
-                        key={index}
-                        className="shadow-md rounded-xl bg-white p-4 mb-10"
-                      >
+                      <SwiperSlide key={index} className="px-4">
                         <CardPromotion props={item} />
                       </SwiperSlide>
                     );
@@ -159,14 +159,12 @@ const Landing = () => {
             href={"/News"}
             components={
               (news && news.length == 0) || news == null ? (
-                <div className="grid grid-cols-2 gap-4">{Loading}</div>
-              ) : (
-                <div className="grid grid-cols-2 gap-4">
-                  {news &&
-                    news.map((item, index) => {
-                      return <CardNewsBasic props={item} key={index} />;
-                    })}
+                <div className="flex overflow-x-hidden gap-4">
+                  <SkeletonPromotion />
+                  <SkeletonPromotion />
                 </div>
+              ) : (
+                <CardNewsSwiper props={news} />
               )
             }
           />

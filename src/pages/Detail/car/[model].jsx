@@ -138,7 +138,7 @@ const DetailCar = ({ model }) => {
                 <ChevronRight size={20} strokeWidth={2.5} color="#00529c" />
               </button>
             )}
-          <CardCS />
+            <CardCS />
           </div>
         </div>
       )}

@@ -206,7 +206,7 @@ const Home = () => {
             ) : (
               <Swiper
                 slidesPerView={"auto"}
-                spaceBetween={20}
+                spaceBetween={10}
                 autoplay={{ delay: 2000 }}
                 pagination={true}
                 loop={true}
@@ -214,10 +214,7 @@ const Home = () => {
               >
                 {promotion.map((item, index) => {
                   return (
-                    <SwiperSlide
-                      key={index}
-                      className="shadow-md rounded-xl bg-white p-4 mb-10"
-                    >
+                    <SwiperSlide key={index} className="px-4">
                       <CardPromotion props={item} />
                     </SwiperSlide>
                   );

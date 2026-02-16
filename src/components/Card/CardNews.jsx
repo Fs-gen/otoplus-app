@@ -12,7 +12,7 @@ export const CardNewsSwiper = ({ props }) => {
           return (
             <SwiperSlide
               key={index}
-              className="flex flex-col gap-2.5 max-w-2/3"
+              className="flex flex-col gap-2.5 bg-white p-4 rounded-xl shadow-lg max-w-2/3"
             >
               <Link href={item.slug} target="_blank">
                 <Image

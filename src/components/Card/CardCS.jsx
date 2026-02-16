@@ -17,13 +17,15 @@ const CardCS = () => {
   return (
     <Link
       href={data}
-      className="bg-blue-semi text-white flex justify-between px-4 pt-4 rounded-xl items-center"
+      className="bg-blue-semi text-white flex justify-between px-4 rounded-xl items-center gap-4"
       target="_blank"
     >
-      <div className="pb-4">
-        <h1 className="font-bold text-lg">Mengalami Kesulitan?</h1>
-        <p className="text-xs font-medium mt-2">
-          Kami selalu siap membantu anda!
+      <div className="py-8">
+        <h1 className="font-bold text-lg mb-4">
+          Butuh informasi lebih lanjut?
+        </h1>
+        <p className="text-xs font-bold rounded-full px-4 py-2 bg-white text-blue-semi inline">
+          Hubungi CS
         </p>
       </div>
       <div>

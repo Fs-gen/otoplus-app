@@ -233,11 +233,7 @@ const Register = () => {
           />
         </form>
       </div>
-      <LinkText
-        href={"/Auth/Login"}
-        text="Sudah Punya Akun?"
-        linkText="Login"
-      />
+      <LinkText href={"/"} text="Sudah Punya Akun?" linkText="Login" />
     </section>
   );
 };

@@ -13,9 +13,9 @@ import Cookies from "js-cookie";
 import { mainURL } from "../api/api";
 import { Eye } from "lucide-react";
 import { EyeOff } from "lucide-react";
-import HeaderBack from "@/components/Header/HeaderBack";
+import { X } from "lucide-react";
 
-const Login = () => {
+const Login = ({ show, hide }) => {
   const [no_tlp, setNotlp] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -91,76 +91,72 @@ const Login = () => {
   };
 
   return (
-    <section className={AuthStyleBox}>
-      <HeaderBack click={() => router.replace("/")} text="Login" />
+    <section
+      className={`fixed bg-white ${show ? "bottom-0" : "-bottom-120"} left-0 right-0 z-50 mx-auto max-w-125 transition-all duration-300 rounded-t-xl section-box`}
+    >
       <NotificationBar
         text={notification}
         showNotif={showNotif}
         success={success}
       />
-      <div className="section-box">
-        <Image
-          fetchPriority="high"
-          loading="lazy"
-          src={Logo}
-          width={100}
-          height={100}
-          alt="Logo"
-          className="mx-auto"
-        />
-        <h1 className="mt-6.25 text-center text-heading-14">
+      <div className="flex justify-between items-center">
+        <h1 className="text-center text-lg text-heading-14">
           Masuk ke OtoplusID App
         </h1>
-        <form action="submit" className="flex flex-col gap-4 mt-7.5 mb-8">
-          <FormLine
-            placeholder="No Whatsapp"
-            type="text"
-            inputmode="numeric"
-            keyDown={(e) => {
-              if (["e", "E", "+", "-", "."].includes(e.key)) {
-                e.preventDefault();
-              }
-            }}
-            value={no_tlp}
-            change={(e) => setNotlp(e.target.value.replace(/[^0-9]/g, ""))}
-          />
-          <div className="flex items-center">
-            <div className="flex-1">
-              <FormLine
-                placeholder="Password"
-                type={!showPassword ? "password" : "text"}
-                value={password}
-                change={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <button
-              className="w-max px-2"
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <Eye size={25} /> : <EyeOff size={25} />}
-            </button>
-          </div>
-          <Link
-            href={"/Auth/Forgot"}
-            className="text-xs font-semibold text-blue-dark"
-          >
-            Lupa kata sandi?
-          </Link>
-          <ButtonForm
-            text="Login"
-            click={onLogin}
-            loading={loading}
-            disabled={success}
-            style={loading ? LoadingPadding : null}
-          />
-        </form>
+        <button onClick={hide}>
+          <X size={25} color="black" />
+        </button>
       </div>
-      <LinkText
-        href={"/Auth/Register"}
-        text="Belum Punya Akun?"
-        linkText="Daftar"
-      />
+      <form action="submit" className="flex flex-col gap-4 my-4">
+        <FormLine
+          placeholder="No Whatsapp"
+          type="text"
+          inputmode="numeric"
+          keyDown={(e) => {
+            if (["e", "E", "+", "-", "."].includes(e.key)) {
+              e.preventDefault();
+            }
+          }}
+          value={no_tlp}
+          change={(e) => setNotlp(e.target.value.replace(/[^0-9]/g, ""))}
+        />
+        <div className="flex items-center">
+          <div className="flex-1">
+            <FormLine
+              placeholder="Password"
+              type={!showPassword ? "password" : "text"}
+              value={password}
+              change={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <button
+            className="w-max px-2"
+            type="button"
+            // onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <Eye size={25} /> : <EyeOff size={25} />}
+          </button>
+        </div>
+        <Link
+          href={"/Auth/Forgot"}
+          className="text-xs font-semibold text-blue-dark"
+        >
+          Lupa kata sandi?
+        </Link>
+        <ButtonForm
+          text="Login"
+          click={onLogin}
+          loading={loading}
+          disabled={success}
+          style={loading ? LoadingPadding : null}
+        />
+      </form>
+      <h1 className="text-sm text-center">
+        Belum Punya Akun?
+        <Link href={"/Auth/Register"} className="ml-1 font-bold text-blue-semi">
+          Daftar disini
+        </Link>
+      </h1>
     </section>
   );
 };

@@ -61,7 +61,7 @@ const InputJual = () => {
     dok_surat_kerja: null,
   });
   const [showIdentitas, setShowIdentitas] = useState(false);
-  const [showPekerjaan, setShowPekerjaan] = useState(false);
+  // const [showPekerjaan, setShowPekerjaan] = useState(false);
   const [showKendaraan, setShowKendaraan] = useState(false);
   const [showPembayaran, setShowPembayaran] = useState(false);
   const [showAsuransi, setShowAsuransi] = useState(false);
