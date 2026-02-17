@@ -82,8 +82,6 @@ const Id = ({ id }) => {
   });
   const router = useRouter();
 
-  console.log(data);
-
   const TopMessage = (text, success) => {
     setShowNotif(true);
     setText(text);
@@ -100,6 +98,9 @@ const Id = ({ id }) => {
   const fetchData = async () => {
     const res = await getDetailTransaksi(dataid);
     setData(res);
+    if (res?.message == "Data tidak ditemukan") {
+      window.location.href = "/";
+    }
   };
 
   const batalTransaksi = async (e) => {
@@ -259,32 +260,37 @@ const Id = ({ id }) => {
             ) : null}
             <div className="text-center">
               {data && data?.status != "belum dibayar" ? null : (
-                <div className="bg-[#F7F7F7] rounded-lg p-2 mb-12">
-                  <label
-                    htmlFor="buktiFile"
-                    className="flex justify-center border-2 border-dashed border-gray-semi items-center m-2 p-10 text-gray-semi font-semibold"
-                  >
-                    {image.file == null ? (
-                      <h1>Silahkan Masukkan file disini</h1>
-                    ) : (
-                      <div>
-                        <h1 className="mb-2">File Berhasil dimasukkan</h1>
-                        <Image
-                          src={image.file}
-                          width={100}
-                          height={100}
-                          alt=""
-                          className="w-auto"
-                        />
-                      </div>
-                    )}
-                  </label>
-                  <input
-                    type="file"
-                    id="buktiFile"
-                    className="hidden"
-                    onChange={getImage}
-                  />
+                <div>
+                  <h1 className="text-sm font-semibold mb-4">
+                    File Bukti Transfer
+                  </h1>
+                  <div className="bg-[#F7F7F7] rounded-lg p-2 mb-12">
+                    <label
+                      htmlFor="buktiFile"
+                      className="flex justify-center border-2 border-dashed border-gray-semi items-center m-2 p-10 text-gray-semi font-semibold"
+                    >
+                      {image.file == null ? (
+                        <h1>Silahkan Masukkan file disini</h1>
+                      ) : (
+                        <div>
+                          <h1 className="mb-2">File Berhasil dimasukkan</h1>
+                          <Image
+                            src={image.file}
+                            width={100}
+                            height={100}
+                            alt=""
+                            className="w-auto"
+                          />
+                        </div>
+                      )}
+                    </label>
+                    <input
+                      type="file"
+                      id="buktiFile"
+                      className="hidden"
+                      onChange={getImage}
+                    />
+                  </div>
                 </div>
               )}
               {(data?.status == "belum dibayar") == true ? (
