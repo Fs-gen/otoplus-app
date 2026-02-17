@@ -247,7 +247,7 @@ const DetailInputJual = ({ id }) => {
                 )}
               </div>
               <div
-                className={`${data.bukti_dp != "" && data.bukti_pelunasan != "" ? "hidden" : ""} my-4`}
+                className={`${data.jenis_pembayaran == "Cash" && data.bukti_pelunasan != "" ? "hidden" : data.bukti_dp != "" && data.bukti_pelunasan != "" ? "hidden" : ""} my-4`}
               >
                 <h1 className="text-left font-semibold text-sm">
                   Daftar Bank yang Tersedia
@@ -287,9 +287,11 @@ const DetailInputJual = ({ id }) => {
               </div>
               <div
                 className={
-                  data.bukti_dp != "" && data.bukti_pelunasan != ""
+                  data.jenis_pembayaran == "Cash" && data.bukti_pelunasan != ""
                     ? "hidden"
-                    : ""
+                    : data.bukti_dp != "" && data.bukti_pelunasan != ""
+                      ? "hidden"
+                      : ""
                 }
               >
                 <div
