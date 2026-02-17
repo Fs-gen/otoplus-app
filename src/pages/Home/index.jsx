@@ -30,8 +30,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import CardPromotion from "@/components/Card/CardPromotion";
 import { Autoplay, Pagination } from "swiper/modules";
 import CardCS from "@/components/Card/CardCS";
-import { ChevronRight } from "lucide-react";
-import Link from "next/link";
+import { ChevronDown } from "lucide-react";
 
 const SkeletonNews = () => {
   return (
@@ -153,7 +152,7 @@ const Home = () => {
             <Skeleton count={1} height={80} borderRadius={10} />
           </div>
         ) : (
-          <Link
+          <div
             href={"/History/input-jual"}
             className={
               pelunasan.belum_upload_dp == 0 &&
@@ -162,23 +161,32 @@ const Home = () => {
                 : ""
             }
           >
-            <p className="text-white text-xs font-semibold bg-blue-semi py-4 rounded-[10px] mt-4 px-4">
-              Kamu memiliki penjualan yang belum upload{" "}
-              {pelunasan.belum_uplad_dp != 0
-                ? `Bukti DP ${pelunasan?.belum_upload_dp}`
-                : null}{" "}
-              {pelunasan.belum_upload_dp == 0 ||
-              pelunasan.belum_upload_pelunasan == 0
-                ? null
-                : "dan"}{" "}
-              {pelunasan.belum_upload_pelunasan != 0
-                ? `Bukti Pelunasan ${pelunasan?.belum_upload_pelunasan}`
-                : null}
-              <div className="text-center mt-2 bg-white text-black p-2 rounded-[10px] text-sm">
+            <div className="text-white text-xs font-semibold bg-blue-semi py-4 rounded-[10px] mt-4 px-4">
+              <p>
+                Kamu memiliki penjualan yang belum upload{" "}
+                {pelunasan.belum_upload_dp != 0 ? (
+                  <span className="text-yellow-semi font-bold">
+                    Bukti DP <span>{pelunasan?.belum_upload_dp}</span>
+                  </span>
+                ) : null}{" "}
+                {pelunasan.belum_upload_dp == 0 ||
+                pelunasan.belum_upload_pelunasan == 0
+                  ? null
+                  : "dan"}{" "}
+                {pelunasan.belum_upload_pelunasan != 0 ? (
+                  <span>
+                    <span className="text-yellow-semi font-bold">
+                      Bukti Pelunasan{" "}
+                      <span>{pelunasan?.belum_upload_pelunasan}</span>
+                    </span>
+                  </span>
+                ) : null}
+              </p>
+              <div className="text-center mt-2 bg-white text-black py-2 rounded-[10px] text-sm w-max px-4">
                 Lihat Histori Penjualan
               </div>
-            </p>
-          </Link>
+            </div>
+          </div>
         )}
         {user && user?.type_akun == "freelance" ? (
           <div className="my-8.5"></div>
@@ -290,9 +298,14 @@ const Home = () => {
                   onClick={() => setShowKatalog(!showKatalog)}
                 >
                   <h1 className="font-semibold text-blue-semi">
-                    {showKatalog ? "Lebih Sedikit" : "Lihat Semua"}
+                    {showKatalog ? "Lebih Sedikit" : "Lihat Semua Katalog"}
                   </h1>
-                  <ChevronRight size={20} strokeWidth={2.5} color="#00529c" />
+                  <ChevronDown
+                    size={20}
+                    strokeWidth={2.5}
+                    color="#00529c"
+                    className={showKatalog ? "rotate-180" : "rotate-0"}
+                  />
                 </button>
               </div>
             )

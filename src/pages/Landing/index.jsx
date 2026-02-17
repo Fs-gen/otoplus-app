@@ -16,7 +16,7 @@ import { Swiper } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import CardCS from "@/components/Card/CardCS";
 import Login from "../Auth/Login";
-import { ChevronRight } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 const SkeletonPromotion = () => {
   return (
@@ -155,9 +155,14 @@ const Landing = () => {
                     onClick={() => setShowKatalog(!showKatalog)}
                   >
                     <h1 className="font-semibold text-blue-semi">
-                      {showKatalog ? "Lebih Sedikit" : "Lihat Semua"}
+                      {showKatalog ? "Lebih Sedikit" : "Lihat Semua Katalog"}
                     </h1>
-                    <ChevronRight size={20} strokeWidth={2.5} color="#00529c" />
+                    <ChevronDown
+                      size={20}
+                      strokeWidth={2.5}
+                      color="#00529c"
+                      className={showKatalog ? "rotate-180" : "rotate-0"}
+                    />
                   </button>
                 </div>
               )
