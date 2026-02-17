@@ -149,7 +149,9 @@ const Home = () => {
         <Header props={user} />
         <Amount props={user} />
         {pelunasan && pelunasan.length == 0 ? (
-          <Skeleton count={1} height={80} />
+          <div className="mt-4">
+            <Skeleton count={1} height={80} borderRadius={10} />
+          </div>
         ) : (
           <Link
             href={"/History/input-jual"}
