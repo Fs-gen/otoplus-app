@@ -2,7 +2,7 @@ import Success from "@/assets/images/animation/Success.lottie";
 import Failed from "@/assets/images/animation/Failed.lottie";
 import Waiting from "@/assets/images/animation/Waiting.lottie";
 import { useEffect, useState } from "react";
-import { getDetailInputJual, mainURL } from "../api/api";
+import { getDetailInputJual, getRekCompany, mainURL } from "../api/api";
 import HeaderBack from "@/components/Header/HeaderBack";
 import Cookies from "js-cookie";
 import Image from "next/image";
@@ -21,6 +21,8 @@ import FileResizer from "react-image-file-resizer";
 import { ButtonForm } from "@/components/Button";
 import axios from "axios";
 import NotificationBar from "@/components/NotificationBar";
+import { ClipboardText } from "@/utils/utils";
+import { Copy } from "lucide-react";
 
 const MessageImage = ({ src, title }) => {
   return (
@@ -56,15 +58,16 @@ const CardDetail = ({ image, text, title }) => {
 
 const CardStatus = ({ icon, text }) => {
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center flex-1">
       {icon}
-      <p className="text-text-gray text-sm">{text}</p>
+      <p className="text-text-gray text-sm text-nowrap">{text}</p>
     </div>
   );
 };
 
 const DetailInputJual = ({ id }) => {
   const [data, setData] = useState([]);
+  const [dataBank, setDataBank] = useState([]);
   const [showCash, setShowCash] = useState(false);
   const [dokType, setDokType] = useState("");
   const [fileDP, setFileDP] = useState("");
@@ -96,7 +99,9 @@ const DetailInputJual = ({ id }) => {
 
   const fetchData = async () => {
     const res = await getDetailInputJual(id);
+    const resBank = await getRekCompany();
     setData(res);
+    setDataBank(resBank);
   };
 
   const ImageResizer = (file) =>
@@ -153,7 +158,9 @@ const DetailInputJual = ({ id }) => {
         .request(config)
         .then(() => {
           TopMessage("Berhasil Kirim Bukti Pelunasan!", setSuccess(true));
-          fetchData();
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         })
         .catch(() => {
           TopMessage("Oops, sepertinya terjadi kesalahan!", setSuccess(false));
@@ -211,59 +218,103 @@ const DetailInputJual = ({ id }) => {
                     }
                     text="Belum Pelunasan"
                   />
-                ) : data && data.bukti_dp != "" ? (
-                  <CardStatus
-                    icon={
-                      <DotLottieReact
-                        src={Success}
-                        autoplay
-                        className="w-1/6"
-                      />
-                    }
-                    text="Pembayaran DP"
-                  />
-                ) : data && data.bukti_pelunasan != "" ? (
-                  <CardStatus
-                    icon={
-                      <DotLottieReact
-                        src={Success}
-                        autoplay
-                        className="w-1/6"
-                      />
-                    }
-                    text="Pembayaran Cash"
-                  />
-                ) : null}
+                ) : (
+                  <div className="flex justify-center items-center gap-4">
+                    <CardStatus
+                      icon={
+                        <DotLottieReact
+                          src={data.bukti_dp != "" ? Success : Failed}
+                          className={data.bukti_dp != "" ? "w-1/3" : " w-1/4"}
+                          autoplay
+                        />
+                      }
+                      text="Bukti DP"
+                    />
+                    <CardStatus
+                      icon={
+                        <DotLottieReact
+                          src={data.bukti_pelunasan != "" ? Success : Failed}
+                          className={
+                            data.bukti_pelunasan != "" ? "w-1/3" : " w-1/4"
+                          }
+                          autoplay
+                        />
+                      }
+                      text="Bukti Pelunasan"
+                    />
+                  </div>
+                )}
+              </div>
+              <div
+                className={`${data.bukti_dp != "" && data.bukti_pelunasan != "" ? "hidden" : ""} my-4`}
+              >
+                <h1 className="text-left font-semibold text-sm">
+                  Daftar Bank yang Tersedia
+                  <div className="flex flex-col gap-4">
+                    {dataBank.map((item, index) => {
+                      console.log(item);
+                      return (
+                        <button
+                          key={index}
+                          className="flex justify-between items-center gap-2 bg-white shadow-md p-4 rounded-xl"
+                          onClick={() =>
+                            ClipboardText(
+                              item.rekening,
+                              TopMessage("Berhasil Menyalin", setSuccess(true)),
+                            )
+                          }
+                        >
+                          <div className="flex gap-2">
+                            <Image
+                              src={item.logo}
+                              width={50}
+                              height={50}
+                              alt={item.nama_bank}
+                            />
+                            <div>
+                              <h1 className="font-bold text-sm">
+                                {item.nama_bank} | {item.atas_nama}
+                              </h1>
+                              <p className="w-max">{item.rekening}</p>
+                            </div>
+                          </div>
+                          <Copy size={25} strokeWidth={2} />
+                        </button>
+                      );
+                    })}
+                  </div>
+                </h1>
               </div>
               <div
                 className={
-                  data.bukti_pelunasan == "" && data.bukti_dp == ""
-                    ? ""
-                    : "hidden"
+                  data.bukti_dp != "" && data.bukti_pelunasan != ""
+                    ? "hidden"
+                    : ""
                 }
               >
-                <div className="text-sm font-semibold flex py-2 justify-between rounded-full bg-gray-100 relative mt-4">
-                  <div
-                    className={`absolute bg-blue-semi w-1/2 rounded-full top-0 bottom-0 ${showCash ? "right-0" : "left-0"} transition-all duration-300`}
-                  ></div>
+                <div
+                  className={`text-sm font-semibold flex justify-between rounded-full bg-gray-200 relative`}
+                >
                   <button
-                    className={`${!showCash ? "text-white" : "text-black"} flex-1 z-10`}
+                    className={`${!showCash || data.bukti_pelunasan != "" ? "text-white bg-blue-semi" : "text-black"} py-2 rounded-full flex-1 z-10 ${data.bukti_dp != "" ? "hidden" : ""}`}
                     onClick={() => setShowCash(false)}
                   >
                     Bukti DP
                   </button>
                   <button
-                    className={`${showCash ? "text-white" : "text-black"} flex-1 z-10`}
-                    onClick={() => setShowCash(true)}
+                    className={`${showCash || data.bukti_dp != "" ? "text-white bg-blue-semi" : "text-black"} ${data.bukti_pelunasan != "" ? "hidden" : ""} py-2 flex-1 z-10 rounded-full`}
+                    onClick={() =>
+                      data.bukti_dp == "" ? setShowCash(true) : null
+                    }
                   >
                     Bukti Pelunasan
                   </button>
                 </div>
                 <div className="flex justify-center my-4">
-                  {!showCash ? (
+                  {!showCash && data.bukti_dp == "" ? (
                     <InputFile
                       component={
-                        fileDP == "" ? (
+                        fileDP == "" && data.bukti_dp == "" ? (
                           "Silahkan Masukkan File Bukti DP"
                         ) : (
                           <MessageImage src={fileDP} />
@@ -275,7 +326,7 @@ const DetailInputJual = ({ id }) => {
                   ) : (
                     <InputFile
                       component={
-                        fileCash == "" ? (
+                        fileCash == "" && data.bukti_pelunasan == "" ? (
                           "Silahkan Masukkan File Bukti Pelunasan"
                         ) : (
                           <MessageImage src={fileCash} />
