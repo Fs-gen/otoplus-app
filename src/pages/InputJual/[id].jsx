@@ -110,7 +110,6 @@ const DetailInputJual = ({ id }) => {
         resolve(uri);
       }),
         "base64");
-      console.log(file);
     });
 
   const handlerImageDP = async (e) => {
@@ -220,22 +219,24 @@ const DetailInputJual = ({ id }) => {
                   />
                 ) : (
                   <div className="flex justify-center items-center gap-4">
-                    <CardStatus
-                      icon={
-                        <DotLottieReact
-                          src={data.bukti_dp != "" ? Success : Failed}
-                          className={data.bukti_dp != "" ? "w-1/3" : " w-1/4"}
-                          autoplay
-                        />
-                      }
-                      text="Bukti DP"
-                    />
+                    {data.jenis_pembayaran != "Cash" ? (
+                      <CardStatus
+                        icon={
+                          <DotLottieReact
+                            src={data.bukti_dp != "" ? Success : Failed}
+                            className={data.bukti_dp != "" ? "w-25" : " w-20"}
+                            autoplay
+                          />
+                        }
+                        text="Bukti DP"
+                      />
+                    ) : null}
                     <CardStatus
                       icon={
                         <DotLottieReact
                           src={data.bukti_pelunasan != "" ? Success : Failed}
                           className={
-                            data.bukti_pelunasan != "" ? "w-1/3" : " w-1/4"
+                            data.bukti_pelunasan != "" ? "w-25" : " w-20"
                           }
                           autoplay
                         />
@@ -252,7 +253,6 @@ const DetailInputJual = ({ id }) => {
                   Daftar Bank yang Tersedia
                   <div className="flex flex-col gap-4">
                     {dataBank.map((item, index) => {
-                      console.log(item);
                       return (
                         <button
                           key={index}
@@ -296,13 +296,13 @@ const DetailInputJual = ({ id }) => {
                   className={`text-sm font-semibold flex justify-between rounded-full bg-gray-200 relative`}
                 >
                   <button
-                    className={`${!showCash || data.bukti_pelunasan != "" ? "text-white bg-blue-semi" : "text-black"} py-2 rounded-full flex-1 z-10 ${data.bukti_dp != "" ? "hidden" : ""}`}
+                    className={`${!showCash || data.bukti_pelunasan != "" ? "text-white bg-blue-semi" : "text-black"} py-2 rounded-full flex-1 z-10 ${data.bukti_dp != "" || data.jenis_pembayaran == "Cash" ? "hidden" : ""}`}
                     onClick={() => setShowCash(false)}
                   >
                     Bukti DP
                   </button>
                   <button
-                    className={`${showCash || data.bukti_dp != "" ? "text-white bg-blue-semi" : "text-black"} ${data.bukti_pelunasan != "" ? "hidden" : ""} py-2 flex-1 z-10 rounded-full`}
+                    className={`${showCash || data.bukti_dp != "" || data.jenis_pembayaran == "Cash" ? "text-white bg-blue-semi" : "text-black"} ${data.bukti_pelunasan != "" ? "hidden" : ""} py-2 flex-1 z-10 rounded-full`}
                     onClick={() =>
                       data.bukti_dp == "" ? setShowCash(true) : null
                     }
@@ -311,7 +311,9 @@ const DetailInputJual = ({ id }) => {
                   </button>
                 </div>
                 <div className="flex justify-center my-4">
-                  {!showCash && data.bukti_dp == "" ? (
+                  {!showCash &&
+                  data.bukti_dp == "" &&
+                  data.jenis_pembayaran != "Cash" ? (
                     <InputFile
                       component={
                         fileDP == "" && data.bukti_dp == "" ? (
