@@ -79,6 +79,7 @@ const DetailInputJual = ({ id }) => {
   const [showAsuransi, setShowAsuransi] = useState(false);
   const [showSTNK, setShowSTNK] = useState(false);
   const [showDokumen, setShowDokumen] = useState(false);
+  const [showBukti, setShowBukti] = useState(false);
   const [showNotif, setShowNotif] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -183,7 +184,7 @@ const DetailInputJual = ({ id }) => {
           </div>
         ) : (
           <div className="bg-white p-4 rounded-lg shadow-md">
-            <div className="text-center mt-2 mb-8">
+            <div className="text-center mt-2 mb-4">
               {data && data?.status == "pending" ? (
                 <DotLottieReact
                   src={Waiting}
@@ -245,6 +246,39 @@ const DetailInputJual = ({ id }) => {
                     />
                   </div>
                 )}
+              </div>
+              <div
+                id="dokumen"
+                className={
+                  data.bukti_dp == "" && data.bukti_pelunasan == ""
+                    ? "hidden"
+                    : ""
+                }
+              >
+                <div className="shadow-box-primary">
+                  <ButtonInput
+                    icon={
+                      <Upload
+                        size={40}
+                        color="white"
+                        className={BoxIconStyle}
+                      />
+                    }
+                    text="Data Bukti Pembayaran"
+                    click={() => setShowBukti(!showBukti)}
+                  />
+                </div>
+                <div
+                  className={`${
+                    showBukti ? "flex" : "hidden"
+                  } p-4 flex-col gap-4 bg-white mt-2 border-2 border-gray-200`}
+                >
+                  <CardDetail title="Dokumen DP" image={data.bukti_dp} />
+                  <CardDetail
+                    title="Dokumen Pelunasan"
+                    image={data.bukti_pelunasan}
+                  />
+                </div>
               </div>
               <div
                 className={`${data.jenis_pembayaran == "Cash" && data.bukti_pelunasan != "" ? "hidden" : data.bukti_dp != "" && data.bukti_pelunasan != "" ? "hidden" : ""} my-4`}
