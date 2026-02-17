@@ -31,6 +31,7 @@ import CardPromotion from "@/components/Card/CardPromotion";
 import { Autoplay, Pagination } from "swiper/modules";
 import CardCS from "@/components/Card/CardCS";
 import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 const SkeletonNews = () => {
   return (
@@ -149,13 +150,28 @@ const Home = () => {
         <NotificationBar showNotif={showNotif} text={text} success={success} />
         <Header props={user} />
         <Amount props={user} />
-        <div className="text-white text-xs font-semibold text-wrap  bg-blue-semi py-4 rounded-[10px] mt-4 w-max px-4 mx-auto">
-          <p>Terdapat {pelunasan.belum_upload_dp} belum kirim bukti DP</p>
-          <p>
-            Terdapat {pelunasan.belum_upload_pelunasan} belum kirim bukti
-            Pelunasan
-          </p>
-        </div>
+        {pelunasan && pelunasan.length == 0 ? (
+          <Skeleton count={1} height={80} />
+        ) : (
+          <Link href={"/History/input-jual"}>
+            <p className="text-white text-xs font-semibold bg-blue-semi py-4 rounded-[10px] mt-4 px-4">
+              Kamu memiliki penjualan yang belum upload{" "}
+              {pelunasan.belum_uplad_dp != 0
+                ? `Bukti DP ${pelunasan?.belum_upload_dp}`
+                : null}{" "}
+              {pelunasan.belum_upload_dp == 0 ||
+              pelunasan.belum_upload_pelunasan == 0
+                ? null
+                : "dan"}{" "}
+              {pelunasan.belum_upload_pelunasan != 0
+                ? `Bukti Pelunasan ${pelunasan?.belum_upload_pelunasan}`
+                : null}
+              <div className="text-center mt-2 bg-white text-black p-2 rounded-[10px] text-sm">
+                Lihat Histori Penjualan
+              </div>
+            </p>
+          </Link>
+        )}
         {user && user?.type_akun == "freelance" ? (
           <div className="my-8.5"></div>
         ) : (
