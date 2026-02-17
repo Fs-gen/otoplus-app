@@ -137,8 +137,6 @@ const Home = () => {
     fetchData();
   }, []);
 
-  console.log(pelunasan);
-
   return (
     <section>
       <div
@@ -153,7 +151,15 @@ const Home = () => {
         {pelunasan && pelunasan.length == 0 ? (
           <Skeleton count={1} height={80} />
         ) : (
-          <Link href={"/History/input-jual"}>
+          <Link
+            href={"/History/input-jual"}
+            className={
+              pelunasan.belum_upload_dp == 0 &&
+              pelunasan.belum_upload_pelunasan == 0
+                ? "hidden"
+                : ""
+            }
+          >
             <p className="text-white text-xs font-semibold bg-blue-semi py-4 rounded-[10px] mt-4 px-4">
               Kamu memiliki penjualan yang belum upload{" "}
               {pelunasan.belum_uplad_dp != 0
