@@ -31,6 +31,7 @@ import CardPromotion from "@/components/Card/CardPromotion";
 import { Autoplay, Pagination } from "swiper/modules";
 import CardCS from "@/components/Card/CardCS";
 import { ChevronDown } from "lucide-react";
+import Link from "next/link";
 
 const SkeletonNews = () => {
   return (
@@ -153,7 +154,6 @@ const Home = () => {
           </div>
         ) : (
           <div
-            href={"/History/input-jual"}
             className={
               pelunasan.belum_upload_dp == 0 &&
               pelunasan.belum_upload_pelunasan == 0
@@ -161,8 +161,8 @@ const Home = () => {
                 : ""
             }
           >
-            <div className="text-white text-xs font-semibold bg-blue-semi py-4 rounded-[10px] mt-4 px-4">
-              <p>
+            <div className="text-white text-xs font-semibold bg-blue-semi py-4 rounded-[10px] mt-4 px-4 ">
+              <p className="mb-4">
                 Kamu memiliki penjualan yang belum upload{" "}
                 {pelunasan.belum_upload_dp != 0 ? (
                   <span className="text-yellow-semi font-bold">
@@ -182,8 +182,13 @@ const Home = () => {
                   </span>
                 ) : null}
               </p>
-              <div className="text-center mt-2 bg-white text-black py-2 rounded-[10px] text-sm w-max px-4">
-                Lihat Histori Penjualan
+              <div>
+                <Link
+                  className="text-center bg-white text-black py-2 rounded-[10px] text-sm w-max px-4"
+                  href={"/History/input-jual"}
+                >
+                  Lihat Histori Penjualan
+                </Link>
               </div>
             </div>
           </div>
