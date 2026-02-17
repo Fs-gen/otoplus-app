@@ -132,7 +132,7 @@ const Login = ({ show, hide }) => {
           <button
             className="w-max px-2"
             type="button"
-            // onClick={() => setShowPassword(!showPassword)}
+            onClick={() => setShowPassword(!showPassword)}
           >
             {showPassword ? <Eye size={25} /> : <EyeOff size={25} />}
           </button>

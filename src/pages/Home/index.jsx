@@ -14,6 +14,7 @@ import {
   getUserHome,
   getListKatalog,
   getListPromotion,
+  getPelunasan,
 } from "../api/api";
 import Cookies from "js-cookie";
 import Skeleton from "react-loading-skeleton";
@@ -29,6 +30,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import CardPromotion from "@/components/Card/CardPromotion";
 import { Autoplay, Pagination } from "swiper/modules";
 import CardCS from "@/components/Card/CardCS";
+import { ChevronRight } from "lucide-react";
 
 const SkeletonNews = () => {
   return (
@@ -70,6 +72,8 @@ const Home = () => {
   const [user, setUser] = useState([]);
   const [promotion, setPromotion] = useState([]);
   const [katalog, setKatalog] = useState([]);
+  const [pelunasan, setPelunasan] = useState([]);
+  const [showKatalog, setShowKatalog] = useState(false);
   const [showOffers, setShowOffers] = useState(false);
   const [referral, setReferral] = useState("");
   const [referralOffers, setReferralOffers] = useState("");
@@ -99,9 +103,11 @@ const Home = () => {
 
   const fetchData = async () => {
     const res = await getUserHome();
+    const resPelunasan = await getPelunasan(token);
     const resPromotion = await getListPromotion();
     const resKatalog = await getListKatalog();
     const resNews = await getListNews();
+    setPelunasan(resPelunasan);
     setPromotion(resPromotion);
     setNews(resNews);
     Cookies.set("referralUser", res?.kode_referral);
@@ -130,6 +136,8 @@ const Home = () => {
     fetchData();
   }, []);
 
+  console.log(pelunasan);
+
   return (
     <section>
       <div
@@ -141,6 +149,13 @@ const Home = () => {
         <NotificationBar showNotif={showNotif} text={text} success={success} />
         <Header props={user} />
         <Amount props={user} />
+        <div className="text-white text-xs font-semibold text-wrap  bg-blue-semi py-4 rounded-[10px] mt-4 w-max px-4 mx-auto">
+          <p>Terdapat {pelunasan.belum_upload_dp} belum kirim bukti DP</p>
+          <p>
+            Terdapat {pelunasan.belum_upload_pelunasan} belum kirim bukti
+            Pelunasan
+          </p>
+        </div>
         {user && user?.type_akun == "freelance" ? (
           <div className="my-8.5"></div>
         ) : (
@@ -234,16 +249,27 @@ const Home = () => {
             ) : (
               <div className="grid grid-cols-1 gap-4">
                 {katalog &&
-                  katalog?.katalog.map((item, index) => {
-                    return (
-                      <CardCar
-                        props={item}
-                        key={index}
-                        offersClick={() => setShowOffers(true)}
-                        detail={`/Detail/car/${item.model}`}
-                      />
-                    );
-                  })}
+                  katalog?.katalog
+                    .slice(0, showKatalog ? katalog?.katalog.length : 2)
+                    .map((item, index) => {
+                      return (
+                        <CardCar
+                          props={item}
+                          key={index}
+                          offersClick={() => setShowOffers(true)}
+                          detail={`/Detail/car/${item.model}`}
+                        />
+                      );
+                    })}
+                <button
+                  className="mt-4 flex justify-center gap-2 items-center"
+                  onClick={() => setShowKatalog(!showKatalog)}
+                >
+                  <h1 className="font-semibold text-blue-semi">
+                    {showKatalog ? "Lebih Sedikit" : "Lihat Semua"}
+                  </h1>
+                  <ChevronRight size={20} strokeWidth={2.5} color="#00529c" />
+                </button>
               </div>
             )
           }

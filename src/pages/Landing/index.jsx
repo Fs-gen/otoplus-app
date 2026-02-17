@@ -16,6 +16,7 @@ import { Swiper } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import CardCS from "@/components/Card/CardCS";
 import Login from "../Auth/Login";
+import { ChevronRight } from "lucide-react";
 
 const SkeletonPromotion = () => {
   return (
@@ -56,6 +57,7 @@ const CardSkeleton = () => {
 const Landing = () => {
   const [promotion, setPromotion] = useState([]);
   const [katalog, setKatalog] = useState([]);
+  const [showKatalog, setShowKatalog] = useState(false);
   const [showOffers, setShowOffers] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [news, setNews] = useState([]);
@@ -136,16 +138,27 @@ const Landing = () => {
                 <div className="grid grid-cols-1 gap-4">{Loading}</div>
               ) : (
                 <div className="grid grid-cols-1 gap-4">
-                  {katalog?.katalog.map((item, index) => {
-                    return (
-                      <CardCar
-                        props={item}
-                        key={index}
-                        offersClick={() => setShowOffers(true)}
-                        detail={`/Detail/car/${item?.model}`}
-                      />
-                    );
-                  })}
+                  {katalog?.katalog
+                    .slice(0, showKatalog ? katalog?.katalog.length : 2)
+                    .map((item, index) => {
+                      return (
+                        <CardCar
+                          props={item}
+                          key={index}
+                          offersClick={() => setShowOffers(true)}
+                          detail={`/Detail/car/${item?.model}`}
+                        />
+                      );
+                    })}
+                  <button
+                    className="mt-4 flex justify-center gap-2 items-center"
+                    onClick={() => setShowKatalog(!showKatalog)}
+                  >
+                    <h1 className="font-semibold text-blue-semi">
+                      {showKatalog ? "Lebih Sedikit" : "Lihat Semua"}
+                    </h1>
+                    <ChevronRight size={20} strokeWidth={2.5} color="#00529c" />
+                  </button>
                 </div>
               )
             }

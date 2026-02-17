@@ -57,6 +57,26 @@ export const getUserHome = async () => {
   return datas;
 };
 
+export const getPelunasan = async (token) => {
+  let data = [];
+  const config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("home/get-count-penjualan-belum-lunas"),
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch(null);
+  return data;
+};
+
 export const getCekAkun = async () => {
   const header = Cookies.get("token");
   let datas = [];
