@@ -30,7 +30,7 @@ const DetailCar = ({ model }) => {
     const config = {
       method: "get",
       maxBodyLength: Infinity,
-      url: mainURL(`home/get-produk-detail?model=${model}`),
+      url: mainURL(`katalog/get-produk-detail?model=${model}`),
     };
 
     await axios

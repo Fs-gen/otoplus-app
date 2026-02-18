@@ -206,7 +206,7 @@ export const getListKatalog = async () => {
   const config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: mainURL("home/get-produk-list-v2"),
+    url: mainURL("katalog/get-produk-list"),
   };
 
   await axios

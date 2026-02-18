@@ -15,12 +15,22 @@ const BoxModel = ({ title, subtitle, props, model }) => {
                 {nama} {item.nama}
               </h1>
               <div className="py-1">
-                <p className="font-medium text-sm">
+
+                {
+                  item?.harga && item.harga.map((items, index) => {
+                    return (
+                      <p className="font-medium text-sm">
+                        Harga {items.wilayah} - {items.harga}
+                      </p>
+                    )
+                  })
+                }
+                {/* <p className="font-medium text-sm">
                   Harga Jakarta - {item.harga}
                 </p>
                 <p className="font-medium text-sm">
                   Harga Makssaar - {item.harga_makassar}
-                </p>
+                </p> */}
               </div>
               <p className="font-medium text-sm"></p>
               <p className="text-xs font-semibold text-text-gray">

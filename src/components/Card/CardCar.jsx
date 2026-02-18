@@ -16,10 +16,11 @@ const CardCar = ({ props, detail, offersClick }) => {
       <div className="flex flex-col gap-2 p-4 justify-between">
         <div className="">
           <h1 className="font-bold text-2xl mb-2">{props.model}</h1>
-          <h1 className="text-sm font-semibold">{props.harga_mulai_dari}</h1>
-          <h1 className="text-sm font-semibold mt-2">
+          <h1 className="text-md mb-1 text-sm">Harga Mulai Dari </h1>
+          <h1 className="text-md mb-2 font-semibold">{props.harga_mulai_dari}</h1>
+          {/* <h1 className="text-sm font-semibold mt-2">
             {props.harga_mulai_dari_makassar}
-          </h1>
+          </h1> */}
         </div>
         <Link
           className="border-2 border-blue-semi w-full py-2 text-sm font-semibold text-blue-semi rounded-md flex gap-1 items-center justify-center"
