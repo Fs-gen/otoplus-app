@@ -19,7 +19,7 @@ const BoxModel = ({ title, subtitle, props, model }) => {
                 {
                   item?.harga && item.harga.map((items, index) => {
                     return (
-                      <p className="font-medium text-sm">
+                      <p key={index} className="font-medium text-sm">
                         Harga {items.wilayah} - {items.harga}
                       </p>
                     )
