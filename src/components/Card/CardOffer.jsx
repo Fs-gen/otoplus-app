@@ -40,7 +40,9 @@ const CardOffer = ({ show, hideClick, kode_referral }) => {
       await axios
         .request(config)
         .then((response) => {
-          if (kode_referral == referral) {
+          if (kode_referral == undefined) {
+            window.location.href = `${response?.data?.data?.url}`;
+          } else if (kode_referral == referral) {
             setShowNotif(true);
             setText(
               "Jangan melakukan kecurangan dengan menggunakan referral sendiri!",
