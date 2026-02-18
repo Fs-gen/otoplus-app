@@ -40,8 +40,9 @@ const CardOffer = ({ show, hideClick, kode_referral }) => {
       await axios
         .request(config)
         .then((response) => {
+          const url = response?.data?.data?.url;
           if (kode_referral == undefined) {
-            window.location.href = `${response?.data?.data?.url}`;
+            window.location.href = url;
           } else if (kode_referral == referral) {
             setShowNotif(true);
             setText(
@@ -52,7 +53,7 @@ const CardOffer = ({ show, hideClick, kode_referral }) => {
             }, 2000);
             setLoading(false);
           } else {
-            window.location.href = `${response?.data?.data?.url}`;
+            window.location.href = url;
           }
         })
         .catch((e) => {
