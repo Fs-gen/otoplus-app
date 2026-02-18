@@ -33,3 +33,27 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+playstore_assets/
+gambar fitur.png
+Group 520.png
+Instagram story - 5.png
+Instagram story - 6.png
+Instagram story - 7.png
+Instagram story - 8.png
+logo-512.png
+OTOPLUSID - Google Play package (2).zip
+OTOPLUSID - Google Play package.zip
+Rectangle 59.png
+OTOPLUSID - Google Play package/assetlinks.json
+OTOPLUSID - Google Play package/OTOPLUSID.aab
+OTOPLUSID - Google Play package/OTOPLUSID.apk
+OTOPLUSID - Google Play package/Readme.html
+OTOPLUSID - Google Play package/signing-key-info.txt
+OTOPLUSID - Google Play package/signing.keystore
+OTOPLUSID - Google Play package (2)/assetlinks.json
+OTOPLUSID - Google Play package (2)/OTOPLUSID.aab
+OTOPLUSID - Google Play package (2)/OTOPLUSID.apk
+OTOPLUSID - Google Play package (2)/Readme.html
+OTOPLUSID - Google Play package (2)/signing-key-info.txt
+OTOPLUSID - Google Play package (2)/signing.keystore
