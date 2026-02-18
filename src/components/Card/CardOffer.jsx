@@ -41,25 +41,32 @@ const CardOffer = ({ show, hideClick, kode_referral }) => {
         .request(config)
         .then((response) => {
           const url = response?.data?.data?.url;
-          if (kode_referral == undefined) {
+          if (response?.data?.status_code != "00") {
+            setShowNotif(true);
+            setText("Harap Masukkan Data dengan benar!");
+            setTimeout(() => {
+              setShowNotif(false);
+            }, 2000);
+          } else if (referral == undefined) {
             window.location.href = url;
           } else if (kode_referral == referral) {
             setShowNotif(true);
             setText(
-              "Jangan melakukan kecurangan dengan menggunakan referral sendiri!",
+              "Janga melakukan kecurangan dengan memasukkan kode referral sendiri!",
             );
             setTimeout(() => {
               setShowNotif(false);
             }, 2000);
-            setLoading(false);
           } else {
             window.location.href = url;
           }
         })
         .catch((e) => {
+          console.log(data);
           console.log(e);
         });
     }
+    setLoading(false);
   };
 
   return (
