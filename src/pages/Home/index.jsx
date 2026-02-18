@@ -161,7 +161,7 @@ const Home = () => {
                 : ""
             }
           >
-            <div className="text-dark text-sm font-semibold bg-orange-50 py-4 rounded-[10px] mt-4 px-4 border border-orange-200">
+            <div className="text-dark text-sm font-semibold bg-orange-50 pt-3 pb-5 rounded-[10px] mt-4 px-3 border border-orange-200">
               <div className="flex items-center gap-4">
                 <LucideInfo width={35} height={35} />
                 <div>
