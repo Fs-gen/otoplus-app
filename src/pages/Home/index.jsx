@@ -30,7 +30,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import CardPromotion from "@/components/Card/CardPromotion";
 import { Autoplay, Pagination } from "swiper/modules";
 import CardCS from "@/components/Card/CardCS";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, LucideBell, LucideInfo } from "lucide-react";
 import Link from "next/link";
 
 const SkeletonNews = () => {
@@ -156,39 +156,48 @@ const Home = () => {
           <div
             className={
               pelunasan.belum_upload_dp == 0 &&
-              pelunasan.belum_upload_pelunasan == 0
+                pelunasan.belum_upload_pelunasan == 0
                 ? "hidden"
                 : ""
             }
           >
-            <div className="text-white text-xs font-semibold bg-blue-semi py-4 rounded-[10px] mt-4 px-4 ">
-              <p className="mb-4">
-                Kamu memiliki penjualan yang belum upload{" "}
-                {pelunasan.belum_upload_dp != 0 ? (
-                  <span className="text-yellow-semi font-bold">
-                    Bukti DP <span>{pelunasan?.belum_upload_dp}</span>
-                  </span>
-                ) : null}{" "}
-                {pelunasan.belum_upload_dp == 0 ||
-                pelunasan.belum_upload_pelunasan == 0
-                  ? null
-                  : "dan"}{" "}
-                {pelunasan.belum_upload_pelunasan != 0 ? (
-                  <span>
-                    <span className="text-yellow-semi font-bold">
-                      Bukti Pelunasan{" "}
-                      <span>{pelunasan?.belum_upload_pelunasan}</span>
-                    </span>
-                  </span>
-                ) : null}
-              </p>
-              <div>
-                <Link
-                  className="text-center bg-white text-black py-2 rounded-[10px] text-sm w-max px-4"
-                  href={"/History/input-jual"}
-                >
-                  Lihat Histori Penjualan
-                </Link>
+            <div className="text-dark text-sm font-semibold bg-orange-50 py-4 rounded-[10px] mt-4 px-4 border border-orange-200">
+              <div className="flex items-center gap-4">
+                <LucideInfo width={35} height={35} />
+                <div>
+                  <p className="mb-4">
+                    Kamu memiliki penjualan yang belum upload{" "}
+                    {pelunasan.belum_upload_dp != 0 ? (
+                      <span className="text-yellow-semi font-bold">
+                        Bukti DP <span>{pelunasan?.belum_upload_dp}</span>
+                      </span>
+                    ) : null}{" "}
+                    {pelunasan.belum_upload_dp == 0 ||
+                      pelunasan.belum_upload_pelunasan == 0
+                      ? null
+                      : "dan"}{" "}
+                    {pelunasan.belum_upload_pelunasan != 0 ? (
+                      <span>
+                        <span className="text-yellow-semi font-bold">
+                          Bukti Pelunasan{" "}
+                          <span>{pelunasan?.belum_upload_pelunasan}</span>
+                        </span>
+                      </span>
+                    ) : null}
+
+
+                  </p>
+                  <div>
+                    <Link
+                      className=" text-center bg-blue-semi text-white py-2 rounded-[4px] text-xs w-max px-4"
+                      href={"/History/input-jual"}
+                    >
+                      Lihat Histori Penjualan
+                    </Link>
+                  </div>
+
+
+                </div>
               </div>
             </div>
           </div>
