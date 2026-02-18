@@ -1,5 +1,5 @@
 import { highlightSkeleton } from "@/styles/style";
-import { CircleArrowDown } from "lucide-react";
+import { CircleArrowDown, User2Icon } from "lucide-react";
 import Link from "next/link";
 import Skeleton from "react-loading-skeleton";
 import Cookies from "js-cookie";
@@ -7,7 +7,13 @@ import Cookies from "js-cookie";
 const Amount = ({ props }) => {
   return (
     <div className="bg-blue-semi rounded-[10px] p-4.5 text-white mt-8.75">
-      <h1 className="text-sm font-medium">Rewards</h1>
+      <div className="flex justify-between items-center gap-2">
+        <h1 className="text-sm font-medium">Rewards</h1>
+        <div className="flex items-center gap-1">
+          <User2Icon size={20} />
+          <p className="text-xs font-medium uppercase">{props?.type_akun}</p>
+        </div>
+      </div>
       <h1 className="text-[16px] font-semibold">
         Rp{" "}
         <span className="font-semibold text-2xl">
