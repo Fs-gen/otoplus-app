@@ -31,7 +31,7 @@ const CardOffer = ({ show, hideClick, kode_referral }) => {
 
     if (no_tlp.trim() == "" || nama.trim() == "" || domisil.trim() == "") {
       setShowNotif(true);
-      setText("Harap isi kolom yang masih kosong ( Kecuali kode referral )");
+      setText("Harap isi kolom yang masih kosong");
       setTimeout(() => {
         setShowNotif(false);
       }, 2000);
@@ -48,7 +48,8 @@ const CardOffer = ({ show, hideClick, kode_referral }) => {
               setShowNotif(false);
             }, 2000);
           } else if (referral == undefined) {
-            window.location.href = url;
+            window.open(url, "_blank");
+            window.location.reload();
           } else if (kode_referral == referral) {
             setShowNotif(true);
             setText(
@@ -58,7 +59,8 @@ const CardOffer = ({ show, hideClick, kode_referral }) => {
               setShowNotif(false);
             }, 2000);
           } else {
-            window.location.href = url;
+            window.open(url, "_blank");
+            window.location.reload();
           }
         })
         .catch((e) => {
