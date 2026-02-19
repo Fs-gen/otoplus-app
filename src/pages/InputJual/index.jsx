@@ -61,7 +61,7 @@ const InputJual = () => {
     // alamat_kantor: "",
     // telp_kantor: "",
     // penghasilan_bulanan: "",
-    merek_tipe_mobil: idTipe,
+    merek_tipe_mobil: "",
     varian: idVarian,
     warna: idWarna,
     tahun_produksi: "",
@@ -227,18 +227,17 @@ const InputJual = () => {
   };
 
   const handlerTipeMobil = (e) => {
-    const { name, value, selectedOptions } = e.target;
+    const { value, selectedOptions } = e.target;
     setNamaTipe(selectedOptions[0].text);
     setIdTipe(value);
     setForm({
       ...form,
-      [name]: value,
+      merek_tipe_mobil: selectedOptions[0].text,
     });
   };
 
   const handlerVarian = (e) => {
-    const { name, value, selectedOptions } = e.target;
-    setNamaVarian(selectedOptions[0].text);
+    const { name, value } = e.target;
     setForm({
       ...form,
       [name]: value,
@@ -246,8 +245,7 @@ const InputJual = () => {
   };
 
   const handlerWarna = (e) => {
-    const { name, value, selectedOptions } = e.target;
-    setNamaWarna(selectedOptions[0].text);
+    const { name, value } = e.target;
     setForm({
       ...form,
       [name]: value,

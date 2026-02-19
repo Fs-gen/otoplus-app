@@ -169,6 +169,8 @@ const DetailInputJual = ({ id }) => {
     setLoading(false);
   };
 
+  console.log(data)
+
   useEffect(() => {
     fetchData();
   }, []);

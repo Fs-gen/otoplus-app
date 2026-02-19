@@ -109,7 +109,7 @@ const DataKendaraan = ({
           change={changeVarian}
           component={propsVarian?.map((item, index) => {
             return (
-              <option key={index} value={item.id}>
+              <option key={index} value={item.nama}>
                 {item.nama}
               </option>
             );
@@ -124,7 +124,7 @@ const DataKendaraan = ({
           value={warna}
           component={propsWarna?.map((item, index) => {
             return (
-              <option key={index} value={item.id}>
+              <option key={index} value={item.warna}>
                 {item.warna}
               </option>
             );
