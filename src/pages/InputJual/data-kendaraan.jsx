@@ -2,12 +2,52 @@ const { default: ButtonInput } = require("./ButtonInput");
 import FormLine from "@/components/Form/FormLine";
 import { BoxIconStyle } from "@/styles/style";
 import { Car } from "lucide-react";
+import { useEffect, useState } from "react";
+import { getListVarianMobil, getListWarnaMobil } from "../api/api";
+
+const CardSelect = ({
+  name,
+  title,
+  component,
+  change,
+  required,
+  selected,
+  value,
+}) => {
+  return (
+    <div>
+      <label htmlFor={name} className="text-xs mb-1.25 font-bold">
+        {title}
+      </label>
+      <select
+        name={name}
+        id={name}
+        className="p-3 placeholder:text-gray-light focus:outline-blue-light font-semibold w-full text-sm rounded-xl border border-gray-light"
+        onChange={change}
+        required={required ? true : false}
+        value={value}
+      >
+        <option value="">{selected}</option>
+        {component}
+      </select>
+    </div>
+  );
+};
 
 const DataKendaraan = ({
   change,
+  changeTipe,
+  changeVarian,
+  changeWarna,
   click,
   invalid,
   show,
+  propsTipe,
+  propsVarian,
+  propsWarna,
+  selectTipe,
+  selectVarian,
+  selectWarna,
   merek_tipe_mobil,
   varian,
   warna,
@@ -21,7 +61,7 @@ const DataKendaraan = ({
   return (
     <div>
       <ButtonInput
-      icon={<Car size={40} color="white" className={BoxIconStyle} />}
+        icon={<Car size={40} color="white" className={BoxIconStyle} />}
         title="Data Kendaraan yang Dibeli"
         text="Spesifikasi mobile pilihan Anda"
         click={click}
@@ -33,10 +73,25 @@ const DataKendaraan = ({
       >
         {invalid ? (
           <h1 className="text-center text-red-semi text-sm font-semibold mb-2">
-            Harap Masukkan Setidaknya Merek & Tipe Mobil Anda!
+            Harap memilih Merek, Varian dan Warna mobil!
           </h1>
         ) : null}
-        <FormLine
+        <CardSelect
+          name="merek_tipe_mobil"
+          title="Merek & Tipe Mobil"
+          selected={selectTipe}
+          required={true}
+          component={propsTipe?.map((item, index) => {
+            return (
+              <option key={index} value={item.id}>
+                {item.model}
+              </option>
+            );
+          })}
+          change={changeTipe}
+          value={merek_tipe_mobil}
+        />
+        {/* <FormLine
           bold
           change={change}
           name="merek_tipe_mobil"
@@ -44,9 +99,38 @@ const DataKendaraan = ({
           required={true}
           title="Merek & Tipe Mobil"
           value={merek_tipe_mobil}
+        /> */}
+        <CardSelect
+          name="varian"
+          title="Varian"
+          selected={selectVarian}
+          value={varian}
+          required={true}
+          change={changeVarian}
+          component={propsVarian?.map((item, index) => {
+            return (
+              <option key={index} value={item.id}>
+                {item.nama}
+              </option>
+            );
+          })}
         />
-        <div className={BoxForm}>
-          <FormLine
+        <CardSelect
+          name="warna"
+          change={changeWarna}
+          selected={selectWarna}
+          required={true}
+          title="Warna"
+          value={warna}
+          component={propsWarna?.map((item, index) => {
+            return (
+              <option key={index} value={item.id}>
+                {item.warna}
+              </option>
+            );
+          })}
+        />
+        {/* <FormLine
             bold
             change={change}
             name="varian"
@@ -61,8 +145,7 @@ const DataKendaraan = ({
             placeholder="Warna"
             title="Warna"
             value={warna}
-          />
-        </div>
+          /> */}
         <div className={BoxForm}>
           <FormLine
             bold

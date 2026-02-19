@@ -262,6 +262,60 @@ export const getListPromotion = async () => {
   return data;
 };
 
+export const getListMerekTipeMobil = async () => {
+  let data = [];
+
+  const config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL("katalog/get-katalog-model"),
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch(null);
+  return data;
+};
+
+export const getListVarianMobil = async (id) => {
+  let data = [];
+
+  const config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL(`katalog/get-katalog-varian-by-model?model_id=${id}`),
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch(null);
+  return data;
+};
+
+export const getListWarnaMobil = async (id) => {
+  let data = [];
+
+  const config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: mainURL(`katalog/get-katalog-warna-by-model?model_id=${id}`),
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch(null);
+  return data;
+};
+
 // Detail
 
 export const getDetailNotification = async (id) => {

@@ -212,6 +212,7 @@ const ProfilSaya = () => {
             change={(e) => {
               const selectedId = e.target.value;
               const selectedNama = e.target.selectedOptions[0].text;
+              console.log(selectedNama)
               fetchKota(selectedId);
               setSelProvinsi(selectedId);
               setNamaProvinsi(selectedNama);

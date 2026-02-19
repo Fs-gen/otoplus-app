@@ -1,6 +1,6 @@
 import HeaderBack from "@/components/Header/HeaderBack";
 import DataPembeli from "./data-pembeli";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DataPekerjaan from "./data-pekerjaan";
 import DataKendaraan from "./data-kendaraan";
 import DataPembayaran from "./data-pembayaran";
@@ -8,7 +8,12 @@ import DataSTNK from "./data-stnk";
 import DataAsuransi from "./data-asuransi";
 import DataDokumen from "./data-dokument";
 import { ButtonForm } from "@/components/Button";
-import { mainURL } from "../api/api";
+import {
+  getListMerekTipeMobil,
+  getListVarianMobil,
+  getListWarnaMobil,
+  mainURL,
+} from "../api/api";
 import Cookies from "js-cookie";
 import axios from "axios";
 import FileResizer from "react-image-file-resizer";
@@ -19,6 +24,26 @@ import Image from "next/image";
 
 const InputJual = () => {
   const [perluasanAsuransi, setPerluasanAsuransi] = useState([]);
+  const [dataTipe, setDataTipe] = useState([]);
+  const [namaTipe, setNamaTipe] = useState("");
+  const [namaVarian, setNamaVarian] = useState("");
+  const [namaWarna, setNamaWarna] = useState("");
+  const [dataVarian, setDataVarian] = useState([]);
+  const [dataWarna, setDataWarna] = useState([]);
+  const [idTipe, setIdTipe] = useState("");
+  const [idVarian, setIdVarian] = useState("");
+  const [idWarna, setIdWarna] = useState("");
+  const [showIdentitas, setShowIdentitas] = useState(false);
+  // const [showPekerjaan, setShowPekerjaan] = useState(false);
+  const [showKendaraan, setShowKendaraan] = useState(false);
+  const [showPembayaran, setShowPembayaran] = useState(false);
+  const [showAsuransi, setShowAsuransi] = useState(false);
+  const [showSTNK, setShowSTNK] = useState(false);
+  const [showDokumen, setShowDokumen] = useState(false);
+  const [invalidIdentitas, setInvalidIdentitas] = useState(false);
+  const [invalidKendaraan, setInvalidKendaraan] = useState(false);
+  const [invalidPembayaran, setInvalidPembayaran] = useState(false);
+  const [invalidDokumen, setInvalidDokumen] = useState(false);
   const [form, setForm] = useState({
     nama_lengkap: "",
     nik: "",
@@ -36,9 +61,9 @@ const InputJual = () => {
     // alamat_kantor: "",
     // telp_kantor: "",
     // penghasilan_bulanan: "",
-    merek_tipe_mobil: "",
-    varian: "",
-    warna: "",
+    merek_tipe_mobil: idTipe,
+    varian: idVarian,
+    warna: idWarna,
     tahun_produksi: "",
     harga_otr: "",
     nomor_rangka: "",
@@ -60,17 +85,6 @@ const InputJual = () => {
     dok_slip_gaji: null,
     dok_surat_kerja: null,
   });
-  const [showIdentitas, setShowIdentitas] = useState(false);
-  // const [showPekerjaan, setShowPekerjaan] = useState(false);
-  const [showKendaraan, setShowKendaraan] = useState(false);
-  const [showPembayaran, setShowPembayaran] = useState(false);
-  const [showAsuransi, setShowAsuransi] = useState(false);
-  const [showSTNK, setShowSTNK] = useState(false);
-  const [showDokumen, setShowDokumen] = useState(false);
-  const [invalidIdentitas, setInvalidIdentitas] = useState(false);
-  const [invalidKendaraan, setInvalidKendaraan] = useState(false);
-  const [invalidPembayaran, setInvalidPembayaran] = useState(false);
-  const [invalidDokumen, setInvalidDokumen] = useState(false);
 
   const indetitasRef = useRef(null);
   const kendaraanRef = useRef(null);
@@ -212,6 +226,57 @@ const InputJual = () => {
     return setLoading(false);
   };
 
+  const handlerTipeMobil = (e) => {
+    const { name, value, selectedOptions } = e.target;
+    setNamaTipe(selectedOptions[0].text);
+    setIdTipe(value);
+    setForm({
+      ...form,
+      [name]: value,
+    });
+  };
+
+  const handlerVarian = (e) => {
+    const { name, value, selectedOptions } = e.target;
+    setNamaVarian(selectedOptions[0].text);
+    setForm({
+      ...form,
+      [name]: value,
+    });
+  };
+
+  const handlerWarna = (e) => {
+    const { name, value, selectedOptions } = e.target;
+    setNamaWarna(selectedOptions[0].text);
+    setForm({
+      ...form,
+      [name]: value,
+    });
+  };
+
+  const fetchData = async () => {
+    const resTipe = await getListMerekTipeMobil();
+    setDataTipe(resTipe);
+  };
+
+  const fetchDataId = async () => {
+    const resVarian = await getListVarianMobil(idTipe);
+    const resWarna = await getListWarnaMobil(idTipe);
+    setDataVarian(resVarian);
+    setDataWarna(resWarna);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (!idTipe) return;
+    fetchDataId();
+  }, [idTipe]);
+
+  console.log(form);
+
   return (
     <section className="bg-gray-100 min-h-screen">
       <NotificationBar showNotif={showNotif} text={text} success={success} />
@@ -266,7 +331,17 @@ const InputJual = () => {
               }}
               show={showKendaraan}
               change={handlerForm}
+              changeTipe={handlerTipeMobil}
               invalid={invalidKendaraan}
+              propsTipe={dataTipe}
+              propsVarian={dataVarian}
+              propsWarna={dataWarna}
+              changeVarian={handlerVarian}
+              changeWarna={handlerWarna}
+              selectTipe={namaTipe || "Pilih Tipe & Merek Mobil"}
+              selectVarian={namaVarian || "Pilih Varian"}
+              selectWarna={namaWarna || "Pilih Warna"}
+              idTipe={idTipe}
               merek_tipe_mobil={form.merek_tipe_mobil}
               varian={form.varian}
               warna={form.warna}
