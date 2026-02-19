@@ -258,6 +258,12 @@ const InputJual = () => {
   };
 
   const fetchDataId = async () => {
+    setDataVarian([]);
+    setDataWarna([]);
+    form.varian = "";
+    form.warna = "";
+    setNamaVarian("");
+    setNamaWarna("");
     const resVarian = await getListVarianMobil(idTipe);
     const resWarna = await getListWarnaMobil(idTipe);
     setDataVarian(resVarian);
