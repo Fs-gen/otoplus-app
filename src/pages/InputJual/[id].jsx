@@ -169,7 +169,7 @@ const DetailInputJual = ({ id }) => {
     setLoading(false);
   };
 
-  console.log(data)
+  console.log(data);
 
   useEffect(() => {
     fetchData();
@@ -429,7 +429,7 @@ const DetailInputJual = ({ id }) => {
                   />
                 </div>
               </div>
-              <div id="pekerjaan">
+              {/* <div id="pekerjaan">
                 <div className="shadow-box-primary">
                   <ButtonInput
                     icon={
@@ -476,7 +476,7 @@ const DetailInputJual = ({ id }) => {
                     text={data.penghasilan_bulanan || "-"}
                   />
                 </div>
-              </div>
+              </div> */}
               <div id="kendaraan">
                 <div className="shadow-box-primary">
                   <ButtonInput
@@ -552,7 +552,7 @@ const DetailInputJual = ({ id }) => {
                   <CardDetail title="Area" text={data.area || "-"} />
                 </div>
               </div>
-              <div id="asuransi">
+              {/* <div id="asuransi">
                 <div className="shadow-box-primary">
                   <ButtonInput
                     icon={
@@ -584,7 +584,7 @@ const DetailInputJual = ({ id }) => {
                     text={data.perluasan_asunrasi || "-"}
                   />
                 </div>
-              </div>
+              </div> */}
               <div id="stnk">
                 <div className="shadow-box-primary">
                   <ButtonInput
