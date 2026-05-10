@@ -125,9 +125,9 @@ const ProfilSaya = () => {
     const config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: mainURL("profile/update-profil"),
+      url: mainURL("profile/update-profile"),
       headers: {
-        "Content-Type": "application-json",
+        "Content-Type": "application/json",
         Authorization: "Bearer " + token,
       },
       data: data,
