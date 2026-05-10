@@ -70,7 +70,7 @@ const BankSaya = () => {
       maxBodyLength: Infinity,
       url: mainURL("profile/update-bank"),
       headers: {
-        "Content-Type": "application-json",
+        "Content-Type": "application/json",
         Authorization: "Bearer " + token,
       },
       data: data,

@@ -56,7 +56,7 @@ const OrderMetode = () => {
       maxBodyLength: Infinity,
       url: mainURL("produk/transaksi-produk"),
       headers: {
-        "Content-Type": "application-json",
+        "Content-Type": "application/json",
         Authorization: "Bearer " + token,
       },
       data: data,

@@ -41,7 +41,7 @@ const Forgot = () => {
       maxBodyLength: Infinity,
       url: mainURL("auth/send-otp"),
       headers: {
-        "Content-Type": "application-json",
+        "Content-Type": "application/json",
       },
       data: data,
     };
