@@ -134,12 +134,15 @@ const DetailInputJual = ({ id }) => {
   };
 
   const postPelunasan = async (e) => {
+    e.preventDefault();
     setLoading(true);
-    e.preventDefault;
-    const data = new FormData();
-    data.append("dok_type", dokType);
-    data.append("id_penjualan", idPenjualan);
-    data.append("file", fileDP || fileCash);
+    const fileBase64 = fileDP || fileCash;
+
+    const data = JSON.stringify({
+      dok_type: dokType,
+      id_penjualan: idPenjualan,
+      file: fileBase64,
+    });
 
     const config = {
       method: "post",
@@ -159,9 +162,9 @@ const DetailInputJual = ({ id }) => {
         .request(config)
         .then(() => {
           TopMessage("Berhasil Kirim Bukti Pelunasan!", setSuccess(true));
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+          // setTimeout(() => {
+          //   window.location.reload();
+          // }, 2000);
         })
         .catch(() => {
           TopMessage("Oops, sepertinya terjadi kesalahan!", setSuccess(false));
@@ -212,9 +215,9 @@ const DetailInputJual = ({ id }) => {
               <p className="text-text-gray text-sm">{data.created_at}</p>
               <div className="mt-4">
                 {data &&
-                data.bukti_dp == "" &&
-                data &&
-                data.bukti_pelunasan == "" ? (
+                  data.bukti_dp == "" &&
+                  data &&
+                  data.bukti_pelunasan == "" ? (
                   <CardStatus
                     icon={
                       <DotLottieReact src={Failed} autoplay className="w-1/8" />
@@ -272,9 +275,8 @@ const DetailInputJual = ({ id }) => {
                   />
                 </div>
                 <div
-                  className={`${
-                    showBukti ? "flex" : "hidden"
-                  } p-4 flex-col gap-4 bg-white mt-2 border-2 border-gray-200`}
+                  className={`${showBukti ? "flex" : "hidden"
+                    } p-4 flex-col gap-4 bg-white mt-2 border-2 border-gray-200`}
                 >
                   <CardDetail title="Dokumen DP" image={data.bukti_dp} />
                   <CardDetail
@@ -351,8 +353,8 @@ const DetailInputJual = ({ id }) => {
                 </div>
                 <div className="flex justify-center my-4">
                   {!showCash &&
-                  data.bukti_dp == "" &&
-                  data.jenis_pembayaran != "Cash" ? (
+                    data.bukti_dp == "" &&
+                    data.jenis_pembayaran != "Cash" ? (
                     <InputFile
                       component={
                         fileDP == "" && data.bukti_dp == "" ? (
@@ -398,9 +400,8 @@ const DetailInputJual = ({ id }) => {
                   />
                 </div>
                 <div
-                  className={`${
-                    showIdentitas ? "flex" : "hidden"
-                  } p-4 flex-col gap-4 bg-white mt-2 border-2 border-gray-200 rounded-xl`}
+                  className={`${showIdentitas ? "flex" : "hidden"
+                    } p-4 flex-col gap-4 bg-white mt-2 border-2 border-gray-200 rounded-xl`}
                 >
                   <CardDetail title="Nama Lengkap" text={data.nama_lengkap} />
                   <CardDetail title="NIK" text={data.nik} />
@@ -489,9 +490,8 @@ const DetailInputJual = ({ id }) => {
                   />
                 </div>
                 <div
-                  className={`${
-                    showKendaraan ? "flex" : "hidden"
-                  } p-4 flex-col gap-4 bg-white mt-2 border-2 border-gray-200`}
+                  className={`${showKendaraan ? "flex" : "hidden"
+                    } p-4 flex-col gap-4 bg-white mt-2 border-2 border-gray-200`}
                 >
                   <CardDetail
                     title="Merek & Tipe Mobil"
@@ -542,9 +542,8 @@ const DetailInputJual = ({ id }) => {
                   />
                 </div>
                 <div
-                  className={`${
-                    showPembayaran ? "flex" : "hidden"
-                  } p-4 flex-col gap-4 bg-white mt-2 border-2 border-gray-200`}
+                  className={`${showPembayaran ? "flex" : "hidden"
+                    } p-4 flex-col gap-4 bg-white mt-2 border-2 border-gray-200`}
                 >
                   <CardDetail
                     title="Metode Pembayaran"
@@ -601,9 +600,8 @@ const DetailInputJual = ({ id }) => {
                   />
                 </div>
                 <div
-                  className={`${
-                    showSTNK ? "flex" : "hidden"
-                  } p-4 flex-col gap-4 bg-white mt-2 border-2 border-gray-200`}
+                  className={`${showSTNK ? "flex" : "hidden"
+                    } p-4 flex-col gap-4 bg-white mt-2 border-2 border-gray-200`}
                 >
                   <CardDetail
                     title="Nama Pemilik"
@@ -635,9 +633,8 @@ const DetailInputJual = ({ id }) => {
                   />
                 </div>
                 <div
-                  className={`${
-                    showDokumen ? "flex" : "hidden"
-                  } p-4 flex-col gap-4 bg-white mt-2 border-2 border-gray-200`}
+                  className={`${showDokumen ? "flex" : "hidden"
+                    } p-4 flex-col gap-4 bg-white mt-2 border-2 border-gray-200`}
                 >
                   <CardDetail title="Dokumen KTP" image={data.dok_ktp} />
                   <CardDetail title="Dokumen KK" image={data.dok_kk} />

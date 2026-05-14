@@ -35,7 +35,7 @@ const HistoryTransaction = () => {
   };
 
   return (
-    <sectin>
+    <section>
       <HeaderText text="Riwayat Transaksi" />
       <div className="section-box">
         {transaksi && transaksi.length == 0 ? (
@@ -62,8 +62,8 @@ const HistoryTransaction = () => {
                           item?.status_type == "pending"
                             ? "text-yellow-semi"
                             : item?.status_type == "reject"
-                            ? "text-red-semi"
-                            : "text-green-semi"
+                              ? "text-red-semi"
+                              : "text-green-semi"
                         }
                         icon={
                           item.nama_transaksi == "Upgrade ke Agen Plus" ? (
@@ -80,8 +80,8 @@ const HistoryTransaction = () => {
                           item && item?.type == "upgrade_akun"
                             ? `/Detail/order/transaksi/${item.id}`
                             : item && item?.type == "withdraw"
-                            ? `/Withdraw/${item.id}`
-                            : `/InputJual/${item.id}`
+                              ? `/Withdraw/${item.id}`
+                              : `/InputJual/${item.id}`
                         }
                       />
                     );
@@ -92,7 +92,7 @@ const HistoryTransaction = () => {
         )}
       </div>
       <Navbar />
-    </sectin>
+    </section>
   );
 };
 
