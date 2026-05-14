@@ -146,6 +146,7 @@ const DetailInputJual = ({ id }) => {
       maxBodyLength: Infinity,
       url: mainURL("penjualan/upload_bukti_pembayaran"),
       headers: {
+        "Content-Type": "application/json",
         Authorization: "Bearer " + token,
       },
       data: data,
