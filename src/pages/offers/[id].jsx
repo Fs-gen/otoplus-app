@@ -21,7 +21,7 @@ const Id = ({ id }) => {
       maxBodyLength: Infinity,
       url: mainURL("auth/cek-kode-referral"),
       headers: {
-        "Content-Type": "json/application",
+        "Content-Type": "application/json",
       },
       data: data,
     };
