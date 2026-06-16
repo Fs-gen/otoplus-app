@@ -20,7 +20,7 @@ import CardConfirm from "@/components/PopUp/CardConfirm";
 import { X } from "lucide-react";
 import { Copy } from "lucide-react";
 import { ClipboardText } from "@/utils/utils";
-const FormData = require("form-data");
+
 
 const Transfer = ({ copyRek, copyJumlah, hasil, props }) => {
   const textGray = "text-xs";
@@ -150,9 +150,17 @@ const Id = ({ id }) => {
     e.preventDefault();
     setLoading(true);
     const token = Cookies.get("token");
-    let data = new FormData();
-    data.append("kode_aktivasi", dataid);
-    data.append("file", image.file);
+
+    if (!image.file) {
+      TopMessage("Harap pilih file terlebih dahulu", setSuccess(false));
+      setLoading(false);
+      return;
+    }
+
+    let data = JSON.stringify({
+      kode_aktivasi: dataid,
+      file: image.file,
+    });
 
     let config = {
       method: "post",
@@ -160,7 +168,7 @@ const Id = ({ id }) => {
       url: mainURL("produk/upload-bukti-transfer"),
       headers: {
         Authorization: "Bearer " + token,
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
       },
       data: data,
     };
@@ -171,8 +179,11 @@ const Id = ({ id }) => {
         TopMessage(response?.data?.message, setSuccess(true));
         fetchData();
       })
-      .catch(() => {
-        TopMessage(response?.data?.message, setSuccess(false));
+      .catch((err) => {
+        TopMessage(
+          err?.response?.data?.message || "Oops! Terjadi kesalahan.",
+          setSuccess(false)
+        );
       });
     return setLoading(false);
   };
