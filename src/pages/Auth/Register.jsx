@@ -18,6 +18,7 @@ const Register = () => {
   const [agreement, setAgreement] = useState([]);
   const [agree, setAgree] = useState("");
   const [no_tlp, setNoTlp] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [kode_referral, setKodeReferral] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -75,6 +76,7 @@ const Register = () => {
     setLoading(true);
     const data = JSON.stringify({
       no_tlp,
+      email,
       password,
       area,
       kode_referral: referral || kode_referral,
@@ -180,6 +182,12 @@ const Register = () => {
             }}
             value={no_tlp}
             change={(e) => setNoTlp(e.target.value.replace(/[^0-9]/g, ""))}
+          />
+          <FormLine
+            title="Email"
+            type="email"
+            value={email}
+            change={(e) => setEmail(e.target.value)}
           />
           <div className="flex items-center">
             <div className="flex-1">
