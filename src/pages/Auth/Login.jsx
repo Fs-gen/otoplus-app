@@ -90,6 +90,87 @@ const Login = ({ show, hide }) => {
     return setLoading(false);
   };
 
+  const isPage = show === undefined;
+
+  const renderForm = () => (
+    <form action="submit" className="flex flex-col gap-4 my-4">
+      <FormLine
+        placeholder="No Whatsapp"
+        type="text"
+        inputmode="numeric"
+        keyDown={(e) => {
+          if (["e", "E", "+", "-", "."].includes(e.key)) {
+            e.preventDefault();
+          }
+        }}
+        value={no_tlp}
+        change={(e) => setNotlp(e.target.value.replace(/[^0-9]/g, ""))}
+      />
+      <div className="flex items-center">
+        <div className="flex-1">
+          <FormLine
+            placeholder="Password"
+            type={!showPassword ? "password" : "text"}
+            value={password}
+            change={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <button
+          className="w-max px-2"
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+        >
+          {showPassword ? <Eye size={25} /> : <EyeOff size={25} />}
+        </button>
+      </div>
+      <Link
+        href={"/Auth/Forgot"}
+        className="text-xs font-semibold text-blue-dark"
+      >
+        Lupa kata sandi?
+      </Link>
+      <ButtonForm
+        text="Login"
+        click={onLogin}
+        loading={loading}
+        disabled={success}
+        style={loading ? LoadingPadding : null}
+      />
+    </form>
+  );
+
+  if (isPage) {
+    return (
+      <section className={`${AuthStyleBox} relative`}>
+        <NotificationBar
+          text={notification}
+          showNotif={showNotif}
+          success={success}
+        />
+        <span></span>
+        <div className="section-box">
+          <Image
+            src={Logo}
+            width={100}
+            height={100}
+            alt="Logo"
+            priority
+            className="mx-auto"
+          />
+          <h1 className="text-heading-14 text-center my-8">
+            Masuk ke OtoplusID App
+          </h1>
+          {renderForm()}
+        </div>
+        <LinkText
+          text="Belum Punya Akun?"
+          href={"/Auth/Register"}
+          linkText="Daftar disini"
+        />
+      </section>
+    );
+  }
+
   return (
     <section
       className={`fixed bg-white ${show ? "bottom-0" : "-bottom-120"} left-0 right-0 z-50 mx-auto max-w-125 transition-all duration-300 rounded-t-xl section-box`}
@@ -107,50 +188,7 @@ const Login = ({ show, hide }) => {
           <X size={25} color="black" />
         </button>
       </div>
-      <form action="submit" className="flex flex-col gap-4 my-4">
-        <FormLine
-          placeholder="No Whatsapp"
-          type="text"
-          inputmode="numeric"
-          keyDown={(e) => {
-            if (["e", "E", "+", "-", "."].includes(e.key)) {
-              e.preventDefault();
-            }
-          }}
-          value={no_tlp}
-          change={(e) => setNotlp(e.target.value.replace(/[^0-9]/g, ""))}
-        />
-        <div className="flex items-center">
-          <div className="flex-1">
-            <FormLine
-              placeholder="Password"
-              type={!showPassword ? "password" : "text"}
-              value={password}
-              change={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <button
-            className="w-max px-2"
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {showPassword ? <Eye size={25} /> : <EyeOff size={25} />}
-          </button>
-        </div>
-        <Link
-          href={"/Auth/Forgot"}
-          className="text-xs font-semibold text-blue-dark"
-        >
-          Lupa kata sandi?
-        </Link>
-        <ButtonForm
-          text="Login"
-          click={onLogin}
-          loading={loading}
-          disabled={success}
-          style={loading ? LoadingPadding : null}
-        />
-      </form>
+      {renderForm()}
       <h1 className="text-sm text-center">
         Belum Punya Akun?
         <Link href={"/Auth/Register"} className="ml-1 font-bold text-blue-semi">
