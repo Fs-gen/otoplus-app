@@ -199,7 +199,7 @@ const ProfilSaya = () => {
             small
             type="email"
             value={email}
-            change={(e) => setEmail(e.target.value)}
+            // change={(e) => setEmail(e.target.value)}
           />
           <FormArea
             change={(e) => setAlamat(e.target.value)}
