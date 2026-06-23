@@ -98,11 +98,6 @@ const Login = ({ show, hide }) => {
         placeholder="No Whatsapp"
         type="text"
         inputmode="numeric"
-        keyDown={(e) => {
-          if (["e", "E", "+", "-", "."].includes(e.key)) {
-            e.preventDefault();
-          }
-        }}
         value={no_tlp}
         change={(e) => setNotlp(e.target.value.replace(/[^0-9]/g, ""))}
       />

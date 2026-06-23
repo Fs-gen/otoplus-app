@@ -54,7 +54,7 @@ const OTPRegister = () => {
       .then((response) => {
         if (otp.trim() == "") {
           TopMessage(
-            "Harap masukkan Kode OTP anda yang telah dikirimkan melalui whatsapp!",
+            "Harap masukkan Kode OTP anda yang telah dikirimkan melalui Whatsapp atau Email!",
           );
         } else if (response.data.status_code == "00") {
           TopMessage(
@@ -91,7 +91,7 @@ const OTPRegister = () => {
         <Image src={OTPIcon} width={85} height={40} alt="OTP Icon" />
         <h1 className="text-xl font-semibold">Verifikasi OTP</h1>
         <p className="text-xs">
-          Masukkan kode OTP yang telah dikirimkan ke whatsapp anda
+          Masukkan kode OTP yang telah dikirimkan ke whatsapp atau email anda
         </p>
         <form action="" method="post" className="w-full">
           <FormLine

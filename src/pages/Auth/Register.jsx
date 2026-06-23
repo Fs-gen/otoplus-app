@@ -51,6 +51,7 @@ const Register = () => {
   const notifReferral = () => {
     if (referral) {
       setIsReadOnly(true);
+      setKodeReferral(referral);
       TopMessage("Kode Referral Berhasil Digunakan!", setSuccess(true));
       setTimeout(() => {
         setSuccess(false);
@@ -175,11 +176,6 @@ const Register = () => {
             title="No Whatsapp"
             type="text"
             inputmode="numeric"
-            keyDown={(e) => {
-              if (["e", "E", "+", "-", "."].includes(e.key)) {
-                e.preventDefault();
-              }
-            }}
             value={no_tlp}
             change={(e) => setNoTlp(e.target.value.replace(/[^0-9]/g, ""))}
           />
@@ -228,7 +224,7 @@ const Register = () => {
           </div> */}
           <FormLine
             title="Kode Referral"
-            value={referral}
+            value={kode_referral}
             readOnly={isReadOnly}
             change={(e) => setKodeReferral(e.target.value)}
           />
