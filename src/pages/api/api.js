@@ -750,3 +750,24 @@ export const getCS = async () => {
     .catch(null);
   return data;
 };
+
+export const getCS_custom = async (message) => {
+  let data = [];
+  const config = {
+    method: "post",
+    maxBodyLength: Infinity,
+    url: mainURL("contact/get-contact-custom"),
+    data: {
+      message: message,
+    },
+  };
+
+  await axios
+    .request(config)
+    .then((response) => {
+      data = response?.data?.data;
+    })
+    .catch(null);
+  return data;
+};
+

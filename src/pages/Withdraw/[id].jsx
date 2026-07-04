@@ -1,12 +1,12 @@
 import NotificationBar from "@/components/NotificationBar";
 import { useEffect, useState } from "react";
-import { getDetailWithdraw, postBatalWithdraw } from "../api/api";
+import { getCS_custom, getDetailWithdraw, postBatalWithdraw } from "../api/api";
 import { useRouter } from "next/router";
 import HeaderBack from "@/components/Header/HeaderBack";
 import Skeleton from "react-loading-skeleton";
 import { highlightSkeleton } from "@/styles/style";
 import CardConfirm from "@/components/PopUp/CardConfirm";
-import { X } from "lucide-react";
+import { MessageCircle, X } from "lucide-react";
 
 const DetailWithdraw = ({ id }) => {
   const [data, setData] = useState([]);
@@ -15,6 +15,7 @@ const DetailWithdraw = ({ id }) => {
   const [text, setText] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingCS, setLoadingCS] = useState(false);
   const router = useRouter();
   const detail = "text-sm flex justify-between items-center";
 
@@ -122,9 +123,30 @@ const DetailWithdraw = ({ id }) => {
             {data.status == "success" ? (
               <button
                 type="button"
-                className="text-sm font-semibold  bg-blue-semi w-full mt-4 p-2 rounded-xl text-white"
+                className="text-sm font-semibold bg-green-semi w-full mt-4 p-2 rounded-xl text-white flex justify-center items-center gap-2 h-10"
+                disabled={loadingCS}
+                onClick={async () => {
+                  setLoadingCS(true);
+                  const res = await getCS_custom(
+                    `Halo admin, saya sudah melakukan withdraw sebesar Rp ${
+                      new Intl.NumberFormat("de-DE").format(data.jumlah)
+                    } pada tanggal ${data.tanggal_withdraw}. Mohon segera diproses. Terima kasih.`
+                  );
+                  //redirect ke res.url jika ada
+                  if (res.url) {
+                    router.replace(res.url);
+                  }
+                  setLoadingCS(false);
+                }}
               >
-                Lihat Detail
+                {loadingCS ? (
+                  <div className="spinner-small"></div>
+                ) : (
+                  <>
+                    <MessageCircle size={18} />
+                    Hubungi admin
+                  </>
+                )}
               </button>
             ) : (
               <button
